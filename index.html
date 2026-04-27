@@ -19,6 +19,7 @@
             --carbon-black: #0a0a0a;
             --dark-panel: #141414;
             --glass-border: rgba(204, 255, 0, 0.3);
+            --sold-red: #ff3333; /* Warna merah buat sold out */
         }
 
         body {
@@ -133,17 +134,6 @@
             transform: scale(1.05);
             color: black;
         }
-        
-        .btn-outline-green {
-            background: transparent;
-            border: 1px solid var(--lambo-green);
-            color: var(--lambo-green);
-            transition: 0.3s;
-        }
-        .btn-outline-green:hover {
-            background: var(--lambo-green);
-            color: black;
-        }
 
         .card-dark {
             background: var(--dark-panel);
@@ -156,34 +146,57 @@
             position: relative;
             overflow: hidden;
         }
+
+        /* ANIMASI SOLD OUT STAMP */
+        @keyframes stampSold {
+            0% { transform: translate(-50%, -50%) scale(5) rotate(-15deg); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(0.9) rotate(-15deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(-15deg); opacity: 1; }
+        }
         
-        .card-dark:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--lambo-green);
-            box-shadow: 0 10px 40px rgba(204, 255, 0, 0.2);
+        .sold-out-stamp {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-15deg);
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--sold-red);
+            border: 5px solid var(--sold-red);
+            padding: 10px 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: rgba(10, 10, 10, 0.8);
             z-index: 10;
+            pointer-events: none;
+            animation: stampSold 1s ease-in-out forwards;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.5);
+            text-shadow: 0 0 10px var(--sold-red);
+            white-space: nowrap;
         }
 
-        @keyframes glowingCombo {
-            0% { box-shadow: 0 0 10px rgba(204, 255, 0, 0.2); }
-            50% { box-shadow: 0 0 30px rgba(204, 255, 0, 0.6); }
-            100% { box-shadow: 0 0 10px rgba(204, 255, 0, 0.2); }
+        /* Efek Gelap buat menu yang sold out */
+        .overlay-dark {
+            position: relative;
         }
-        .card-combo {
-            animation: glowingCombo 2s infinite;
+        .overlay-dark::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 5;
+            pointer-events: none;
         }
-        
-        .form-control-dark {
-            background: #222;
-            border: 1px solid #444;
-            color: white;
-            border-radius: 0;
+
+        /* Animasi Kedip Icon Silang */
+        @keyframes pulseAlert {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; box-shadow: 0 0 20px rgba(255, 51, 51, 0.6); }
+            100% { transform: scale(1); opacity: 1; }
         }
-        .form-control-dark:focus {
-            background: #222;
-            color: var(--lambo-green);
-            border-color: var(--lambo-green);
-            box-shadow: 0 0 10px rgba(204, 255, 0, 0.2);
+        .icon-kedip {
+            animation: pulseAlert 1.5s infinite ease-in-out;
+            border-radius: 50%;
         }
 
         .link-card {
@@ -318,138 +331,86 @@
                 <div class="col" data-aos="fade-down" data-aos-duration="800">
                     <h5 class="text-secondary" style="letter-spacing: 3px;">CAMPUS PROJECT</h5>
                     <h2 class="fw-bold display-4">MARKET <span style="color:var(--lambo-green)">DAY</span></h2>
-                    <p class="text-light">Open Pre-Order! Jajan enak sambil support tugas kami.</p>
+                    <p class="text-light">Semua produk dari Pak Mandor telah habis dipesan!</p>
                 </div>
             </div>
 
-            <form id="formPemesanan" name="submit-to-google-sheet">
+            <div class="row g-4 mb-5">
+                <div class="col-md-4" data-aos="flip-left" data-aos-delay="100">
+                    <div class="card card-dark h-100 overlay-dark border-secondary">
+                        <div class="sold-out-stamp">SOLD OUT</div>
+                        <img src="menu1.jpg" class="card-img-top" style="height: 200px; object-fit: cover; filter: brightness(0.4) grayscale(50%);">
+                        <div class="card-body p-4 d-flex flex-column opacity-50">
+                            <h4 class="fw-bold text-white mb-2">KOPI SUSU <span style="color:var(--lambo-green)">REGAL</span></h4>
+                            <p class="text-secondary small mb-4">Perpaduan kopi susu creamy dengan topping regal renyah favorit anak Mandor.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-auto border-top border-secondary pt-3">
+                                <div>
+                                    <span class="text-secondary text-decoration-line-through" style="font-size: 0.8rem;">Rp 17.000</span>
+                                    <h5 class="text-white mb-0 fw-bold">Rp 13.000</h5>
+                                </div>
+                                <span class="badge bg-danger p-2">HABIS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="200">
+                    <div class="card card-dark h-100 overlay-dark border-secondary">
+                        <div class="sold-out-stamp" style="animation-delay: 0.2s;">SOLD OUT</div>
+                        <img src="cookies1.jpg" class="card-img-top" style="height: 200px; object-fit: cover; filter: brightness(0.4) grayscale(50%);">
+                        <div class="card-body p-4 d-flex flex-column opacity-50">
+                            <h4 class="fw-bold text-white mb-2">COOKIES <span style="color:var(--lambo-green)">BOOM</span></h4>
+                            <p class="text-secondary small mb-4">Soft cookies buatan rumah dengan coklat belgian yang meleleh di mulut. Anti pelit topping!</p>
+                            <div class="d-flex justify-content-between align-items-center mt-auto border-top border-secondary pt-3">
+                                <div>
+                                    <span class="text-secondary text-decoration-line-through" style="font-size: 0.8rem;">Rp 20.000</span>
+                                    <h5 class="text-white mb-0 fw-bold">Rp 15.000</h5>
+                                </div>
+                                <span class="badge bg-danger p-2">HABIS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
-                <div class="row g-4 mb-5">
-                    <div class="col-md-4" data-aos="flip-left" data-aos-delay="100">
-                        <div class="card card-dark h-100">
-                            <img src="menu1.jpg" class="card-img-top" style="height: 200px; object-fit: cover; filter: brightness(0.8);">
-                            <div class="card-body p-4 d-flex flex-column">
-                                <h4 class="fw-bold text-white mb-2">KOPI SUSU <span style="color:var(--lambo-green)">REGAL</span></h4>
-                                <p class="text-secondary small mb-4">Perpaduan kopi susu creamy dengan topping regal renyah favorit anak Mandor.</p>
-                                <div class="d-flex justify-content-between align-items-center mt-auto border-top border-secondary pt-3">
-                                    <div>
-                                        <span class="text-secondary text-decoration-line-through" style="font-size: 0.8rem;">Rp 17.000</span>
-                                        <h5 class="text-white mb-0 fw-bold">Rp 13.000</h5>
-                                    </div>
-                                    <input type="number" id="qtyKopi" name="Kopi" class="form-control form-control-dark" placeholder="Jml" style="width: 70px;" min="0">
-                                </div>
-                            </div>
+                <div class="col-md-4" data-aos="flip-right" data-aos-delay="300">
+                    <div class="card card-dark h-100 overlay-dark border-secondary">
+                        <div class="sold-out-stamp" style="animation-delay: 0.4s;">SOLD OUT</div>
+                        <img src="menu1.jpg" class="card-img-top" style="height: 200px; object-fit: cover; filter: brightness(0.3) grayscale(50%);">
+                        <div class="card-img-overlay d-flex align-items-center justify-content-center p-0" style="height: 200px; background: rgba(0,0,0,0.6);">
+                            <h3 class="fw-bold text-secondary text-center" style="letter-spacing: 2px;">BEST<br>SELLER</h3>
                         </div>
-                    </div>
-
-                    <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="200">
-                        <div class="card card-dark h-100">
-                            <img src="cookies1.jpg" class="card-img-top" style="height: 200px; object-fit: cover; filter: brightness(0.8);">
-                            <div class="card-body p-4 d-flex flex-column">
-                                <h4 class="fw-bold text-white mb-2">COOKIES <span style="color:var(--lambo-green)">BOOM</span></h4>
-                                <p class="text-secondary small mb-4">Soft cookies buatan rumah dengan coklat belgian yang meleleh di mulut. Anti pelit topping!</p>
-                                <div class="d-flex justify-content-between align-items-center mt-auto border-top border-secondary pt-3">
-                                    <div>
-                                        <span class="text-secondary text-decoration-line-through" style="font-size: 0.8rem;">Rp 20.000</span>
-                                        <h5 class="text-white mb-0 fw-bold">Rp 15.000</h5>
-                                    </div>
-                                    <input type="number" id="qtyCookies" name="Cookies" class="form-control form-control-dark" placeholder="Jml" style="width: 70px;" min="0">
+                        <div class="card-body p-4 d-flex flex-column opacity-50">
+                            <h4 class="fw-bold text-white mb-2">PAKET <span style="color:var(--lambo-green)">COMBO</span></h4>
+                            <p class="text-secondary small mb-4">Lebih hemat! Dapatkan 1 Kopi Susu Regal + 1 Cookies Boom sekaligus.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-auto border-top border-secondary pt-3">
+                                <div>
+                                    <span class="text-secondary text-decoration-line-through" style="font-size: 0.8rem;">Rp 35.000</span>
+                                    <h5 class="text-white mb-0 fw-bold">Rp 25.000</h5>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-4" data-aos="flip-right" data-aos-delay="300">
-                        <div class="card card-dark card-combo h-100" style="border-color: var(--lambo-green);">
-                            <img src="menu1.jpg" class="card-img-top" style="height: 200px; object-fit: cover; filter: brightness(0.6);">
-                            <div class="card-img-overlay d-flex align-items-center justify-content-center p-0" style="height: 200px; background: rgba(0,0,0,0.4);">
-                                <h3 class="fw-bold text-white text-center" style="letter-spacing: 2px;">BEST<br><span style="color:var(--lambo-green)">SELLER</span></h3>
-                            </div>
-                            <div class="card-body p-4 d-flex flex-column">
-                                <h4 class="fw-bold text-white mb-2">PAKET <span style="color:var(--lambo-green)">COMBO</span></h4>
-                                <p class="text-secondary small mb-4">Lebih hemat! Dapatkan 1 Kopi Susu Regal + 1 Cookies Boom sekaligus.</p>
-                                <div class="d-flex justify-content-between align-items-center mt-auto border-top border-secondary pt-3">
-                                    <div>
-                                        <span class="text-secondary text-decoration-line-through" style="font-size: 0.8rem;">Rp 35.000</span>
-                                        <h5 class="text-white mb-0 fw-bold">Rp 25.000</h5>
-                                    </div>
-                                    <input type="number" id="qtyCombo" class="form-control form-control-dark fw-bold text-warning" placeholder="Jml" style="width: 70px; border-color: var(--lambo-green);" min="0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row justify-content-center mt-5" data-aos="zoom-in" data-aos-duration="1000">
-                    <div class="col-md-8">
-                        <div class="card card-dark p-5">
-                            <h3 class="text-center mb-4">FORMULIR PEMESANAN</h3>
-                            <div class="mb-3">
-                                <label class="text-secondary small">NAMA LENGKAP</label>
-                                <input type="text" name="Nama" class="form-control form-control-dark py-3" placeholder="Masukkan nama kamu..." required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="text-secondary small">KELAS / JURUSAN</label>
-                                <input type="text" name="Kelas" class="form-control form-control-dark py-3" placeholder="Contoh: IF-46-01" required>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="text-secondary small">ALAMAT PENGIRIMAN (WAJIB)</label>
-                                <textarea id="alamatPemesan" name="Alamat" class="form-control form-control-dark mb-2" rows="2" placeholder="Detail alamat (Cth: Kost Sukabirus No. 10, patokan pagar hitam)" required></textarea>
-                                
-                                <button type="button" class="btn btn-outline-green btn-sm w-100 py-2" onclick="ambilLokasi()" style="position: relative; overflow: hidden;">
-                                    <i class="bi bi-geo-alt-fill"></i> Sematkan Lokasi GPS Saat Ini (WAJIB)
-                                </button>
-                                
-                                <input type="hidden" id="linkMapsOtomatis" name="LinkMaps">
-                                <small id="statusLokasi" class="text-success mt-2" style="display:none; font-weight: bold;"><i class="bi bi-check-circle-fill"></i> Lokasi akurat berhasil diamankan!</small>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="text-secondary small">CATATAN TAMBAHAN (Opsional)</label>
-                                <textarea id="catatanPemesan" name="Catatan" class="form-control form-control-dark" rows="1" placeholder="Contoh: Es dipisah, dll"></textarea>
-                            </div>
-                            
-                            <div class="text-center mt-4">
-                                <button type="submit" id="btnKirim" class="btn-revuelto w-100" style="letter-spacing: 3px;">
-                                    <i class="bi bi-cart-check-fill me-2"></i> PESAN SEKARANG
-                                </button>
-                                <p class="text-secondary small mt-2">*Silahkan scan QRIS setelah klik Pesan Sekarang.</p>
+                                <span class="badge bg-danger p-2">HABIS</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+
+            <div class="row justify-content-center mt-5" data-aos="zoom-in" data-aos-duration="1000">
+                <div class="col-md-8">
+                    <div class="card card-dark p-5 text-center" style="border-color: var(--sold-red); background: #1a0a0a;">
+                        <i class="bi bi-x-octagon-fill display-1 mb-3 icon-kedip d-inline-block" style="color: var(--sold-red);"></i>
+                        <h2 class="fw-bold text-white mb-3" style="letter-spacing: 3px;">PRE-ORDER <span style="color: var(--sold-red);">DITUTUP!</span></h2>
+                        <p class="text-light fs-5 mb-2">Waduh, kamu telat bosku! Semua produk spesial dari Pak Mandor sudah <b class="text-white bg-danger px-2 rounded">LUDES TERJUAL</b>.</p>
+                        <p class="text-secondary mb-4">Terima kasih atas antusiasme kalian yang luar biasa. Sampai jumpa di Market Day / Open PO batch selanjutnya ya! 🔥</p>
+                        
+                        <a href="https://www.instagram.com/_pakmandor/" target="_blank" class="btn btn-outline-danger w-50 mx-auto py-2" style="font-family: 'Rajdhani', sans-serif; font-weight: bold; letter-spacing: 1px;">
+                            <i class="bi bi-instagram me-2"></i> PANTAU INSTAGRAM KAMI
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
-
-    <div class="modal fade" id="qrisModal" tabindex="-1" aria-labelledby="qrisModalLabel" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="background-color: var(--carbon-black); border: 2px solid var(--lambo-green);">
-                <div class="modal-header border-bottom-0">
-                    <h5 class="modal-title fw-bold" id="qrisModalLabel" style="color: var(--lambo-green); font-family: 'Rajdhani', sans-serif;">SCAN PEMBAYARAN</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <p class="text-white mb-2">Total yang harus dibayar:</p>
-                    <h2 id="totalBayar" class="fw-bold mb-3" style="color: var(--lambo-green); font-family: 'Rajdhani', sans-serif;">Rp 0</h2>
-                    
-                    <div class="alert p-2 mb-3 text-start" style="background: rgba(204, 255, 0, 0.1); border: 1px solid var(--lambo-green); color: white; font-size: 0.85rem; border-radius: 8px;">
-                        <i class="bi bi-camera-fill me-1" style="color: var(--lambo-green);"></i> 
-                        <strong>PENTING:</strong> Jangan lupa <b>Screenshot (SS)</b> bukti transfer pembayaran kamu! Bukti SS wajib dikirim via WA ke admin setelah menekan tombol di bawah.
-                    </div>
-                    
-                    <img src="qris.jpg" alt="QRIS Pak Mandor" class="img-fluid rounded mb-3 border border-secondary" style="max-height: 400px; width: 100%; object-fit: contain;">
-                </div>
-                <div class="modal-footer border-top-0 justify-content-center">
-                    <button type="button" class="btn-revuelto w-100" id="btnLanjutWA">
-                        SAYA SUDAH BAYAR (LANJUT WA)
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <section id="gallery" class="py-5 bg-black">
         <div class="container py-5">
@@ -545,153 +506,8 @@
             }
         }
 
-        // --- SCRIPT AMBIL LOKASI GPS ---
-        function ambilLokasi() {
-            const statusLokasi = document.getElementById('statusLokasi');
-            
-            if (navigator.geolocation) {
-                statusLokasi.style.display = 'block';
-                statusLokasi.innerHTML = '<span class="spinner-border spinner-border-sm text-warning"></span> Mencari titik GPS akurat...';
-                statusLokasi.className = "text-warning mt-2";
-                
-                const options = {
-                    enableHighAccuracy: true, 
-                    timeout: 15000,           
-                    maximumAge: 0             
-                };
-                
-                navigator.geolocation.getCurrentPosition(showPosition, showError, options);
-            } else {
-                alert("Browser kamu gak support fitur GPS nih.");
-            }
-        }
-
-        function showPosition(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            const akurasi = position.coords.accuracy; 
-            
-            const linkMaps = `https://www.google.com/maps?q=${lat},${lon}`;
-            
-            document.getElementById('linkMapsOtomatis').value = linkMaps;
-            
-            const statusLokasi = document.getElementById('statusLokasi');
-            statusLokasi.innerHTML = `<i class="bi bi-check-circle-fill"></i> Lokasi akurat (margin error: ${Math.round(akurasi)}m)!`;
-            statusLokasi.className = "text-success mt-2";
-        }
-
-        function showError(error) {
-            let pesan = "Gagal ambil lokasi.";
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    pesan = "Akses GPS ditolak. Tolong izinkan (Allow) di browser kamu.";
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    pesan = "Sinyal GPS gak dapet. Coba keluar ruangan sebentar.";
-                    break;
-                case error.TIMEOUT:
-                    pesan = "Waktu pencarian habis. Coba lagi.";
-                    break;
-            }
-            alert(pesan);
-            document.getElementById('statusLokasi').style.display = 'none';
-        }
-
-
-        // --- SCRIPT KIRIM DATA (COMBO DIPECAH OTOMATIS) ---
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyRbYv173r_cO2q2sfSKz5JXMWJEWQPkABwjwcuHB9EY79L1st2LDHHTL-2MpBltHi8/exec'; 
-        
-        const form = document.forms['submit-to-google-sheet'];
-        const btnKirim = document.getElementById('btnKirim');
-        let linkWATujuan = ""; 
-
-        form.addEventListener('submit', e => {
-            e.preventDefault(); 
-
-            let jmlKopi = parseInt(document.getElementById('qtyKopi').value) || 0;
-            let jmlCookies = parseInt(document.getElementById('qtyCookies').value) || 0;
-            let jmlCombo = parseInt(document.getElementById('qtyCombo').value) || 0; 
-            let cekLokasi = document.getElementById('linkMapsOtomatis').value;
-
-            // VALIDASI 1: Harus ada pesanan
-            if (jmlKopi === 0 && jmlCookies === 0 && jmlCombo === 0) {
-                alert("Wah bosku, pilih minimal 1 pesanan dulu dong sebelum lanjut! 😅");
-                return; 
-            }
-
-            // VALIDASI 2: Wajib Sematkan Lokasi
-            if (cekLokasi === "") {
-                alert("Mohon klik tombol 'Sematkan Lokasi GPS Saat Ini' dulu ya biar kurir gampang nyari lokasinya! 📍");
-                document.querySelector('.btn-outline-green').focus();
-                return;
-            }
-
-            // Hitung Harga Baru: Kopi 13k, Cookies 15k, Combo 25k
-            let totalHarga = (jmlKopi * 13000) + (jmlCookies * 15000) + (jmlCombo * 25000);
-            let formatRupiah = "Rp " + totalHarga.toLocaleString('id-ID');
-
-            document.getElementById('totalBayar').innerText = formatRupiah;
-
-            btnKirim.innerHTML = '<span class="spinner-border spinner-border-sm"></span> MENGIRIM...';
-            
-            // MANIPULASI DATA EXCEL (Pecah Combo jadi Kopi & Cookies murni)
-            let formData = new FormData(form);
-            let kopiAsli = jmlKopi + jmlCombo;
-            let cookiesAsli = jmlCookies + jmlCombo;
-            
-            formData.set('Kopi', kopiAsli);
-            formData.set('Cookies', cookiesAsli);
-            formData.delete('Combo'); 
-            
-            fetch(scriptURL, { method: 'POST', body: formData})
-              .then(response => {
-                  btnKirim.innerHTML = '<i class="bi bi-cart-check-fill me-2"></i> PESAN SEKARANG';
-                  
-                  let alamatDetail = document.getElementById('alamatPemesan').value;
-                  let linkMaps = document.getElementById('linkMapsOtomatis').value;
-                  let catatanUser = document.getElementById('catatanPemesan').value;
-
-                  form.reset(); 
-                  document.getElementById('statusLokasi').style.display = 'none';
-                  document.getElementById('linkMapsOtomatis').value = ''; 
-                  
-                  let pesanWA = `Halo Admin! Saya baru saja melakukan pemesanan di Web Pak Mandor.\n\n`;
-                  
-                  pesanWA += `📋 *Rincian Pesanan:*\n`;
-                  if(jmlKopi > 0) pesanWA += `- Kopi Susu Regal: ${jmlKopi} pcs\n`;
-                  if(jmlCookies > 0) pesanWA += `- Cookies Boom: ${jmlCookies} pcs\n`;
-                  if(jmlCombo > 0) pesanWA += `- Paket Combo: ${jmlCombo} pcs\n`; 
-                  
-                  if(catatanUser !== "") {
-                      pesanWA += `\n📝 *Catatan:* ${catatanUser}\n`;
-                  }
-
-                  pesanWA += `\n📍 *Detail Alamat:* ${alamatDetail}\n`;
-                  if(linkMaps !== "") {
-                      pesanWA += `🗺️ *Titik Maps (Kurir):* ${linkMaps}\n`;
-                  }
-
-                  pesanWA += `\nTotal tagihan saya *${formatRupiah}* dan sudah transfer via QRIS. Jangan lupa cek foto bukti screenshot transfer dari saya ya min!`;
-
-                  linkWATujuan = "https://api.whatsapp.com/send/?phone=6281343139894&text=" + encodeURIComponent(pesanWA);
-                  
-                  var qrisModal = new bootstrap.Modal(document.getElementById('qrisModal'));
-                  qrisModal.show();
-              })
-              .catch(error => {
-                  console.error('Error!', error.message);
-                  alert("Gagal mengirim pesanan. Pastikan internetmu lancar!");
-                  btnKirim.innerHTML = '<i class="bi bi-cart-check-fill me-2"></i> PESAN SEKARANG';
-              })
-        });
-
-        document.getElementById('btnLanjutWA').addEventListener('click', function() {
-            var modalEl = document.getElementById('qrisModal');
-            var modalInstance = bootstrap.Modal.getInstance(modalEl);
-            modalInstance.hide();
-            
-            window.location.href = linkWATujuan;
-        });
+        // Script form pemesanan dan GPS dimatikan karena PO ditutup,
+        // tapi sisa script dibiarkan jalan biar jam dan musik tetap berfungsi.
     </script>
 </body>
 </html>
