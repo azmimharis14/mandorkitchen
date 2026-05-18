@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAK MANDOR | Gen Z Edition</title>
+    <title>PAK MANDOR | Final Call Edition</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&family=Rajdhani:wght@500;700;800&display=swap" rel="stylesheet">
@@ -54,26 +54,30 @@
             text-shadow: var(--text-glow);
         }
 
-        .nav-link {
+        .nav-link-custom {
             font-family: 'Rajdhani', sans-serif;
             font-weight: 700;
             letter-spacing: 1px;
             font-size: 1.1rem;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             color: white !important;
-        }
-        .nav-link:hover { color: var(--lambo-green) !important; transform: translateY(-2px); }
-
-        .nav-btn-green {
-            background: var(--lambo-green);
-            color: #000 !important;
-            padding: 8px 25px !important;
+            padding: 8px 20px !important;
             border-radius: 30px;
-            box-shadow: var(--text-glow);
+            margin: 0 5px;
         }
-        .nav-btn-green:hover { background: white; box-shadow: 0 0 25px rgba(255,255,255,0.8); color: black !important;}
+        
+        .nav-link-custom:hover { 
+            color: var(--lambo-green) !important; 
+            transform: translateY(-2px); 
+        }
 
-        /* Hero Section */
+        .nav-link-custom.active {
+            background: var(--lambo-green) !important;
+            color: #000 !important;
+            box-shadow: var(--text-glow);
+            transform: scale(1.05);
+        }
+
         .hero-section {
             height: 100vh;
             background: linear-gradient(to bottom, rgba(0,0,0,0.3), var(--carbon-black)), 
@@ -91,39 +95,40 @@
             font-weight: 900;
             text-transform: uppercase;
             font-style: italic;
-            font-size: 5rem;
+            font-size: 4.5rem;
             letter-spacing: -2px;
             line-height: 0.9;
         }
         @media (min-width: 768px) { .display-1 { font-size: 8rem; } }
 
-        /* Scrolling Marquee */
+        /* Scrolling Marquee Dibalikin Hijau */
         .marquee-container {
             position: absolute;
             bottom: 0;
             width: 100%;
-            background: var(--lambo-green);
+            background: var(--lambo-green); 
             color: black;
-            padding: 10px 0;
+            padding: 12px 0;
             overflow: hidden;
             white-space: nowrap;
             display: flex;
             align-items: center;
             font-family: 'Rajdhani', sans-serif;
             font-weight: 900;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.5);
         }
         .marquee-content {
             display: inline-block;
-            animation: marquee 20s linear infinite;
+            animation: marquee 15s linear infinite;
         }
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        /* HYPE CARDS (Desain Menu Baru) */
+        /* HYPE CARDS */
         .hype-card {
             border-radius: 24px;
             overflow: hidden;
@@ -163,7 +168,6 @@
             height: 100%;
         }
 
-        /* QTY Pill Keren */
         .qty-pill {
             background: rgba(0,0,0,0.8);
             border: 1px solid rgba(255,255,255,0.2);
@@ -198,12 +202,10 @@
             pointer-events: none;
         }
 
-        /* Progress Bar Modern */
         .quota-text { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.85rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
         .progress-quota { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden; backdrop-filter: blur(5px); }
         .progress-bar-inner { height: 100%; background: var(--lambo-green); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px var(--lambo-green); }
 
-        /* Modern Form Inputs */
         .modern-input {
             background: rgba(20,20,20,0.7);
             border: 1px solid rgba(255,255,255,0.1);
@@ -222,6 +224,19 @@
             outline: none;
         }
         .modern-input::placeholder { color: rgba(255,255,255,0.3); font-weight: 500; }
+
+        .btn-gps {
+            background: rgba(204, 255, 0, 0.1);
+            border: 1px dashed var(--lambo-green);
+            color: var(--lambo-green);
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+        .btn-gps:hover {
+            background: var(--lambo-green);
+            color: var(--carbon-black);
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
+        }
 
         .btn-revuelto {
             background: var(--lambo-green);
@@ -242,8 +257,14 @@
             box-shadow: 0 15px 30px rgba(204, 255, 0, 0.4);
             background: white;
         }
+        .btn-revuelto:disabled {
+            background: #555;
+            color: #888;
+            box-shadow: none;
+            transform: none;
+            cursor: not-allowed;
+        }
 
-        /* Quick Link Pills */
         .quick-pill {
             background: rgba(20,20,20,0.8);
             border: 1px solid rgba(255,255,255,0.1);
@@ -272,7 +293,7 @@
         #music-control {
             position: fixed;
             bottom: 30px;
-            right: 30px; /* Pindah ke kanan biar estetik */
+            right: 30px;
             z-index: 9999;
             background: rgba(10,10,10,0.9);
             border: 1px solid var(--lambo-green);
@@ -301,7 +322,7 @@
         <i id="music-icon" class="bi bi-volume-mute-fill"></i>
     </div>
 
-    <!-- FLOATING NAVBAR GEN Z -->
+    <!-- FLOATING NAVBAR GEN Z (DENGAN SCROLLSPY GERAK) -->
     <div class="fixed-top d-flex justify-content-center mt-3" style="z-index: 1030;">
         <nav class="navbar navbar-expand-lg navbar-floating">
             <div class="container-fluid p-0">
@@ -316,10 +337,11 @@
                     <i class="bi bi-grid-3x3-gap-fill text-white fs-2"></i>
                 </button>
                 <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
-                    <ul class="navbar-nav align-items-center mt-3 mt-lg-0 gap-1">
-                        <li class="nav-item"><a class="nav-link nav-link-custom px-3" href="#menu">LINKS</a></li>
-                        <li class="nav-item"><a class="nav-link nav-link-custom px-3" href="#gallery">GALERI</a></li>
-                        <li class="nav-item ms-lg-2"><a class="nav-link nav-btn-green" href="#market"><i class="bi bi-cart2 me-1"></i> ORDER NOW</a></li> 
+                    <ul class="navbar-nav align-items-center mt-3 mt-lg-0">
+                        <li class="nav-item"><a class="nav-link nav-link-custom" href="#hero">HOME</a></li>
+                        <li class="nav-item"><a class="nav-link nav-link-custom" href="#menu">LINKS</a></li>
+                        <li class="nav-item"><a class="nav-link nav-link-custom" href="#market"><i class="bi bi-cart2 me-1"></i> ORDER</a></li> 
+                        <li class="nav-item"><a class="nav-link nav-link-custom" href="#gallery">GALERI</a></li>
                     </ul>
                 </div>
             </div>
@@ -327,34 +349,34 @@
     </div>
 
     <!-- HERO SECTION WITH MARQUEE -->
-    <section class="hero-section text-center">
+    <section id="hero" class="hero-section text-center target-section">
         <div class="y-shape-bg"></div>
         <div class="container" style="z-index: 2; margin-top: -50px;">
-            <div class="badge rounded-pill border border-secondary text-light px-4 py-2 mb-4" data-aos="fade-down" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);">EST. 2023 // BANDUNG DIVISION</div>
+            <div class="badge rounded-pill border text-dark px-4 py-2 mb-4 fw-bold" data-aos="fade-down" style="background: var(--lambo-green); box-shadow: var(--text-glow);">FINAL CALL / LAST BATCH</div>
             <h1 class="display-1 mb-3" data-aos="zoom-in" data-aos-duration="1000">
                 PAK <span style="color:var(--lambo-green); text-shadow: var(--text-glow);">MANDOR</span>
             </h1>
             <p class="lead text-light opacity-75 mb-5 fw-bold" data-aos="fade-up" data-aos-delay="200" style="letter-spacing: 3px; font-family: 'Rajdhani', sans-serif;">
-                THE ULTIMATE CAMPUS MARKET DAY
+                EXCLUSIVE CAMPUS DROPS
             </p>
             <div data-aos="flip-up" data-aos-delay="400">
                 <a href="#market" class="btn-revuelto text-decoration-none rounded-pill px-5">
-                    SECURE YOUR SLOT <i class="bi bi-arrow-down-right-circle-fill ms-2"></i>
+                    PESAN SEKARANG <i class="bi bi-cart-fill ms-2"></i>
                 </a>
             </div>
         </div>
 
-        <!-- Teks Berjalan di Bawah Hero -->
+        <!-- Teks Berjalan Hijau -->
         <div class="marquee-container">
             <div class="marquee-content">
-                <span>🔥 LIMITED DROPS 🔥 MARKET DAY TELKOM UNIVERSITY 🔥 GRAB YOURS FAST 🔥 PAK MANDOR EXCLUSIVE 🔥 BEST COFFEE & COOKIES IN TOWN 🔥 </span>
-                <span>🔥 LIMITED DROPS 🔥 MARKET DAY TELKOM UNIVERSITY 🔥 GRAB YOURS FAST 🔥 PAK MANDOR EXCLUSIVE 🔥 BEST COFFEE & COOKIES IN TOWN 🔥 </span>
+                <span>🔥 MARKET DAY TELKOM UNIVERSITY 🔥 PAK MANDOR EXCLUSIVE 🔥 AMANKAN PESANANMU SEKARANG 🔥 BEST COFFEE & COOKIES IN TOWN 🔥 </span>
+                <span>🔥 MARKET DAY TELKOM UNIVERSITY 🔥 PAK MANDOR EXCLUSIVE 🔥 AMANKAN PESANANMU SEKARANG 🔥 BEST COFFEE & COOKIES IN TOWN 🔥 </span>
             </div>
         </div>
     </section>
 
-    <!-- QUICK LINKS (MINIMALIST PILLS) -->
-    <section id="menu" class="py-5 border-bottom border-dark">
+    <!-- QUICK LINKS -->
+    <section id="menu" class="py-5 border-bottom border-dark target-section">
         <div class="container py-5 text-center">
             <h3 class="text-white mb-5 fw-bold" style="letter-spacing: 2px;" data-aos="fade-up">CONNECT WITH <span style="color:var(--lambo-green)">US</span></h3>
             
@@ -372,13 +394,13 @@
         </div>
     </section>
 
-    <!-- MARKET DAY DENGAN HYPE CARDS & KUOTA PINTAR -->
-    <section id="market" class="py-5" style="background: radial-gradient(circle at top, #111 0%, #000 100%);">
+    <!-- MARKET DAY & FORM -->
+    <section id="market" class="py-5 target-section" style="background: radial-gradient(circle at top, #111 0%, #000 100%);">
         <div class="container py-5">
             <div class="row align-items-end mb-5">
                 <div class="col-md-8 text-center text-md-start" data-aos="fade-right">
-                    <span class="badge bg-danger rounded-pill px-3 py-2 mb-3 fw-bold" style="letter-spacing: 1px;"><i class="bi bi-fire me-1"></i> HIGH DEMAND</span>
-                    <h2 class="fw-bold display-4 text-white m-0" style="letter-spacing: -1px;">EXCLUSIVE <span style="color:var(--lambo-green)">DROPS.</span></h2>
+                    <span class="badge rounded-pill px-3 py-2 mb-3 fw-bold text-dark" style="background: var(--lambo-green); letter-spacing: 1px;"><i class="bi bi-fire me-1"></i> FINAL CLOSING</span>
+                    <h2 class="fw-bold display-4 text-white m-0" style="letter-spacing: -1px;">LIMITED <span style="color:var(--lambo-green)">STOCK.</span></h2>
                 </div>
                 <div class="col-md-4 text-center text-md-end mt-3 mt-md-0" data-aos="fade-left">
                     <p class="text-secondary m-0 fw-bold">MAX 50 PORTIONS.</p>
@@ -389,12 +411,11 @@
             <form id="formPemesanan" name="submit-to-google-sheet">
                 
                 <div class="row g-4 mb-5">
-                    <!-- MENU 1: KOPI (HYPE CARD) -->
+                    <!-- MENU 1: KOPI -->
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="hype-card d-flex flex-column justify-content-end">
                             <img src="menu1.jpg" class="hype-img">
                             
-                            <!-- Badge Diskon di Pojok Kanan Atas -->
                             <div class="position-absolute top-0 end-0 m-3 z-index-1">
                                 <span class="badge bg-dark border border-secondary p-2 rounded-pill shadow-lg">
                                     <span class="text-secondary text-decoration-line-through me-1">17k</span> 
@@ -418,7 +439,7 @@
                                     <h4 class="text-white mb-0 fw-bold">Rp 13k</h4>
                                     <div class="qty-pill">
                                         <button type="button" class="btn-qty" onclick="ubahQty('kopi', -1)">-</button>
-                                        <input type="text" id="qtyKopi" name="Kopi" class="input-qty" value="0" readonly>
+                                        <input type="text" id="qtyKopi" class="input-qty" value="0" readonly>
                                         <button type="button" class="btn-qty" onclick="ubahQty('kopi', 1)">+</button>
                                     </div>
                                 </div>
@@ -426,7 +447,7 @@
                         </div>
                     </div>
 
-                    <!-- MENU 2: COOKIES (HYPE CARD) -->
+                    <!-- MENU 2: COOKIES -->
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                         <div class="hype-card d-flex flex-column justify-content-end">
                             <img src="cookies1.jpg" class="hype-img">
@@ -454,7 +475,7 @@
                                     <h4 class="text-white mb-0 fw-bold">Rp 15k</h4>
                                     <div class="qty-pill">
                                         <button type="button" class="btn-qty" onclick="ubahQty('cookies', -1)">-</button>
-                                        <input type="text" id="qtyCookies" name="Cookies" class="input-qty" value="0" readonly>
+                                        <input type="text" id="qtyCookies" class="input-qty" value="0" readonly>
                                         <button type="button" class="btn-qty" onclick="ubahQty('cookies', 1)">+</button>
                                     </div>
                                 </div>
@@ -462,7 +483,7 @@
                         </div>
                     </div>
                     
-                    <!-- MENU 3: COMBO (HYPE CARD - GLOWING) -->
+                    <!-- MENU 3: COMBO -->
                     <div class="col-lg-4 col-md-12" data-aos="fade-up" data-aos-delay="300">
                         <div class="hype-card d-flex flex-column justify-content-end" style="border: 2px solid var(--lambo-green); box-shadow: var(--text-glow);">
                             <img src="menu1.jpg" class="hype-img" style="filter: brightness(0.4);">
@@ -504,51 +525,55 @@
 
                 </div>
 
-                <!-- FORM PEMESANAN NEON GEN Z -->
+                <!-- FORM PENGIRIMAN (NAMA VARIABEL DISESUAIKAN & VALIDASI WA) -->
                 <div class="row justify-content-center mt-5" data-aos="zoom-in" data-aos-duration="1000">
                     <div class="col-lg-8">
                         <div class="card card-dark p-4 p-md-5 rounded-4 position-relative" style="background: rgba(10,10,10,0.8); border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px);">
                             
-                            <h3 class="text-center fw-bold mb-4" style="letter-spacing: 2px; font-family: 'Rajdhani', sans-serif;">SHIPPING <span style="color:var(--lambo-green)">DETAILS</span></h3>
+                            <h3 class="text-center fw-bold mb-4" style="letter-spacing: 2px; font-family: 'Rajdhani', sans-serif;">DATA <span style="color:var(--lambo-green)">PENGIRIMAN</span></h3>
                             
                             <div class="row g-4">
                                 <div class="col-md-6">
-                                    <input type="text" name="Nama" class="form-control modern-input" placeholder="Full Name / Nickname" required>
+                                    <input type="text" name="Nama" class="form-control modern-input" placeholder="Nama Lengkap / Panggilan" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="Kelas" class="form-control modern-input" placeholder="Class / Major (e.g., IF-46)" required>
+                                    <input type="text" name="Kelas" class="form-control modern-input" placeholder="Kelas / Jurusan (Cth: IF-46)" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <!-- INPUT WA DIGANTI TYPE TEL DAN DITAMBAHIN FILTER ONINPUT BIAR GAK BISA DIKETIK HURUF -->
+                                    <input type="tel" id="inputWA" name="WA" class="form-control modern-input" placeholder="Nomor WhatsApp Aktif (Cth: 081234567890)" pattern="^(08|\+62|62)[0-9]{8,14}$" title="Wajib diawali 08 atau +62 dan minimal 10 digit angka" oninput="this.value = this.value.replace(/[^0-9+]/g, '')" required>
                                 </div>
                                 
                                 <div class="col-12 mt-4">
-                                    <textarea id="alamatPemesan" name="Alamat" class="form-control modern-input mb-3" rows="2" placeholder="Detail Address (e.g., Kost Sukabirus No 10, black gate)" required></textarea>
+                                    <textarea id="alamatPemesan" name="Alamat" class="form-control modern-input mb-3" rows="2" placeholder="Detail Alamat Kost (Cth: Kost Sukabirus No 10, gerbang hitam)" required></textarea>
                                     
                                     <button type="button" class="btn btn-gps w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2" onclick="ambilLokasi()">
-                                        <i class="bi bi-geo-alt-fill fs-5"></i> LOCK GPS LOCATION (REQUIRED)
+                                        <i class="bi bi-geo-alt-fill fs-5"></i> KLIK UNTUK KUNCI LOKASI MAPS (WAJIB)
                                     </button>
                                     
-                                    <input type="hidden" id="linkMapsOtomatis" name="LinkMaps">
+                                    <!-- HIDDEN MAPS URL -->
+                                    <input type="hidden" id="linkMapsOtomatis" name="Maps">
                                     <div id="statusLokasi" class="text-success mt-3 text-center" style="display:none; font-weight: 800; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; text-shadow: 0 0 10px green;">
-                                        <i class="bi bi-check-circle-fill me-1"></i> LOCATION SECURED!
+                                        <i class="bi bi-check-circle-fill me-1"></i> LOKASI BERHASIL DIAMANKAN!
                                     </div>
                                 </div>
 
                                 <div class="col-12 mt-4">
-                                    <input type="text" id="catatanPemesan" name="Catatan" class="form-control modern-input" placeholder="Additional Notes (e.g., Less ice, separate packaging)">
+                                    <input type="text" id="catatanPemesan" name="Catatan" class="form-control modern-input" placeholder="Catatan Khusus (Cth: Es dipisah, dll)">
                                 </div>
 
                                 <!-- Box Total Harga Keren -->
                                 <div class="col-12 mt-4">
                                     <div class="d-flex justify-content-between align-items-center p-4 rounded-4" style="background: rgba(0,0,0,0.6); border: 1px dashed rgba(204, 255, 0, 0.4);">
-                                        <span class="text-secondary fw-bold" style="letter-spacing: 1px;">TOTAL DUE</span>
+                                        <span class="text-secondary fw-bold" style="letter-spacing: 1px;">TOTAL BELANJA</span>
                                         <h2 class="fw-bold mb-0" id="liveTotal" style="color:var(--lambo-green); text-shadow: var(--text-glow); font-family: 'Rajdhani', sans-serif; font-size: 2.5rem;">Rp 0</h2>
                                     </div>
                                 </div>
                                 
                                 <div class="col-12 mt-4 text-center">
-                                    <button type="submit" id="btnKirim" class="btn-revuelto w-100">
-                                        CHECKOUT & PAY <i class="bi bi-arrow-right fw-bold ms-2"></i>
+                                    <button type="submit" id="btnLanjut" class="btn-revuelto w-100">
+                                        LANJUT PEMBAYARAN <i class="bi bi-arrow-right fw-bold ms-2"></i>
                                     </button>
-                                    <p class="text-secondary small mt-3">*QRIS code will appear after checkout.</p>
                                 </div>
                             </div>
                         </div>
@@ -558,39 +583,40 @@
         </div>
     </section>
 
-    <!-- MODAL QRIS -->
+    <!-- MODAL QRIS (SECTION PEMBAYARAN TERPISAH) -->
     <div class="modal fade" id="qrisModal" tabindex="-1" aria-labelledby="qrisModalLabel" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 overflow-hidden" style="background-color: #0f0f0f; border: 1px solid var(--lambo-green); box-shadow: 0 0 30px rgba(204, 255, 0, 0.2);">
                 <div class="modal-header border-bottom-0 pb-0 mt-2">
-                    <h5 class="modal-title fw-bold mx-auto" id="qrisModalLabel" style="color: var(--lambo-green); font-family: 'Rajdhani', sans-serif; letter-spacing: 2px;">SCAN TO PAY</h5>
+                    <h5 class="modal-title fw-bold mx-auto" id="qrisModalLabel" style="color: var(--lambo-green); font-family: 'Rajdhani', sans-serif; letter-spacing: 2px;">SELESAIKAN PEMBAYARAN</h5>
+                    <button type="button" class="btn-close btn-close-white" id="btnCloseModal"></button>
                 </div>
                 <div class="modal-body text-center pt-2 px-4">
-                    <p class="text-secondary mb-1 small text-uppercase fw-bold">Total Amount</p>
+                    <p class="text-secondary mb-1 small text-uppercase fw-bold">Total Tagihan</p>
                     <h1 id="totalBayarModal" class="fw-bold mb-4" style="color: white; font-family: 'Rajdhani', sans-serif;">Rp 0</h1>
-                    
-                    <div class="alert text-start d-flex align-items-center gap-3 p-3 rounded-3" style="background: rgba(204, 255, 0, 0.05); border: 1px solid rgba(204, 255, 0, 0.3);">
-                        <i class="bi bi-camera-fill fs-2" style="color: var(--lambo-green);"></i> 
-                        <div style="font-size: 0.85rem; color: #ddd; line-height: 1.4;">
-                            <strong class="text-white d-block mb-1">SCREENSHOT REQUIRED!</strong>
-                            Take a screenshot of your successful transfer and send it to our WhatsApp admin.
-                        </div>
-                    </div>
                     
                     <div class="bg-white p-2 rounded-4 mx-auto mb-4 mt-3" style="max-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
                         <img src="qris.jpg" alt="QRIS Pak Mandor" class="img-fluid rounded-3">
                     </div>
+
+                    <div class="alert text-start d-flex align-items-center gap-3 p-3 rounded-3" style="background: rgba(204, 255, 0, 0.05); border: 1px solid rgba(204, 255, 0, 0.3);">
+                        <i class="bi bi-whatsapp fs-2" style="color: var(--lambo-green);"></i> 
+                        <div style="font-size: 0.85rem; color: #ddd; line-height: 1.4;">
+                            <strong class="text-white d-block mb-1">WAJIB LAMPIRKAN BUKTI (SS)!</strong>
+                            Setelah klik tombol di bawah, pesananmu akan tercatat otomatis ke sistem. Kamu akan dialihkan ke WA Admin untuk mengirim foto bukti transfer.
+                        </div>
+                    </div>
                     
-                    <button type="button" class="btn-revuelto w-100 rounded-pill mb-2" id="btnLanjutWA" style="font-size: 1rem; padding: 15px;">
-                        I HAVE PAID <i class="bi bi-whatsapp ms-2"></i>
+                    <button type="button" class="btn-revuelto w-100 rounded-pill mb-2 mt-2" id="btnSelesaiBayar" style="font-size: 1.1rem; padding: 15px;">
+                        SAYA SUDAH TRANSFER <i class="bi bi-check-circle-fill ms-2"></i>
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- GALLERY DOKUMENTASI (MASONRY GRID RAPI) -->
-    <section id="gallery" class="py-5 border-top border-dark" style="background: #050505;">
+    <!-- GALLERY DOKUMENTASI -->
+    <section id="gallery" class="py-5 border-top border-dark target-section" style="background: #050505;">
         <div class="container py-5">
             <div class="text-center mb-5" data-aos="fade-down">
                 <h3 class="text-white fw-bold mb-0 display-5" style="letter-spacing: -1px; font-family: 'Rajdhani', sans-serif;">OUR <span style="color:var(--lambo-green)">JOURNEY</span></h3>
@@ -645,6 +671,29 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ once: true, duration: 800, offset: 50 });
+
+        // ==========================================
+        // 1. SCROLLSPY PINTAR (Ijo-Ijo Navbar Gerak)
+        // ==========================================
+        const sections = document.querySelectorAll(".target-section");
+        const navLinks = document.querySelectorAll(".navbar-nav .nav-link-custom");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href").includes(current)) {
+                    link.classList.add("active");
+                }
+            });
+        });
 
         // Jam Digital
         function startTime() {
@@ -752,17 +801,27 @@
         }
 
         // ==========================================
-        // PROSES KIRIM KE EXCEL 
+        // PROSES PEMESANAN (2 STEP: FORM -> MODAL)
         // ==========================================
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyRbYv173r_cO2q2sfSKz5JXMWJEWQPkABwjwcuHB9EY79L1st2LDHHTL-2MpBltHi8/exec'; 
         const form = document.forms['submit-to-google-sheet'];
-        const btnKirim = document.getElementById('btnKirim');
-        let linkWATujuan = ""; 
-
+        let formatRupiahGlobal = "";
+        let linkWATujuanGlobal = "";
+        let globalModalInstance = null;
+        
+        // STEP 1: VALIDASI FORM & MUNCULIN QRIS
         form.addEventListener('submit', e => {
             e.preventDefault(); 
 
             let cekLokasi = document.getElementById('linkMapsOtomatis').value;
+            let noWA = document.getElementById('inputWA').value;
+
+            // VALIDASI FORMAT WA (08 ATAU +62)
+            let regexWA = /^(08|\+62|62)[0-9]{8,14}$/;
+            if(!regexWA.test(noWA)) {
+                alert("Format Nomor WA salah bosku! Wajib pakai awalan 08 atau +62 dan minimal 10 digit (contoh: 081234567890). 📱");
+                document.getElementById('inputWA').focus();
+                return;
+            }
 
             if (pesananKopi === 0 && pesananCookies === 0 && pesananCombo === 0) {
                 alert("Pilih menunya dulu bosku, klik tombol [+] nya! 😅");
@@ -773,61 +832,92 @@
                 return;
             }
 
+            // Hitung Harga
             let totalHargaRp = (pesananKopi * 13000) + (pesananCookies * 15000) + (pesananCombo * 25000);
-            let formatRupiah = "Rp " + totalHargaRp.toLocaleString('id-ID');
+            formatRupiahGlobal = "Rp " + totalHargaRp.toLocaleString('id-ID');
+            document.getElementById('totalBayarModal').innerText = formatRupiahGlobal;
+            
+            // Siapkan Format WA di awal
+            let alamatDetail = document.getElementById('alamatPemesan').value;
+            let catatanUser = document.getElementById('catatanPemesan').value;
 
-            document.getElementById('totalBayarModal').innerText = formatRupiah;
-            btnKirim.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> SECURING ORDER...';
+            let pesanWA = `Halo Admin! Saya baru saja mengamankan slot pre-order di Web Pak Mandor.\n\n`;
+            pesanWA += `📋 *Order Details:*\n`;
+            if(pesananKopi > 0) pesanWA += `- Kopi Susu Regal: ${pesananKopi} pcs\n`;
+            if(pesananCookies > 0) pesanWA += `- Cookies Boom: ${pesananCookies} pcs\n`;
+            if(pesananCombo > 0) pesanWA += `- Paket Combo: ${pesananCombo} pcs\n`; 
+            if(catatanUser !== "") pesanWA += `\n📝 *Notes:* ${catatanUser}\n`;
+
+            pesanWA += `\n📍 *Shipping Address:* ${alamatDetail}\n`;
+            if(cekLokasi !== "") pesanWA += `🗺️ *GPS Link:* ${cekLokasi}\n`;
+
+            pesanWA += `\nTotal tagihan saya *${formatRupiahGlobal}* dan sudah transfer via QRIS. Melampirkan foto bukti transfer di bawah ini ya min!`;
+            linkWATujuanGlobal = "https://api.whatsapp.com/send/?phone=6281343139894&text=" + encodeURIComponent(pesanWA);
+
+            // Buka Modal Pembayaran
+            if(!globalModalInstance) {
+                globalModalInstance = new bootstrap.Modal(document.getElementById('qrisModal'));
+            }
+            globalModalInstance.show();
+        });
+
+        // STEP 2: KIRIM KE EXCEL LALU KE WA
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyRbYv173r_cO2q2sfSKz5JXMWJEWQPkABwjwcuHB9EY79L1st2LDHHTL-2MpBltHi8/exec'; 
+        const btnSelesaiBayar = document.getElementById('btnSelesaiBayar');
+        let isSubmitting = false;
+
+        btnSelesaiBayar.addEventListener('click', function() {
+            if(isSubmitting) return;
             
+            isSubmitting = true;
+            btnSelesaiBayar.disabled = true;
+            btnSelesaiBayar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> MENYIMPAN DATA...';
+            
+            // Susun Data Sederhana Tanpa Spasi
             let formData = new FormData(form);
-            let kopiKeExcel = pesananKopi + pesananCombo;
-            let cookiesKeExcel = pesananCookies + pesananCombo;
+            let kopiKeExcel = (pesananKopi + pesananCombo).toString();
+            let cookiesKeExcel = (pesananCookies + pesananCombo).toString();
             
+            let dateNow = new Date().toLocaleString('id-ID');
+            
+            formData.set('Tanggal', dateNow);
             formData.set('Kopi', kopiKeExcel);
             formData.set('Cookies', cookiesKeExcel);
             formData.delete('Combo'); 
             
             fetch(scriptURL, { method: 'POST', body: formData})
               .then(response => {
-                  btnKirim.innerHTML = 'CHECKOUT & PAY <i class="bi bi-arrow-right fw-bold ms-2"></i>';
+                  alert("🔥 BOOM! Pesanan tercatat. Jangan lupa lampirkan SS Bukti Transfer di WA Admin ya!");
                   
-                  let alamatDetail = document.getElementById('alamatPemesan').value;
-                  let catatanUser = document.getElementById('catatanPemesan').value;
-
-                  let pesanWA = `Halo Admin! Saya baru saja mengamankan slot pre-order di Web Pak Mandor.\n\n`;
-                  pesanWA += `📋 *Order Details:*\n`;
-                  if(pesananKopi > 0) pesanWA += `- Kopi Susu Regal: ${pesananKopi} pcs\n`;
-                  if(pesananCookies > 0) pesanWA += `- Cookies Boom: ${pesananCookies} pcs\n`;
-                  if(pesananCombo > 0) pesanWA += `- Paket Combo: ${pesananCombo} pcs\n`; 
-                  if(catatanUser !== "") pesanWA += `\n📝 *Notes:* ${catatanUser}\n`;
-
-                  pesanWA += `\n📍 *Shipping Address:* ${alamatDetail}\n`;
-                  if(cekLokasi !== "") pesanWA += `🗺️ *GPS Link:* ${cekLokasi}\n`;
-
-                  pesanWA += `\nTotal tagihan saya *${formatRupiah}* dan sudah transfer via QRIS. Melampirkan bukti screenshot di bawah ini ya min!`;
-
-                  linkWATujuan = "https://api.whatsapp.com/send/?phone=6281343139894&text=" + encodeURIComponent(pesanWA);
-                  
+                  // Reset form & ui
                   form.reset(); 
                   pesananKopi = 0; pesananCookies = 0; pesananCombo = 0;
                   ubahQty('kopi', 0); ubahQty('cookies', 0); ubahQty('combo', 0);
                   document.getElementById('statusLokasi').style.display = 'none';
                   document.getElementById('linkMapsOtomatis').value = ''; 
                   
-                  var qrisModal = new bootstrap.Modal(document.getElementById('qrisModal'));
-                  qrisModal.show();
+                  // Tutup modal, lempar ke WA
+                  globalModalInstance.hide();
+                  
+                  isSubmitting = false;
+                  btnSelesaiBayar.disabled = false;
+                  btnSelesaiBayar.innerHTML = 'SAYA SUDAH TRANSFER <i class="bi bi-check-circle-fill ms-2"></i>';
+                  
+                  window.location.href = linkWATujuanGlobal;
               })
               .catch(error => {
-                  alert("Failed to secure order. Check your internet connection!");
-                  btnKirim.innerHTML = 'CHECKOUT & PAY <i class="bi bi-arrow-right fw-bold ms-2"></i>';
+                  alert("Gagal kirim pesanan, cek koneksi internet bosku!");
+                  isSubmitting = false; 
+                  btnSelesaiBayar.disabled = false;
+                  btnSelesaiBayar.innerHTML = 'COBA LAGI <i class="bi bi-arrow-repeat ms-2"></i>';
               })
         });
-
-        document.getElementById('btnLanjutWA').addEventListener('click', function() {
-            var modalEl = document.getElementById('qrisModal');
-            var modalInstance = bootstrap.Modal.getInstance(modalEl);
-            modalInstance.hide();
-            window.location.href = linkWATujuan;
+        
+        // Handle Tombol X di Modal
+        document.getElementById('btnCloseModal').addEventListener('click', function() {
+            if(!isSubmitting) {
+                globalModalInstance.hide();
+            }
         });
     </script>
 </body>
