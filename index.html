@@ -3,23 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAK MANDOR | Revuelto Style</title>
+    <title>PAK MANDOR | Gen Z Edition</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&family=Rajdhani:wght@500;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         :root {
             --lambo-green: #ccff00; 
-            --carbon-black: #0a0a0a;
-            --dark-panel: #141414;
-            --glass-border: rgba(204, 255, 0, 0.3);
-            --sold-red: #ff3333; /* Warna merah buat sold out */
+            --carbon-black: #050505;
+            --glass-bg: rgba(15, 15, 15, 0.6);
+            --text-glow: 0 0 15px rgba(204, 255, 0, 0.6);
         }
 
         body {
@@ -27,213 +23,272 @@
             color: white;
             font-family: 'Exo 2', sans-serif;
             overflow-x: hidden;
-            background-image: radial-gradient(#1a1a1a 1px, transparent 0);
-            background-size: 20px 20px;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(204, 255, 0, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(204, 255, 0, 0.05), transparent 25%);
         }
 
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: var(--lambo-green); }
+        ::-webkit-scrollbar-thumb { background: var(--lambo-green); border-radius: 10px;}
 
-        .navbar {
-            background: rgba(0, 0, 0, 0.9);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 15px 0;
-            backdrop-filter: blur(10px);
+        /* Modern Floating Navbar */
+        .navbar-floating {
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(204, 255, 0, 0.2);
+            border-radius: 50px;
+            margin: 20px auto;
+            width: 95%;
+            max-width: 1000px;
+            padding: 10px 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
 
         .navbar-brand {
             font-weight: 900;
             font-style: italic;
+            letter-spacing: 2px;
+            font-size: 1.5rem;
+            color: white !important;
+            text-shadow: var(--text-glow);
+        }
+
+        .nav-link {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
             letter-spacing: 1px;
+            font-size: 1.1rem;
+            transition: 0.3s;
             color: white !important;
         }
+        .nav-link:hover { color: var(--lambo-green) !important; transform: translateY(-2px); }
 
-        .speedometer-container {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(20,20,20,1) 100%);
-            padding: 5px 20px;
-            border-radius: 0 0 20px 20px;
-            border: 1px solid var(--lambo-green);
-            border-top: none;
-            box-shadow: 0 0 15px rgba(204, 255, 0, 0.2);
+        .nav-btn-green {
+            background: var(--lambo-green);
+            color: #000 !important;
+            padding: 8px 25px !important;
+            border-radius: 30px;
+            box-shadow: var(--text-glow);
         }
+        .nav-btn-green:hover { background: white; box-shadow: 0 0 25px rgba(255,255,255,0.8); color: black !important;}
 
-        .digital-clock {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--lambo-green);
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--lambo-green);
-            line-height: 1;
-        }
-
-        .clock-label {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            color: #888;
-            letter-spacing: 3px;
-        }
-
+        /* Hero Section */
         .hero-section {
             height: 100vh;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.6), var(--carbon-black)), 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), var(--carbon-black)), 
                         url('https://images.unsplash.com/photo-1635783309228-569d62058682?q=80&w=1920&auto=format&fit=crop'); 
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
         }
 
-        .y-shape-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(60deg, transparent 60%, rgba(204, 255, 0, 0.05) 60%),
-                linear-gradient(-60deg, transparent 60%, rgba(204, 255, 0, 0.05) 60%);
-            pointer-events: none;
-        }
-
         .display-1 {
             font-weight: 900;
             text-transform: uppercase;
             font-style: italic;
-            font-size: 4rem;
+            font-size: 5rem;
+            letter-spacing: -2px;
+            line-height: 0.9;
         }
-        
-        @media (min-width: 768px) {
-            .display-1 { font-size: 6rem; }
+        @media (min-width: 768px) { .display-1 { font-size: 8rem; } }
+
+        /* Scrolling Marquee */
+        .marquee-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: var(--lambo-green);
+            color: black;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
         }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* HYPE CARDS (Desain Menu Baru) */
+        .hype-card {
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            height: 420px;
+            border: 1px solid #222;
+            transition: 0.4s ease;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+        .hype-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--lambo-green);
+            box-shadow: 0 20px 40px rgba(204, 255, 0, 0.15);
+            z-index: 10;
+        }
+        .hype-img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            transition: 0.7s;
+            filter: brightness(0.65);
+        }
+        .hype-card:hover .hype-img {
+            transform: scale(1.1);
+            filter: brightness(0.4);
+        }
+        .hype-content {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            padding: 30px 20px 20px;
+            background: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0.7) 60%, transparent);
+            z-index: 1;
+            display: flex;
+            flex-column: column;
+            justify-content: flex-end;
+            height: 100%;
+        }
+
+        /* QTY Pill Keren */
+        .qty-pill {
+            background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            backdrop-filter: blur(5px);
+        }
+        .btn-qty {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #222;
+            color: white;
+            border: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        .btn-qty:hover { background: var(--lambo-green); color: black; }
+        .input-qty {
+            width: 35px;
+            background: transparent;
+            border: none;
+            color: white;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        /* Progress Bar Modern */
+        .quota-text { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.85rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        .progress-quota { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden; backdrop-filter: blur(5px); }
+        .progress-bar-inner { height: 100%; background: var(--lambo-green); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px var(--lambo-green); }
+
+        /* Modern Form Inputs */
+        .modern-input {
+            background: rgba(20,20,20,0.7);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-size: 1rem;
+            transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .modern-input:focus {
+            background: rgba(0,0,0,0.9);
+            border-color: var(--lambo-green);
+            color: var(--lambo-green);
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.15);
+            outline: none;
+        }
+        .modern-input::placeholder { color: rgba(255,255,255,0.3); font-weight: 500; }
 
         .btn-revuelto {
             background: var(--lambo-green);
             color: black;
-            font-weight: 800;
-            text-transform: uppercase;
-            padding: 15px 50px;
-            border: none;
-            clip-path: polygon(15% 0, 100% 0, 100% 70%, 85% 100%, 0 100%, 0 30%);
-            transition: 0.3s;
-            letter-spacing: 1px;
-            font-family: 'Rajdhani', sans-serif;
-            text-decoration: none;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        .btn-revuelto:hover {
-            background: white;
-            box-shadow: 0 0 40px var(--lambo-green);
-            transform: scale(1.05);
-            color: black;
-        }
-
-        .card-dark {
-            background: var(--dark-panel);
-            border: 1px solid #333;
-            border-top: 3px solid var(--lambo-green);
-            color: white;
-            border-radius: 0;
-            transition: all 0.4s;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* ANIMASI SOLD OUT STAMP */
-        @keyframes stampSold {
-            0% { transform: translate(-50%, -50%) scale(5) rotate(-15deg); opacity: 0; }
-            50% { transform: translate(-50%, -50%) scale(0.9) rotate(-15deg); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1) rotate(-15deg); opacity: 1; }
-        }
-        
-        .sold-out-stamp {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-15deg);
-            font-size: 2.5rem;
             font-weight: 900;
-            color: var(--sold-red);
-            border: 5px solid var(--sold-red);
-            padding: 10px 20px;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            background: rgba(10, 10, 10, 0.8);
-            z-index: 10;
-            pointer-events: none;
-            animation: stampSold 1s ease-in-out forwards;
-            box-shadow: 0 0 20px rgba(255, 51, 51, 0.5);
-            text-shadow: 0 0 10px var(--sold-red);
-            white-space: nowrap;
-        }
-
-        /* Efek Gelap buat menu yang sold out */
-        .overlay-dark {
-            position: relative;
-        }
-        .overlay-dark::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 5;
-            pointer-events: none;
-        }
-
-        /* Animasi Kedip Icon Silang */
-        @keyframes pulseAlert {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; box-shadow: 0 0 20px rgba(255, 51, 51, 0.6); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .icon-kedip {
-            animation: pulseAlert 1.5s infinite ease-in-out;
-            border-radius: 50%;
-        }
-
-        .link-card {
-            text-decoration: none;
-            color: var(--lambo-green);
-            font-weight: bold;
+            padding: 18px 40px;
+            border-radius: 16px;
+            border: none;
+            transition: 0.3s;
+            letter-spacing: 2px;
             font-family: 'Rajdhani', sans-serif;
-            letter-spacing: 1px;
+            font-size: 1.3rem;
+            box-shadow: 0 10px 20px rgba(204, 255, 0, 0.2);
+        }
+        .btn-revuelto:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(204, 255, 0, 0.4);
+            background: white;
+        }
+
+        /* Quick Link Pills */
+        .quick-pill {
+            background: rgba(20,20,20,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 15px 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
             transition: 0.3s;
         }
-        .link-card:hover {
+        .quick-pill i { color: var(--lambo-green); font-size: 1.5rem; transition: 0.3s; }
+        .quick-pill:hover {
+            border-color: var(--lambo-green);
+            background: var(--carbon-black);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(204, 255, 0, 0.1);
             color: white;
-            text-shadow: 0 0 10px white;
         }
+        .quick-pill:hover i { text-shadow: var(--text-glow); }
 
-        footer {
-            border-top: 1px solid #333;
-            background: black;
-        }
-        
         #music-control {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            bottom: 30px;
+            right: 30px; /* Pindah ke kanan biar estetik */
             z-index: 9999;
-            background: rgba(0,0,0,0.5);
+            background: rgba(10,10,10,0.9);
             border: 1px solid var(--lambo-green);
             color: var(--lambo-green);
-            padding: 10px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
             cursor: pointer;
             transition: 0.3s;
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.2);
         }
-        #music-control:hover {
-            background: var(--lambo-green);
-            color: black;
-        }
+        #music-control:hover { transform: scale(1.1) rotate(10deg); background: var(--lambo-green); color: black; }
     </style>
 </head>
 <body onload="startTime()">
@@ -246,268 +301,534 @@
         <i id="music-icon" class="bi bi-volume-mute-fill"></i>
     </div>
 
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container-fluid px-5">
-            <a class="navbar-brand" href="#">PAK <span style="color:var(--lambo-green)">MANDOR</span></a>
-            
-            <div class="speedometer-container d-none d-lg-block">
-                <div id="clock" class="digital-clock">00:00:00</div>
-                <div class="clock-label">WIB // SYSTEM ACTIVE</div>
-            </div>
+    <!-- FLOATING NAVBAR GEN Z -->
+    <div class="fixed-top d-flex justify-content-center mt-3" style="z-index: 1030;">
+        <nav class="navbar navbar-expand-lg navbar-floating">
+            <div class="container-fluid p-0">
+                <a class="navbar-brand m-0" href="#">PAK <span style="color:var(--lambo-green)">MANDOR</span></a>
+                
+                <div class="d-none d-lg-flex mx-auto align-items-center gap-2">
+                    <i class="bi bi-clock-history" style="color: var(--lambo-green);"></i>
+                    <div id="clock" class="text-white fw-bold" style="font-family: 'Rajdhani', sans-serif; font-size:1.2rem; letter-spacing: 1px;">00:00:00</div>
+                </div>
 
-            <button class="navbar-toggler bg-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-white" href="#">HOME</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="#menu">MENU</a></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="#market">OPEN PO</a></li> 
-                    <li class="nav-item"><a class="nav-link text-white" href="#gallery">GALERI</a></li>
-                </ul>
+                <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <i class="bi bi-grid-3x3-gap-fill text-white fs-2"></i>
+                </button>
+                <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+                    <ul class="navbar-nav align-items-center mt-3 mt-lg-0 gap-1">
+                        <li class="nav-item"><a class="nav-link nav-link-custom px-3" href="#menu">LINKS</a></li>
+                        <li class="nav-item"><a class="nav-link nav-link-custom px-3" href="#gallery">GALERI</a></li>
+                        <li class="nav-item ms-lg-2"><a class="nav-link nav-btn-green" href="#market"><i class="bi bi-cart2 me-1"></i> ORDER NOW</a></li> 
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
 
+    <!-- HERO SECTION WITH MARQUEE -->
     <section class="hero-section text-center">
         <div class="y-shape-bg"></div>
-        <div class="container" style="z-index: 2;">
-            <h4 class="text-white mb-2" style="letter-spacing: 5px;" data-aos="fade-down">EST. 2023 // BANDUNG DIVISION</h4>
-            <h1 class="display-1 mb-4" data-aos="zoom-in" data-aos-duration="1000">
-                PAK <span style="color:var(--lambo-green); text-shadow: 0 0 30px var(--lambo-green);">MANDOR</span>
+        <div class="container" style="z-index: 2; margin-top: -50px;">
+            <div class="badge rounded-pill border border-secondary text-light px-4 py-2 mb-4" data-aos="fade-down" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);">EST. 2023 // BANDUNG DIVISION</div>
+            <h1 class="display-1 mb-3" data-aos="zoom-in" data-aos-duration="1000">
+                PAK <span style="color:var(--lambo-green); text-shadow: var(--text-glow);">MANDOR</span>
             </h1>
-            <p class="lead text-light opacity-75 mb-5" data-aos="fade-up" data-aos-delay="200">
-                Community | Automotive | Brotherhood | Market Day
+            <p class="lead text-light opacity-75 mb-5 fw-bold" data-aos="fade-up" data-aos-delay="200" style="letter-spacing: 3px; font-family: 'Rajdhani', sans-serif;">
+                THE ULTIMATE CAMPUS MARKET DAY
             </p>
             <div data-aos="flip-up" data-aos-delay="400">
-                <a href="#menu" class="btn-revuelto">MULAI JELAJAHI</a>
+                <a href="#market" class="btn-revuelto text-decoration-none rounded-pill px-5">
+                    SECURE YOUR SLOT <i class="bi bi-arrow-down-right-circle-fill ms-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Teks Berjalan di Bawah Hero -->
+        <div class="marquee-container">
+            <div class="marquee-content">
+                <span>🔥 LIMITED DROPS 🔥 MARKET DAY TELKOM UNIVERSITY 🔥 GRAB YOURS FAST 🔥 PAK MANDOR EXCLUSIVE 🔥 BEST COFFEE & COOKIES IN TOWN 🔥 </span>
+                <span>🔥 LIMITED DROPS 🔥 MARKET DAY TELKOM UNIVERSITY 🔥 GRAB YOURS FAST 🔥 PAK MANDOR EXCLUSIVE 🔥 BEST COFFEE & COOKIES IN TOWN 🔥 </span>
             </div>
         </div>
     </section>
 
-    <section id="menu" class="py-5">
-        <div class="container py-5">
-            <div class="row text-center mb-5">
-                <div class="col" data-aos="fade-up">
-                    <h2 class="fw-bold display-5">AKSES <span style="color:var(--lambo-green)">CEPAT</span></h2>
-                    <div style="height: 3px; width: 100px; background: var(--lambo-green); margin: 20px auto;"></div>
-                </div>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-md-4" data-aos="fade-right" data-aos-delay="100">
-                    <div class="card card-dark p-4">
-                        <i class="bi bi-geo-alt-fill display-4 mb-3" style="color:var(--lambo-green)"></i>
-                        <h4>LOKASI BASECAMP</h4>
-                        <p class="text-secondary small">Klik tombol di bawah untuk menemukan kami di Google Maps!</p>
-                        <a href="https://www.google.com/maps/place/Universitas+Telkom/@-6.973416,107.627831,17z/data=!4m6!3m5!1s0x2e68e9adf177bf8d:0x437398556f9fa03!8m2!3d-6.9734163!4d107.630406!16s%2Fm%2F0y6lbq_?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="link-card mt-auto">LIHAT LOKASI <i class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card card-dark p-4">
-                        <i class="bi bi-instagram display-4 mb-3" style="color:var(--lambo-green)"></i>
-                        <h4>INSTAGRAM</h4>
-                        <p class="text-secondary small">Klik tombol di bawah untuk melihat aktivitas kami!</p>
-                        <a href="https://www.instagram.com/_pakmandor/" target="_blank" class="link-card mt-auto">LIHAT INSTAGRAM <i class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="fade-left" data-aos-delay="300">
-                    <div class="card card-dark p-4">
-                        <i class="bi bi-whatsapp display-4 mb-3" style="color:var(--lambo-green)"></i>
-                        <h4>HUBUNGI KAMI</h4>
-                        <p class="text-secondary small">Ada pertanyaan? Langsung chat admin kami.</p>
-                        <a href="https://api.whatsapp.com/send/?phone=6281343139894&text=Halo%20Min,%20saya%20mau%20bertanya..." target="_blank" class="link-card mt-auto">CHAT WHATSAPP <i class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="market" class="py-5" style="background: #0f0f0f; border-top: 1px solid #222;">
-        <div class="container py-5">
-            <div class="row text-center mb-5">
-                <div class="col" data-aos="fade-down" data-aos-duration="800">
-                    <h5 class="text-secondary" style="letter-spacing: 3px;">CAMPUS PROJECT</h5>
-                    <h2 class="fw-bold display-4">MARKET <span style="color:var(--lambo-green)">DAY</span></h2>
-                    <p class="text-light">Semua produk dari Pak Mandor telah habis dipesan!</p>
-                </div>
-            </div>
-
-            <div class="row g-4 mb-5">
-                <div class="col-md-4" data-aos="flip-left" data-aos-delay="100">
-                    <div class="card card-dark h-100 overlay-dark border-secondary">
-                        <div class="sold-out-stamp">SOLD OUT</div>
-                        <img src="menu1.jpg" class="card-img-top" style="height: 200px; object-fit: cover; filter: brightness(0.4) grayscale(50%);">
-                        <div class="card-body p-4 d-flex flex-column opacity-50">
-                            <h4 class="fw-bold text-white mb-2">KOPI SUSU <span style="color:var(--lambo-green)">REGAL</span></h4>
-                            <p class="text-secondary small mb-4">Perpaduan kopi susu creamy dengan topping regal renyah favorit anak Mandor.</p>
-                            <div class="d-flex justify-content-between align-items-center mt-auto border-top border-secondary pt-3">
-                                <div>
-                                    <span class="text-secondary text-decoration-line-through" style="font-size: 0.8rem;">Rp 17.000</span>
-                                    <h5 class="text-white mb-0 fw-bold">Rp 13.000</h5>
-                                </div>
-                                <span class="badge bg-danger p-2">HABIS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="200">
-                    <div class="card card-dark h-100 overlay-dark border-secondary">
-                        <div class="sold-out-stamp" style="animation-delay: 0.2s;">SOLD OUT</div>
-                        <img src="cookies1.jpg" class="card-img-top" style="height: 200px; object-fit: cover; filter: brightness(0.4) grayscale(50%);">
-                        <div class="card-body p-4 d-flex flex-column opacity-50">
-                            <h4 class="fw-bold text-white mb-2">COOKIES <span style="color:var(--lambo-green)">BOOM</span></h4>
-                            <p class="text-secondary small mb-4">Soft cookies buatan rumah dengan coklat belgian yang meleleh di mulut. Anti pelit topping!</p>
-                            <div class="d-flex justify-content-between align-items-center mt-auto border-top border-secondary pt-3">
-                                <div>
-                                    <span class="text-secondary text-decoration-line-through" style="font-size: 0.8rem;">Rp 20.000</span>
-                                    <h5 class="text-white mb-0 fw-bold">Rp 15.000</h5>
-                                </div>
-                                <span class="badge bg-danger p-2">HABIS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-4" data-aos="flip-right" data-aos-delay="300">
-                    <div class="card card-dark h-100 overlay-dark border-secondary">
-                        <div class="sold-out-stamp" style="animation-delay: 0.4s;">SOLD OUT</div>
-                        <img src="menu1.jpg" class="card-img-top" style="height: 200px; object-fit: cover; filter: brightness(0.3) grayscale(50%);">
-                        <div class="card-img-overlay d-flex align-items-center justify-content-center p-0" style="height: 200px; background: rgba(0,0,0,0.6);">
-                            <h3 class="fw-bold text-secondary text-center" style="letter-spacing: 2px;">BEST<br>SELLER</h3>
-                        </div>
-                        <div class="card-body p-4 d-flex flex-column opacity-50">
-                            <h4 class="fw-bold text-white mb-2">PAKET <span style="color:var(--lambo-green)">COMBO</span></h4>
-                            <p class="text-secondary small mb-4">Lebih hemat! Dapatkan 1 Kopi Susu Regal + 1 Cookies Boom sekaligus.</p>
-                            <div class="d-flex justify-content-between align-items-center mt-auto border-top border-secondary pt-3">
-                                <div>
-                                    <span class="text-secondary text-decoration-line-through" style="font-size: 0.8rem;">Rp 35.000</span>
-                                    <h5 class="text-white mb-0 fw-bold">Rp 25.000</h5>
-                                </div>
-                                <span class="badge bg-danger p-2">HABIS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row justify-content-center mt-5" data-aos="zoom-in" data-aos-duration="1000">
-                <div class="col-md-8">
-                    <div class="card card-dark p-5 text-center" style="border-color: var(--sold-red); background: #1a0a0a;">
-                        <i class="bi bi-x-octagon-fill display-1 mb-3 icon-kedip d-inline-block" style="color: var(--sold-red);"></i>
-                        <h2 class="fw-bold text-white mb-3" style="letter-spacing: 3px;">PRE-ORDER <span style="color: var(--sold-red);">DITUTUP!</span></h2>
-                        <p class="text-light fs-5 mb-2">Waduh, kamu telat bosku! Semua produk spesial dari Pak Mandor sudah <b class="text-white bg-danger px-2 rounded">LUDES TERJUAL</b>.</p>
-                        <p class="text-secondary mb-4">Terima kasih atas antusiasme kalian yang luar biasa. Sampai jumpa di Market Day / Open PO batch selanjutnya ya! 🔥</p>
-                        
-                        <a href="https://www.instagram.com/_pakmandor/" target="_blank" class="btn btn-outline-danger w-50 mx-auto py-2" style="font-family: 'Rajdhani', sans-serif; font-weight: bold; letter-spacing: 1px;">
-                            <i class="bi bi-instagram me-2"></i> PANTAU INSTAGRAM KAMI
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <section id="gallery" class="py-5 bg-black">
-        <div class="container py-5">
-            <h3 class="text-white mb-4 fw-bold text-center" data-aos="fade-down">DOKUMENTASI KEGIATAN</h3>
+    <!-- QUICK LINKS (MINIMALIST PILLS) -->
+    <section id="menu" class="py-5 border-bottom border-dark">
+        <div class="container py-5 text-center">
+            <h3 class="text-white mb-5 fw-bold" style="letter-spacing: 2px;" data-aos="fade-up">CONNECT WITH <span style="color:var(--lambo-green)">US</span></h3>
             
-            <div class="row g-3 mb-5">
+            <div class="d-flex flex-wrap justify-content-center gap-4">
+                <a href="https://www.google.com/maps/place/Universitas+Telkom/@-6.973416,107.627831,17z/data=!4m6!3m5!1s0x2e68e9adf177bf8d:0x437398556f9fa03!8m2!3d-6.9734163!4d107.630406!16s%2Fm%2F0y6lbq_?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="quick-pill" data-aos="fade-up" data-aos-delay="100">
+                    <i class="bi bi-geo-alt-fill"></i> BASECAMP
+                </a>
+                <a href="https://www.instagram.com/_pakmandor/" target="_blank" class="quick-pill" data-aos="fade-up" data-aos-delay="200">
+                    <i class="bi bi-instagram"></i> INSTAGRAM
+                </a>
+                <a href="https://api.whatsapp.com/send/?phone=6281343139894" target="_blank" class="quick-pill" data-aos="fade-up" data-aos-delay="300">
+                    <i class="bi bi-whatsapp"></i> WHATSAPP
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARKET DAY DENGAN HYPE CARDS & KUOTA PINTAR -->
+    <section id="market" class="py-5" style="background: radial-gradient(circle at top, #111 0%, #000 100%);">
+        <div class="container py-5">
+            <div class="row align-items-end mb-5">
+                <div class="col-md-8 text-center text-md-start" data-aos="fade-right">
+                    <span class="badge bg-danger rounded-pill px-3 py-2 mb-3 fw-bold" style="letter-spacing: 1px;"><i class="bi bi-fire me-1"></i> HIGH DEMAND</span>
+                    <h2 class="fw-bold display-4 text-white m-0" style="letter-spacing: -1px;">EXCLUSIVE <span style="color:var(--lambo-green)">DROPS.</span></h2>
+                </div>
+                <div class="col-md-4 text-center text-md-end mt-3 mt-md-0" data-aos="fade-left">
+                    <p class="text-secondary m-0 fw-bold">MAX 50 PORTIONS.</p>
+                    <p class="text-secondary m-0 small">Secure your order before it's gone.</p>
+                </div>
+            </div>
+
+            <form id="formPemesanan" name="submit-to-google-sheet">
+                
+                <div class="row g-4 mb-5">
+                    <!-- MENU 1: KOPI (HYPE CARD) -->
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="hype-card d-flex flex-column justify-content-end">
+                            <img src="menu1.jpg" class="hype-img">
+                            
+                            <!-- Badge Diskon di Pojok Kanan Atas -->
+                            <div class="position-absolute top-0 end-0 m-3 z-index-1">
+                                <span class="badge bg-dark border border-secondary p-2 rounded-pill shadow-lg">
+                                    <span class="text-secondary text-decoration-line-through me-1">17k</span> 
+                                    <span style="color:var(--lambo-green); font-size:1.1rem; font-weight:bold;">13k</span>
+                                </span>
+                            </div>
+
+                            <div class="hype-content d-flex flex-column w-100">
+                                <h3 class="fw-bold text-white mb-1" style="font-family: 'Rajdhani', sans-serif; font-size: 2rem;">KOPI <span style="color:var(--lambo-green)">REGAL</span></h3>
+                                <p class="text-light opacity-75 small mb-4" style="line-height: 1.3;">Creamy coffee milk infused with vanilla ice cream & crunchy regal.</p>
+                                
+                                <div class="mt-auto mb-3">
+                                    <div class="d-flex justify-content-between quota-text mb-1">
+                                        <span>SLOT LEFT:</span>
+                                        <span class="quota-highlight fs-6" id="lblSisaKopi">50</span>
+                                    </div>
+                                    <div class="progress-quota"><div class="progress-bar-inner" id="barKopi" style="width: 100%;"></div></div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center pt-2">
+                                    <h4 class="text-white mb-0 fw-bold">Rp 13k</h4>
+                                    <div class="qty-pill">
+                                        <button type="button" class="btn-qty" onclick="ubahQty('kopi', -1)">-</button>
+                                        <input type="text" id="qtyKopi" name="Kopi" class="input-qty" value="0" readonly>
+                                        <button type="button" class="btn-qty" onclick="ubahQty('kopi', 1)">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MENU 2: COOKIES (HYPE CARD) -->
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="hype-card d-flex flex-column justify-content-end">
+                            <img src="cookies1.jpg" class="hype-img">
+                            
+                            <div class="position-absolute top-0 end-0 m-3 z-index-1">
+                                <span class="badge bg-dark border border-secondary p-2 rounded-pill shadow-lg">
+                                    <span class="text-secondary text-decoration-line-through me-1">20k</span> 
+                                    <span style="color:var(--lambo-green); font-size:1.1rem; font-weight:bold;">15k</span>
+                                </span>
+                            </div>
+
+                            <div class="hype-content d-flex flex-column w-100">
+                                <h3 class="fw-bold text-white mb-1" style="font-family: 'Rajdhani', sans-serif; font-size: 2rem;">COOKIES <span style="color:var(--lambo-green)">BOOM</span></h3>
+                                <p class="text-light opacity-75 small mb-4" style="line-height: 1.3;">Homemade soft cookies overloaded with melting belgian chocolate.</p>
+                                
+                                <div class="mt-auto mb-3">
+                                    <div class="d-flex justify-content-between quota-text mb-1">
+                                        <span>SLOT LEFT:</span>
+                                        <span class="quota-highlight fs-6" id="lblSisaCookies">50</span>
+                                    </div>
+                                    <div class="progress-quota"><div class="progress-bar-inner" id="barCookies" style="width: 100%;"></div></div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center pt-2">
+                                    <h4 class="text-white mb-0 fw-bold">Rp 15k</h4>
+                                    <div class="qty-pill">
+                                        <button type="button" class="btn-qty" onclick="ubahQty('cookies', -1)">-</button>
+                                        <input type="text" id="qtyCookies" name="Cookies" class="input-qty" value="0" readonly>
+                                        <button type="button" class="btn-qty" onclick="ubahQty('cookies', 1)">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MENU 3: COMBO (HYPE CARD - GLOWING) -->
+                    <div class="col-lg-4 col-md-12" data-aos="fade-up" data-aos-delay="300">
+                        <div class="hype-card d-flex flex-column justify-content-end" style="border: 2px solid var(--lambo-green); box-shadow: var(--text-glow);">
+                            <img src="menu1.jpg" class="hype-img" style="filter: brightness(0.4);">
+                            
+                            <div class="position-absolute top-0 start-0 m-3 z-index-1">
+                                <span class="badge bg-warning text-dark p-2 rounded-pill fw-bold shadow-lg" style="letter-spacing: 1px;"><i class="bi bi-star-fill me-1"></i> BEST DEAL</span>
+                            </div>
+                            
+                            <div class="position-absolute top-0 end-0 m-3 z-index-1">
+                                <span class="badge bg-dark border border-warning p-2 rounded-pill shadow-lg">
+                                    <span class="text-secondary text-decoration-line-through me-1">35k</span> 
+                                    <span style="color:#ffcc00; font-size:1.1rem; font-weight:bold;">25k</span>
+                                </span>
+                            </div>
+
+                            <div class="hype-content d-flex flex-column w-100">
+                                <h3 class="fw-bold text-white mb-1" style="font-family: 'Rajdhani', sans-serif; font-size: 2rem;">COMBO <span style="color:#ffcc00;">PACK</span></h3>
+                                <p class="text-light opacity-75 small mb-4" style="line-height: 1.3;">Why choose? Get both 1 Kopi Regal & 1 Cookies Boom at a better price.</p>
+                                
+                                <div class="mt-auto mb-3">
+                                    <div class="d-flex justify-content-between quota-text mb-1">
+                                        <span>PACKS LEFT:</span>
+                                        <span class="quota-highlight-combo fs-6 fw-bold" id="lblSisaCombo">50</span>
+                                    </div>
+                                    <div class="progress-quota"><div class="progress-bar-inner" id="barCombo" style="width: 100%; background: #ffcc00; box-shadow: 0 0 10px #ffcc00;"></div></div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center pt-2">
+                                    <h4 class="text-white mb-0 fw-bold">Rp 25k</h4>
+                                    <div class="qty-pill qty-pill-combo">
+                                        <button type="button" class="btn-qty btn-qty-combo" style="color: #ffcc00;" onclick="ubahQty('combo', -1)">-</button>
+                                        <input type="text" id="qtyCombo" class="input-qty" style="color: #ffcc00;" value="0" readonly>
+                                        <button type="button" class="btn-qty btn-qty-combo" style="color: #ffcc00;" onclick="ubahQty('combo', 1)">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FORM PEMESANAN NEON GEN Z -->
+                <div class="row justify-content-center mt-5" data-aos="zoom-in" data-aos-duration="1000">
+                    <div class="col-lg-8">
+                        <div class="card card-dark p-4 p-md-5 rounded-4 position-relative" style="background: rgba(10,10,10,0.8); border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px);">
+                            
+                            <h3 class="text-center fw-bold mb-4" style="letter-spacing: 2px; font-family: 'Rajdhani', sans-serif;">SHIPPING <span style="color:var(--lambo-green)">DETAILS</span></h3>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <input type="text" name="Nama" class="form-control modern-input" placeholder="Full Name / Nickname" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="Kelas" class="form-control modern-input" placeholder="Class / Major (e.g., IF-46)" required>
+                                </div>
+                                
+                                <div class="col-12 mt-4">
+                                    <textarea id="alamatPemesan" name="Alamat" class="form-control modern-input mb-3" rows="2" placeholder="Detail Address (e.g., Kost Sukabirus No 10, black gate)" required></textarea>
+                                    
+                                    <button type="button" class="btn btn-gps w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2" onclick="ambilLokasi()">
+                                        <i class="bi bi-geo-alt-fill fs-5"></i> LOCK GPS LOCATION (REQUIRED)
+                                    </button>
+                                    
+                                    <input type="hidden" id="linkMapsOtomatis" name="LinkMaps">
+                                    <div id="statusLokasi" class="text-success mt-3 text-center" style="display:none; font-weight: 800; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; text-shadow: 0 0 10px green;">
+                                        <i class="bi bi-check-circle-fill me-1"></i> LOCATION SECURED!
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-4">
+                                    <input type="text" id="catatanPemesan" name="Catatan" class="form-control modern-input" placeholder="Additional Notes (e.g., Less ice, separate packaging)">
+                                </div>
+
+                                <!-- Box Total Harga Keren -->
+                                <div class="col-12 mt-4">
+                                    <div class="d-flex justify-content-between align-items-center p-4 rounded-4" style="background: rgba(0,0,0,0.6); border: 1px dashed rgba(204, 255, 0, 0.4);">
+                                        <span class="text-secondary fw-bold" style="letter-spacing: 1px;">TOTAL DUE</span>
+                                        <h2 class="fw-bold mb-0" id="liveTotal" style="color:var(--lambo-green); text-shadow: var(--text-glow); font-family: 'Rajdhani', sans-serif; font-size: 2.5rem;">Rp 0</h2>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 mt-4 text-center">
+                                    <button type="submit" id="btnKirim" class="btn-revuelto w-100">
+                                        CHECKOUT & PAY <i class="bi bi-arrow-right fw-bold ms-2"></i>
+                                    </button>
+                                    <p class="text-secondary small mt-3">*QRIS code will appear after checkout.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- MODAL QRIS -->
+    <div class="modal fade" id="qrisModal" tabindex="-1" aria-labelledby="qrisModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 overflow-hidden" style="background-color: #0f0f0f; border: 1px solid var(--lambo-green); box-shadow: 0 0 30px rgba(204, 255, 0, 0.2);">
+                <div class="modal-header border-bottom-0 pb-0 mt-2">
+                    <h5 class="modal-title fw-bold mx-auto" id="qrisModalLabel" style="color: var(--lambo-green); font-family: 'Rajdhani', sans-serif; letter-spacing: 2px;">SCAN TO PAY</h5>
+                </div>
+                <div class="modal-body text-center pt-2 px-4">
+                    <p class="text-secondary mb-1 small text-uppercase fw-bold">Total Amount</p>
+                    <h1 id="totalBayarModal" class="fw-bold mb-4" style="color: white; font-family: 'Rajdhani', sans-serif;">Rp 0</h1>
+                    
+                    <div class="alert text-start d-flex align-items-center gap-3 p-3 rounded-3" style="background: rgba(204, 255, 0, 0.05); border: 1px solid rgba(204, 255, 0, 0.3);">
+                        <i class="bi bi-camera-fill fs-2" style="color: var(--lambo-green);"></i> 
+                        <div style="font-size: 0.85rem; color: #ddd; line-height: 1.4;">
+                            <strong class="text-white d-block mb-1">SCREENSHOT REQUIRED!</strong>
+                            Take a screenshot of your successful transfer and send it to our WhatsApp admin.
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-2 rounded-4 mx-auto mb-4 mt-3" style="max-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                        <img src="qris.jpg" alt="QRIS Pak Mandor" class="img-fluid rounded-3">
+                    </div>
+                    
+                    <button type="button" class="btn-revuelto w-100 rounded-pill mb-2" id="btnLanjutWA" style="font-size: 1rem; padding: 15px;">
+                        I HAVE PAID <i class="bi bi-whatsapp ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GALLERY DOKUMENTASI (MASONRY GRID RAPI) -->
+    <section id="gallery" class="py-5 border-top border-dark" style="background: #050505;">
+        <div class="container py-5">
+            <div class="text-center mb-5" data-aos="fade-down">
+                <h3 class="text-white fw-bold mb-0 display-5" style="letter-spacing: -1px; font-family: 'Rajdhani', sans-serif;">OUR <span style="color:var(--lambo-green)">JOURNEY</span></h3>
+                <div style="height: 4px; width: 60px; background: var(--lambo-green); margin: 15px auto; border-radius: 2px;"></div>
+            </div>
+            
+            <div class="row g-3">
                 <div class="col-md-8 col-12" data-aos="fade-right">
-                    <img src="dok1.jpg" class="w-100 rounded border border-dark" style="height: 350px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%) drop-shadow(0 0 10px var(--lambo-green))'" onmouseout="this.style.filter='grayscale(100%)'">
+                    <img src="dok1.jpg" class="w-100 rounded-4 border border-dark" style="height: 400px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%) drop-shadow(0 0 15px rgba(204,255,0,0.3))'" onmouseout="this.style.filter='grayscale(100%)'">
                 </div>
                 <div class="col-md-4 col-12" data-aos="fade-left">
-                    <img src="dok2.jpg" class="w-100 rounded border border-dark" style="height: 350px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%) drop-shadow(0 0 10px var(--lambo-green))'" onmouseout="this.style.filter='grayscale(100%)'">
+                    <img src="dok2.jpg" class="w-100 rounded-4 border border-dark" style="height: 400px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%) drop-shadow(0 0 15px rgba(204,255,0,0.3))'" onmouseout="this.style.filter='grayscale(100%)'">
                 </div>
 
                 <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="100">
-                    <img src="dok3.jpg" class="w-100 rounded border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
+                    <img src="dok3.jpg" class="w-100 rounded-4 border border-dark" style="height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
                 </div>
                 <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="200">
-                    <img src="dok4.jpg" class="w-100 rounded border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
+                    <img src="dok4.jpg" class="w-100 rounded-4 border border-dark" style="height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
                 </div>
                 <div class="col-md-4 col-12" data-aos="zoom-in" data-aos-delay="300">
-                    <img src="dok5.jpg" class="w-100 rounded border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
+                    <img src="dok5.jpg" class="w-100 rounded-4 border border-dark" style="height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
                 </div>
 
                 <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="100">
-                    <img src="dok6.jpg" class="w-100 rounded border border-dark" style="height: 200px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
+                    <img src="dok6.jpg" class="w-100 rounded-4 border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
                 </div>
                 <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="200">
-                    <img src="dok7.jpg" class="w-100 rounded border border-dark" style="height: 200px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
+                    <img src="dok7.jpg" class="w-100 rounded-4 border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
                 </div>
                 <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="300">
-                    <img src="dok8.jpg" class="w-100 rounded border border-dark" style="height: 200px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
+                    <img src="dok8.jpg" class="w-100 rounded-4 border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
                 </div>
                 <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="400">
-                    <img src="dok9.jpg" class="w-100 rounded border border-dark" style="height: 200px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
+                    <img src="dok9.jpg" class="w-100 rounded-4 border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
                 </div>
 
                 <div class="col-12" data-aos="zoom-in" data-aos-delay="500">
-                    <img src="dok10.jpg" class="w-100 rounded border border-dark" style="height: 350px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%) drop-shadow(0 0 10px var(--lambo-green))'" onmouseout="this.style.filter='grayscale(100%)'">
+                    <img src="dok10.jpg" class="w-100 rounded-4 border border-dark" style="height: 400px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%) drop-shadow(0 0 15px rgba(204,255,0,0.3))'" onmouseout="this.style.filter='grayscale(100%)'">
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="text-center py-4">
-        <p class="m-0 text-secondary small">© 2026 PAK MANDOR BANDUNG. POWERED BY VS CODE.</p>
+    <footer class="text-center py-5" style="background: #000; border-top: 1px solid #111;">
+        <h4 class="text-white fw-bold mb-3" style="font-family: 'Rajdhani', sans-serif; letter-spacing: 2px;">PAK <span style="color:var(--lambo-green)">MANDOR</span></h4>
+        <p class="m-0 text-secondary small fw-bold" style="letter-spacing: 1px;">© 2026 BANDUNG DIVISION. ALL RIGHTS RESERVED.</p>
     </footer>
 
+    <!-- Script Wajib -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ once: true, duration: 1000 });
+        AOS.init({ once: true, duration: 800, offset: 50 });
 
+        // Jam Digital
         function startTime() {
             const today = new Date();
-            let h = today.getHours();
-            let m = today.getMinutes();
-            let s = today.getSeconds();
-            m = checkTime(m);
-            s = checkTime(s);
-            document.getElementById('clock').innerHTML = h + ":" + m + "<span style='font-size:1rem'>:" + s + "</span>";
+            let h = checkTime(today.getHours());
+            let m = checkTime(today.getMinutes());
+            let s = checkTime(today.getSeconds());
+            document.getElementById('clock').innerHTML = h + ":" + m + "<span style='font-size:1rem; opacity:0.5;'>:" + s + "</span>";
             setTimeout(startTime, 1000);
         }
-        function checkTime(i) {
-            if (i < 10) {i = "0" + i};
-            return i;
-        }
+        function checkTime(i) { return (i < 10) ? "0" + i : i; }
 
-        // --- SCRIPT MUSIK ---
+        // Audio Player
         const audio = document.getElementById("bg-music");
         const musicIcon = document.getElementById("music-icon");
-        
-        window.addEventListener('load', function() {
-            audio.play().catch(error => { console.log("Menunggu interaksi user..."); });
-        });
-
-        document.body.addEventListener('click', function() {
-            if (audio.paused) {
-                audio.play();
-                musicIcon.classList.remove("bi-volume-mute-fill");
-                musicIcon.classList.add("bi-volume-up-fill");
-            }
+        window.addEventListener('load', () => { audio.play().catch(e => console.log("Menunggu interaksi user...")); });
+        document.body.addEventListener('click', () => {
+            if (audio.paused) { audio.play(); musicIcon.className = "bi bi-volume-up-fill"; }
         }, { once: true });
-
         function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                musicIcon.classList.remove("bi-volume-mute-fill");
-                musicIcon.classList.add("bi-volume-up-fill");
-            } else {
-                audio.pause();
-                musicIcon.classList.remove("bi-volume-up-fill");
-                musicIcon.classList.add("bi-volume-mute-fill");
-            }
+            if (audio.paused) { audio.play(); musicIcon.className = "bi bi-volume-up-fill"; } 
+            else { audio.pause(); musicIcon.className = "bi bi-volume-mute-fill"; }
         }
 
-        // Script form pemesanan dan GPS dimatikan karena PO ditutup,
-        // tapi sisa script dibiarkan jalan biar jam dan musik tetap berfungsi.
+        // AMBIL LOKASI GPS
+        function ambilLokasi() {
+            const statusLokasi = document.getElementById('statusLokasi');
+            if (navigator.geolocation) {
+                statusLokasi.style.display = 'block';
+                statusLokasi.innerHTML = '<span class="spinner-border spinner-border-sm text-warning me-2"></span><span class="text-warning">Melacak satelit...</span>';
+                const options = { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 };
+                navigator.geolocation.getCurrentPosition(showPosition, showError, options);
+            } else { alert("Browser tidak support GPS."); }
+        }
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById('linkMapsOtomatis').value = `https://www.google.com/maps?q=${lat},${lon}`;
+            const statusLokasi = document.getElementById('statusLokasi');
+            statusLokasi.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> LOKASI AKURAT DIAMANKAN!`;
+            statusLokasi.className = "text-success mt-3 text-center";
+        }
+        function showError(error) {
+            let msg = "Gagal ambil lokasi.";
+            if(error.code == error.PERMISSION_DENIED) msg = "Akses GPS ditolak browser.";
+            if(error.code == error.POSITION_UNAVAILABLE) msg = "Sinyal GPS hilang.";
+            if(error.code == error.TIMEOUT) msg = "Waktu habis, coba lagi.";
+            alert(msg);
+            document.getElementById('statusLokasi').style.display = 'none';
+        }
+
+        // ==========================================
+        // LOGIKA KUOTA PINTAR (50 KOPI & 50 COOKIES)
+        // ==========================================
+        const KUOTA_MAX_KOPI = 50;
+        const KUOTA_MAX_COOKIES = 50;
+
+        let pesananKopi = 0;
+        let pesananCookies = 0;
+        let pesananCombo = 0;
+
+        function ubahQty(jenis, perubahan) {
+            let prevKopi = pesananKopi;
+            let prevCookies = pesananCookies;
+            let prevCombo = pesananCombo;
+
+            if (jenis === 'kopi') pesananKopi += perubahan;
+            if (jenis === 'cookies') pesananCookies += perubahan;
+            if (jenis === 'combo') pesananCombo += perubahan;
+
+            if (pesananKopi < 0) pesananKopi = 0;
+            if (pesananCookies < 0) pesananCookies = 0;
+            if (pesananCombo < 0) pesananCombo = 0;
+
+            let totalButuhKopi = pesananKopi + pesananCombo;
+            let totalButuhCookies = pesananCookies + pesananCombo;
+
+            if (totalButuhKopi > KUOTA_MAX_KOPI || totalButuhCookies > KUOTA_MAX_COOKIES) {
+                alert("Wah bosku, kuotanya nggak cukup buat pesanan segini! Siapa cepat dia dapat 🔥");
+                pesananKopi = prevKopi;
+                pesananCookies = prevCookies;
+                pesananCombo = prevCombo;
+                return; 
+            }
+
+            document.getElementById('qtyKopi').value = pesananKopi;
+            document.getElementById('qtyCookies').value = pesananCookies;
+            document.getElementById('qtyCombo').value = pesananCombo;
+
+            let sisaKopi = KUOTA_MAX_KOPI - totalButuhKopi;
+            let sisaCookies = KUOTA_MAX_COOKIES - totalButuhCookies;
+            let sisaCombo = Math.min(sisaKopi, sisaCookies); 
+
+            document.getElementById('lblSisaKopi').innerText = sisaKopi;
+            document.getElementById('barKopi').style.width = (sisaKopi / KUOTA_MAX_KOPI * 100) + "%";
+
+            document.getElementById('lblSisaCookies').innerText = sisaCookies;
+            document.getElementById('barCookies').style.width = (sisaCookies / KUOTA_MAX_COOKIES * 100) + "%";
+
+            document.getElementById('lblSisaCombo').innerText = sisaCombo;
+            document.getElementById('barCombo').style.width = (sisaCombo / 50 * 100) + "%";
+
+            let harga = (pesananKopi * 13000) + (pesananCookies * 15000) + (pesananCombo * 25000);
+            document.getElementById('liveTotal').innerText = "Rp " + harga.toLocaleString('id-ID');
+        }
+
+        // ==========================================
+        // PROSES KIRIM KE EXCEL 
+        // ==========================================
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyRbYv173r_cO2q2sfSKz5JXMWJEWQPkABwjwcuHB9EY79L1st2LDHHTL-2MpBltHi8/exec'; 
+        const form = document.forms['submit-to-google-sheet'];
+        const btnKirim = document.getElementById('btnKirim');
+        let linkWATujuan = ""; 
+
+        form.addEventListener('submit', e => {
+            e.preventDefault(); 
+
+            let cekLokasi = document.getElementById('linkMapsOtomatis').value;
+
+            if (pesananKopi === 0 && pesananCookies === 0 && pesananCombo === 0) {
+                alert("Pilih menunya dulu bosku, klik tombol [+] nya! 😅");
+                return; 
+            }
+            if (cekLokasi === "") {
+                alert("Jangan lupa kunci lokasi GPS nya dulu biar kurir nggak nyasar! 📍");
+                return;
+            }
+
+            let totalHargaRp = (pesananKopi * 13000) + (pesananCookies * 15000) + (pesananCombo * 25000);
+            let formatRupiah = "Rp " + totalHargaRp.toLocaleString('id-ID');
+
+            document.getElementById('totalBayarModal').innerText = formatRupiah;
+            btnKirim.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> SECURING ORDER...';
+            
+            let formData = new FormData(form);
+            let kopiKeExcel = pesananKopi + pesananCombo;
+            let cookiesKeExcel = pesananCookies + pesananCombo;
+            
+            formData.set('Kopi', kopiKeExcel);
+            formData.set('Cookies', cookiesKeExcel);
+            formData.delete('Combo'); 
+            
+            fetch(scriptURL, { method: 'POST', body: formData})
+              .then(response => {
+                  btnKirim.innerHTML = 'CHECKOUT & PAY <i class="bi bi-arrow-right fw-bold ms-2"></i>';
+                  
+                  let alamatDetail = document.getElementById('alamatPemesan').value;
+                  let catatanUser = document.getElementById('catatanPemesan').value;
+
+                  let pesanWA = `Halo Admin! Saya baru saja mengamankan slot pre-order di Web Pak Mandor.\n\n`;
+                  pesanWA += `📋 *Order Details:*\n`;
+                  if(pesananKopi > 0) pesanWA += `- Kopi Susu Regal: ${pesananKopi} pcs\n`;
+                  if(pesananCookies > 0) pesanWA += `- Cookies Boom: ${pesananCookies} pcs\n`;
+                  if(pesananCombo > 0) pesanWA += `- Paket Combo: ${pesananCombo} pcs\n`; 
+                  if(catatanUser !== "") pesanWA += `\n📝 *Notes:* ${catatanUser}\n`;
+
+                  pesanWA += `\n📍 *Shipping Address:* ${alamatDetail}\n`;
+                  if(cekLokasi !== "") pesanWA += `🗺️ *GPS Link:* ${cekLokasi}\n`;
+
+                  pesanWA += `\nTotal tagihan saya *${formatRupiah}* dan sudah transfer via QRIS. Melampirkan bukti screenshot di bawah ini ya min!`;
+
+                  linkWATujuan = "https://api.whatsapp.com/send/?phone=6281343139894&text=" + encodeURIComponent(pesanWA);
+                  
+                  form.reset(); 
+                  pesananKopi = 0; pesananCookies = 0; pesananCombo = 0;
+                  ubahQty('kopi', 0); ubahQty('cookies', 0); ubahQty('combo', 0);
+                  document.getElementById('statusLokasi').style.display = 'none';
+                  document.getElementById('linkMapsOtomatis').value = ''; 
+                  
+                  var qrisModal = new bootstrap.Modal(document.getElementById('qrisModal'));
+                  qrisModal.show();
+              })
+              .catch(error => {
+                  alert("Failed to secure order. Check your internet connection!");
+                  btnKirim.innerHTML = 'CHECKOUT & PAY <i class="bi bi-arrow-right fw-bold ms-2"></i>';
+              })
+        });
+
+        document.getElementById('btnLanjutWA').addEventListener('click', function() {
+            var modalEl = document.getElementById('qrisModal');
+            var modalInstance = bootstrap.Modal.getInstance(modalEl);
+            modalInstance.hide();
+            window.location.href = linkWATujuan;
+        });
     </script>
 </body>
 </html>
