@@ -191,6 +191,8 @@
             transition: 0.2s;
         }
         .btn-qty:hover { background: var(--lambo-green); color: black; }
+        .btn-qty:disabled { background: #444; color: #777; cursor: not-allowed; }
+        
         .input-qty {
             width: 35px;
             background: transparent;
@@ -203,8 +205,16 @@
         }
 
         .quota-text { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.85rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+        .quota-highlight { color: white; font-weight: 900; }
         .progress-quota { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden; backdrop-filter: blur(5px); }
-        .progress-bar-inner { height: 100%; background: var(--lambo-green); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px var(--lambo-green); }
+        
+        /* CSS Animasi Progress Bar Nyawa (Warna bisa berubah halus) */
+        .progress-bar-inner { 
+            height: 100%; 
+            background: var(--lambo-green); 
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease, box-shadow 0.4s ease; 
+            box-shadow: 0 0 10px var(--lambo-green); 
+        }
 
         .modern-input {
             background: rgba(20,20,20,0.7);
@@ -310,9 +320,27 @@
             box-shadow: 0 0 20px rgba(204, 255, 0, 0.2);
         }
         #music-control:hover { transform: scale(1.1) rotate(10deg); background: var(--lambo-green); color: black; }
+        
+        /* Overlay Loading Pas Sinkronisasi Data */
+        #loading-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1050;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: 0.5s;
+        }
     </style>
 </head>
-<body onload="startTime()">
+<body>
+
+    <div id="loading-overlay">
+        <div class="spinner-border mb-3" style="width: 3rem; height: 3rem; color: var(--lambo-green);" role="status"></div>
+        <h4 class="text-white" style="font-family: 'Rajdhani', sans-serif; letter-spacing: 2px;">SYNCING LIVE STOCK...</h4>
+    </div>
 
     <audio id="bg-music" loop>
         <source src="BRODYAGA.mp3" type="audio/mpeg">
@@ -322,7 +350,6 @@
         <i id="music-icon" class="bi bi-volume-mute-fill"></i>
     </div>
 
-    <!-- FLOATING NAVBAR GEN Z (DENGAN SCROLLSPY GERAK) -->
     <div class="fixed-top d-flex justify-content-center mt-3" style="z-index: 1030;">
         <nav class="navbar navbar-expand-lg navbar-floating">
             <div class="container-fluid p-0">
@@ -348,7 +375,6 @@
         </nav>
     </div>
 
-    <!-- HERO SECTION WITH MARQUEE -->
     <section id="hero" class="hero-section text-center target-section">
         <div class="y-shape-bg"></div>
         <div class="container" style="z-index: 2; margin-top: -50px;">
@@ -366,7 +392,6 @@
             </div>
         </div>
 
-        <!-- Teks Berjalan Hijau -->
         <div class="marquee-container">
             <div class="marquee-content">
                 <span>🔥 MARKET DAY TELKOM UNIVERSITY 🔥 PAK MANDOR EXCLUSIVE 🔥 AMANKAN PESANANMU SEKARANG 🔥 BEST COFFEE & COOKIES IN TOWN 🔥 </span>
@@ -375,7 +400,6 @@
         </div>
     </section>
 
-    <!-- QUICK LINKS -->
     <section id="menu" class="py-5 border-bottom border-dark target-section">
         <div class="container py-5 text-center">
             <h3 class="text-white mb-5 fw-bold" style="letter-spacing: 2px;" data-aos="fade-up">CONNECT WITH <span style="color:var(--lambo-green)">US</span></h3>
@@ -394,7 +418,6 @@
         </div>
     </section>
 
-    <!-- MARKET DAY & FORM -->
     <section id="market" class="py-5 target-section" style="background: radial-gradient(circle at top, #111 0%, #000 100%);">
         <div class="container py-5">
             <div class="row align-items-end mb-5">
@@ -411,7 +434,6 @@
             <form id="formPemesanan" name="submit-to-google-sheet">
                 
                 <div class="row g-4 mb-5">
-                    <!-- MENU 1: KOPI -->
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="hype-card d-flex flex-column justify-content-end">
                             <img src="menu1.jpg" class="hype-img">
@@ -430,9 +452,9 @@
                                 <div class="mt-auto mb-3">
                                     <div class="d-flex justify-content-between quota-text mb-1">
                                         <span>SLOT LEFT:</span>
-                                        <span class="quota-highlight fs-6" id="lblSisaKopi">50</span>
+                                        <span class="quota-highlight fs-6" id="lblSisaKopi">-</span>
                                     </div>
-                                    <div class="progress-quota"><div class="progress-bar-inner" id="barKopi" style="width: 100%;"></div></div>
+                                    <div class="progress-quota"><div class="progress-bar-inner" id="barKopi" style="width: 0%;"></div></div>
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center pt-2">
@@ -440,14 +462,13 @@
                                     <div class="qty-pill">
                                         <button type="button" class="btn-qty" onclick="ubahQty('kopi', -1)">-</button>
                                         <input type="text" id="qtyKopi" class="input-qty" value="0" readonly>
-                                        <button type="button" class="btn-qty" onclick="ubahQty('kopi', 1)">+</button>
+                                        <button type="button" class="btn-qty btn-add-kopi" onclick="ubahQty('kopi', 1)">+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- MENU 2: COOKIES -->
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                         <div class="hype-card d-flex flex-column justify-content-end">
                             <img src="cookies1.jpg" class="hype-img">
@@ -466,9 +487,9 @@
                                 <div class="mt-auto mb-3">
                                     <div class="d-flex justify-content-between quota-text mb-1">
                                         <span>SLOT LEFT:</span>
-                                        <span class="quota-highlight fs-6" id="lblSisaCookies">50</span>
+                                        <span class="quota-highlight fs-6" id="lblSisaCookies">-</span>
                                     </div>
-                                    <div class="progress-quota"><div class="progress-bar-inner" id="barCookies" style="width: 100%;"></div></div>
+                                    <div class="progress-quota"><div class="progress-bar-inner" id="barCookies" style="width: 0%;"></div></div>
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center pt-2">
@@ -476,14 +497,13 @@
                                     <div class="qty-pill">
                                         <button type="button" class="btn-qty" onclick="ubahQty('cookies', -1)">-</button>
                                         <input type="text" id="qtyCookies" class="input-qty" value="0" readonly>
-                                        <button type="button" class="btn-qty" onclick="ubahQty('cookies', 1)">+</button>
+                                        <button type="button" class="btn-qty btn-add-cookies" onclick="ubahQty('cookies', 1)">+</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- MENU 3: COMBO -->
                     <div class="col-lg-4 col-md-12" data-aos="fade-up" data-aos-delay="300">
                         <div class="hype-card d-flex flex-column justify-content-end" style="border: 2px solid var(--lambo-green); box-shadow: var(--text-glow);">
                             <img src="menu1.jpg" class="hype-img" style="filter: brightness(0.4);">
@@ -506,9 +526,9 @@
                                 <div class="mt-auto mb-3">
                                     <div class="d-flex justify-content-between quota-text mb-1">
                                         <span>PACKS LEFT:</span>
-                                        <span class="quota-highlight-combo fs-6 fw-bold" id="lblSisaCombo">50</span>
+                                        <span class="quota-highlight fs-6 fw-bold" id="lblSisaCombo">-</span>
                                     </div>
-                                    <div class="progress-quota"><div class="progress-bar-inner" id="barCombo" style="width: 100%; background: #ffcc00; box-shadow: 0 0 10px #ffcc00;"></div></div>
+                                    <div class="progress-quota"><div class="progress-bar-inner" id="barCombo" style="width: 0%;"></div></div>
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center pt-2">
@@ -516,7 +536,7 @@
                                     <div class="qty-pill qty-pill-combo">
                                         <button type="button" class="btn-qty btn-qty-combo" style="color: #ffcc00;" onclick="ubahQty('combo', -1)">-</button>
                                         <input type="text" id="qtyCombo" class="input-qty" style="color: #ffcc00;" value="0" readonly>
-                                        <button type="button" class="btn-qty btn-qty-combo" style="color: #ffcc00;" onclick="ubahQty('combo', 1)">+</button>
+                                        <button type="button" class="btn-qty btn-add-combo" style="color: #ffcc00;" onclick="ubahQty('combo', 1)">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -525,7 +545,6 @@
 
                 </div>
 
-                <!-- FORM PENGIRIMAN (NAMA VARIABEL DISESUAIKAN & VALIDASI WA) -->
                 <div class="row justify-content-center mt-5" data-aos="zoom-in" data-aos-duration="1000">
                     <div class="col-lg-8">
                         <div class="card card-dark p-4 p-md-5 rounded-4 position-relative" style="background: rgba(10,10,10,0.8); border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px);">
@@ -540,7 +559,6 @@
                                     <input type="text" name="Kelas" class="form-control modern-input" placeholder="Kelas / Jurusan (Cth: IF-46)" required>
                                 </div>
                                 <div class="col-md-12">
-                                    <!-- INPUT WA DIGANTI TYPE TEL DAN DITAMBAHIN FILTER ONINPUT BIAR GAK BISA DIKETIK HURUF -->
                                     <input type="tel" id="inputWA" name="WA" class="form-control modern-input" placeholder="Nomor WhatsApp Aktif (Cth: 081234567890)" pattern="^(08|\+62|62)[0-9]{8,14}$" title="Wajib diawali 08 atau +62 dan minimal 10 digit angka" oninput="this.value = this.value.replace(/[^0-9+]/g, '')" required>
                                 </div>
                                 
@@ -551,7 +569,6 @@
                                         <i class="bi bi-geo-alt-fill fs-5"></i> KLIK UNTUK KUNCI LOKASI MAPS (WAJIB)
                                     </button>
                                     
-                                    <!-- HIDDEN MAPS URL -->
                                     <input type="hidden" id="linkMapsOtomatis" name="Maps">
                                     <div id="statusLokasi" class="text-success mt-3 text-center" style="display:none; font-weight: 800; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; text-shadow: 0 0 10px green;">
                                         <i class="bi bi-check-circle-fill me-1"></i> LOKASI BERHASIL DIAMANKAN!
@@ -562,7 +579,6 @@
                                     <input type="text" id="catatanPemesan" name="Catatan" class="form-control modern-input" placeholder="Catatan Khusus (Cth: Es dipisah, dll)">
                                 </div>
 
-                                <!-- Box Total Harga Keren -->
                                 <div class="col-12 mt-4">
                                     <div class="d-flex justify-content-between align-items-center p-4 rounded-4" style="background: rgba(0,0,0,0.6); border: 1px dashed rgba(204, 255, 0, 0.4);">
                                         <span class="text-secondary fw-bold" style="letter-spacing: 1px;">TOTAL BELANJA</span>
@@ -583,7 +599,6 @@
         </div>
     </section>
 
-    <!-- MODAL QRIS (SECTION PEMBAYARAN TERPISAH) -->
     <div class="modal fade" id="qrisModal" tabindex="-1" aria-labelledby="qrisModalLabel" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 overflow-hidden" style="background-color: #0f0f0f; border: 1px solid var(--lambo-green); box-shadow: 0 0 30px rgba(204, 255, 0, 0.2);">
@@ -615,7 +630,6 @@
         </div>
     </div>
 
-    <!-- GALLERY DOKUMENTASI -->
     <section id="gallery" class="py-5 border-top border-dark target-section" style="background: #050505;">
         <div class="container py-5">
             <div class="text-center mb-5" data-aos="fade-down">
@@ -666,14 +680,13 @@
         <p class="m-0 text-secondary small fw-bold" style="letter-spacing: 1px;">© 2026 BANDUNG DIVISION. ALL RIGHTS RESERVED.</p>
     </footer>
 
-    <!-- Script Wajib -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ once: true, duration: 800, offset: 50 });
 
         // ==========================================
-        // 1. SCROLLSPY PINTAR (Ijo-Ijo Navbar Gerak)
+        // SCROLLSPY PINTAR (Ijo-Ijo Navbar Gerak)
         // ==========================================
         const sections = document.querySelectorAll(".target-section");
         const navLinks = document.querySelectorAll(".navbar-nav .nav-link-custom");
@@ -695,7 +708,7 @@
             });
         });
 
-        // Jam Digital
+        // Jam Digital & Audio 
         function startTime() {
             const today = new Date();
             let h = checkTime(today.getHours());
@@ -706,10 +719,12 @@
         }
         function checkTime(i) { return (i < 10) ? "0" + i : i; }
 
-        // Audio Player
         const audio = document.getElementById("bg-music");
         const musicIcon = document.getElementById("music-icon");
-        window.addEventListener('load', () => { audio.play().catch(e => console.log("Menunggu interaksi user...")); });
+        window.addEventListener('load', () => { 
+            startTime(); 
+            audio.play().catch(e => console.log("Menunggu interaksi user...")); 
+        });
         document.body.addEventListener('click', () => {
             if (audio.paused) { audio.play(); musicIcon.className = "bi bi-volume-up-fill"; }
         }, { once: true });
@@ -746,14 +761,44 @@
         }
 
         // ==========================================
-        // LOGIKA KUOTA PINTAR (50 KOPI & 50 COOKIES)
+        // LOGIKA KUOTA PINTAR LENGKAP FETCH EXCEL + HEALTH BAR
         // ==========================================
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyRbYv173r_cO2q2sfSKz5JXMWJEWQPkABwjwcuHB9EY79L1st2LDHHTL-2MpBltHi8/exec'; 
+        
         const KUOTA_MAX_KOPI = 50;
         const KUOTA_MAX_COOKIES = 50;
 
         let pesananKopi = 0;
         let pesananCookies = 0;
         let pesananCombo = 0;
+        
+        let terjualKopiGlobal = 0;
+        let terjualCookiesGlobal = 0;
+
+        // FETCH DATA SISA STOK DARI GOOGLE APPS SCRIPT
+        fetch(scriptURL)
+            .then(res => res.json())
+            .then(data => {
+                terjualKopiGlobal = data.terjualKopi || 0;
+                terjualCookiesGlobal = data.terjualCookies || 0;
+                
+                document.getElementById('loading-overlay').style.opacity = '0';
+                setTimeout(() => { document.getElementById('loading-overlay').style.display = 'none'; }, 500);
+
+                ubahQty('', 0); 
+            })
+            .catch(err => {
+                console.log("Gagal nge-sync stok dari excel", err);
+                document.getElementById('loading-overlay').style.display = 'none';
+                ubahQty('', 0);
+            });
+
+        // FUNGSI BUAT NENTUIN WARNA BAR NYAWA
+        function getHealthBarColor(percent) {
+            if (percent > 60) return "var(--lambo-green)"; // Hijau Aman
+            if (percent > 30) return "#ffaa00"; // Oranye Warning
+            return "#ff3333"; // Merah Sekarat
+        }
 
         function ubahQty(jenis, perubahan) {
             let prevKopi = pesananKopi;
@@ -768,8 +813,8 @@
             if (pesananCookies < 0) pesananCookies = 0;
             if (pesananCombo < 0) pesananCombo = 0;
 
-            let totalButuhKopi = pesananKopi + pesananCombo;
-            let totalButuhCookies = pesananCookies + pesananCombo;
+            let totalButuhKopi = pesananKopi + pesananCombo + terjualKopiGlobal;
+            let totalButuhCookies = pesananCookies + pesananCombo + terjualCookiesGlobal;
 
             if (totalButuhKopi > KUOTA_MAX_KOPI || totalButuhCookies > KUOTA_MAX_COOKIES) {
                 alert("Wah bosku, kuotanya nggak cukup buat pesanan segini! Siapa cepat dia dapat 🔥");
@@ -783,25 +828,47 @@
             document.getElementById('qtyCookies').value = pesananCookies;
             document.getElementById('qtyCombo').value = pesananCombo;
 
-            let sisaKopi = KUOTA_MAX_KOPI - totalButuhKopi;
-            let sisaCookies = KUOTA_MAX_COOKIES - totalButuhCookies;
+            let sisaKopi = KUOTA_MAX_KOPI - (pesananKopi + pesananCombo + terjualKopiGlobal);
+            let sisaCookies = KUOTA_MAX_COOKIES - (pesananCookies + pesananCombo + terjualCookiesGlobal);
             let sisaCombo = Math.min(sisaKopi, sisaCookies); 
 
+            document.querySelector('.btn-add-kopi').disabled = (sisaKopi <= 0);
+            document.querySelector('.btn-add-cookies').disabled = (sisaCookies <= 0);
+            document.querySelector('.btn-add-combo').disabled = (sisaCombo <= 0);
+
+            // LOGIKA UPDATE LEBAR & WARNA BAR NYAWA (KOPI)
+            let persentaseKopi = (sisaKopi / KUOTA_MAX_KOPI) * 100;
+            let warnaKopi = getHealthBarColor(persentaseKopi);
             document.getElementById('lblSisaKopi').innerText = sisaKopi;
-            document.getElementById('barKopi').style.width = (sisaKopi / KUOTA_MAX_KOPI * 100) + "%";
+            document.getElementById('lblSisaKopi').style.color = warnaKopi;
+            document.getElementById('barKopi').style.width = persentaseKopi + "%";
+            document.getElementById('barKopi').style.backgroundColor = warnaKopi;
+            document.getElementById('barKopi').style.boxShadow = `0 0 10px ${warnaKopi}`;
 
+            // LOGIKA UPDATE LEBAR & WARNA BAR NYAWA (COOKIES)
+            let persentaseCookies = (sisaCookies / KUOTA_MAX_COOKIES) * 100;
+            let warnaCookies = getHealthBarColor(persentaseCookies);
             document.getElementById('lblSisaCookies').innerText = sisaCookies;
-            document.getElementById('barCookies').style.width = (sisaCookies / KUOTA_MAX_COOKIES * 100) + "%";
+            document.getElementById('lblSisaCookies').style.color = warnaCookies;
+            document.getElementById('barCookies').style.width = persentaseCookies + "%";
+            document.getElementById('barCookies').style.backgroundColor = warnaCookies;
+            document.getElementById('barCookies').style.boxShadow = `0 0 10px ${warnaCookies}`;
 
+            // LOGIKA UPDATE LEBAR & WARNA BAR NYAWA (COMBO)
+            let persentaseCombo = (sisaCombo / 50) * 100;
+            let warnaCombo = getHealthBarColor(persentaseCombo);
             document.getElementById('lblSisaCombo').innerText = sisaCombo;
-            document.getElementById('barCombo').style.width = (sisaCombo / 50 * 100) + "%";
+            document.getElementById('lblSisaCombo').style.color = warnaCombo;
+            document.getElementById('barCombo').style.width = persentaseCombo + "%";
+            document.getElementById('barCombo').style.backgroundColor = warnaCombo;
+            document.getElementById('barCombo').style.boxShadow = `0 0 10px ${warnaCombo}`;
 
             let harga = (pesananKopi * 13000) + (pesananCookies * 15000) + (pesananCombo * 25000);
             document.getElementById('liveTotal').innerText = "Rp " + harga.toLocaleString('id-ID');
         }
 
         // ==========================================
-        // PROSES PEMESANAN (2 STEP: FORM -> MODAL)
+        // PROSES PEMESANAN & KIRIM WA (2 STEP)
         // ==========================================
         const form = document.forms['submit-to-google-sheet'];
         let formatRupiahGlobal = "";
@@ -837,7 +904,7 @@
             formatRupiahGlobal = "Rp " + totalHargaRp.toLocaleString('id-ID');
             document.getElementById('totalBayarModal').innerText = formatRupiahGlobal;
             
-            // Siapkan Format WA di awal
+            // Siapkan Format WA
             let alamatDetail = document.getElementById('alamatPemesan').value;
             let catatanUser = document.getElementById('catatanPemesan').value;
 
@@ -862,7 +929,6 @@
         });
 
         // STEP 2: KIRIM KE EXCEL LALU KE WA
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyRbYv173r_cO2q2sfSKz5JXMWJEWQPkABwjwcuHB9EY79L1st2LDHHTL-2MpBltHi8/exec'; 
         const btnSelesaiBayar = document.getElementById('btnSelesaiBayar');
         let isSubmitting = false;
 
@@ -873,7 +939,7 @@
             btnSelesaiBayar.disabled = true;
             btnSelesaiBayar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> MENYIMPAN DATA...';
             
-            // Susun Data Sederhana Tanpa Spasi
+            // Susun Data sesuai Header Kolom Excel
             let formData = new FormData(form);
             let kopiKeExcel = (pesananKopi + pesananCombo).toString();
             let cookiesKeExcel = (pesananCookies + pesananCombo).toString();
@@ -891,8 +957,14 @@
                   
                   // Reset form & ui
                   form.reset(); 
+                  
+                  // Update current local sold cache biar gak usah nunggu fetch lagi langsung berkurang stoknya
+                  terjualKopiGlobal += pesananKopi + pesananCombo;
+                  terjualCookiesGlobal += pesananCookies + pesananCombo;
+                  
                   pesananKopi = 0; pesananCookies = 0; pesananCombo = 0;
-                  ubahQty('kopi', 0); ubahQty('cookies', 0); ubahQty('combo', 0);
+                  ubahQty('', 0); 
+                  
                   document.getElementById('statusLokasi').style.display = 'none';
                   document.getElementById('linkMapsOtomatis').value = ''; 
                   
