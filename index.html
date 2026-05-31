@@ -2,11 +2,16 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PAK MANDOR | Final Call Edition</title>
     
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&family=Rajdhani:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS & Bootstrap Icons -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
@@ -16,13 +21,17 @@
             --carbon-black: #050505;
             --glass-bg: rgba(15, 15, 15, 0.6);
             --text-glow: 0 0 15px rgba(204, 255, 0, 0.6);
+            --neon-glow-heavy: 0 0 25px rgba(204, 255, 0, 0.85);
         }
 
-        body {
+        html, body {
             background-color: var(--carbon-black);
             color: white;
             font-family: 'Exo 2', sans-serif;
             overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
             background-image: 
                 radial-gradient(circle at 15% 50%, rgba(204, 255, 0, 0.05), transparent 25%),
                 radial-gradient(circle at 85% 30%, rgba(204, 255, 0, 0.05), transparent 25%);
@@ -101,7 +110,7 @@
         }
         @media (min-width: 768px) { .display-1 { font-size: 8rem; } }
 
-        /* Scrolling Marquee Dibalikin Hijau */
+        /* Scrolling Marquee */
         .marquee-container {
             position: absolute;
             bottom: 0;
@@ -121,14 +130,13 @@
         }
         .marquee-content {
             display: inline-block;
-            animation: marquee 15s linear infinite;
+            animation: marquee 40s linear infinite; /* Diperlambat dari 15s ke 40s agar sangat mudah dibaca */
         }
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        /* HYPE CARDS */
         .hype-card {
             border-radius: 24px;
             overflow: hidden;
@@ -163,11 +171,12 @@
             background: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0.7) 60%, transparent);
             z-index: 1;
             display: flex;
-            flex-column: column;
+            flex-direction: column;
             justify-content: flex-end;
             height: 100%;
         }
 
+        /* Qty Pill */
         .qty-pill {
             background: rgba(0,0,0,0.8);
             border: 1px solid rgba(255,255,255,0.2);
@@ -208,7 +217,6 @@
         .quota-highlight { color: white; font-weight: 900; }
         .progress-quota { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden; backdrop-filter: blur(5px); }
         
-        /* CSS Animasi Progress Bar Nyawa (Warna bisa berubah halus) */
         .progress-bar-inner { 
             height: 100%; 
             background: var(--lambo-green); 
@@ -234,19 +242,6 @@
             outline: none;
         }
         .modern-input::placeholder { color: rgba(255,255,255,0.3); font-weight: 500; }
-
-        .btn-gps {
-            background: rgba(204, 255, 0, 0.1);
-            border: 1px dashed var(--lambo-green);
-            color: var(--lambo-green);
-            border-radius: 16px;
-            transition: 0.3s;
-        }
-        .btn-gps:hover {
-            background: var(--lambo-green);
-            color: var(--carbon-black);
-            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
-        }
 
         .btn-revuelto {
             background: var(--lambo-green);
@@ -321,25 +316,169 @@
         }
         #music-control:hover { transform: scale(1.1) rotate(10deg); background: var(--lambo-green); color: black; }
         
-        /* Overlay Loading Pas Sinkronisasi Data */
         #loading-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1050;
+            background: #000000;
+            z-index: 99999;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: 0.5s;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+            box-sizing: border-box;
+            padding: 20px;
+        }
+
+        .boot-container {
+            text-align: center;
+            width: 100%;
+            max-width: 550px;
+        }
+
+        /* Kelas animasi khusus untuk logo Mandor Kitchen */
+        .boot-logo-img {
+            max-width: 380px;
+            width: 85%;
+            height: auto;
+            margin-bottom: 35px;
+            animation: logoPulse 2.5s infinite ease-in-out;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        @keyframes logoPulse {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(204, 255, 0, 0.3)); transform: scale(0.97); }
+            50% { filter: drop-shadow(0 0 30px rgba(204, 255, 0, 0.75)); transform: scale(1.03); }
+        }
+
+        .boot-progress-wrap {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .boot-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--lambo-green);
+            box-shadow: 0 0 15px var(--lambo-green);
+            transition: width 0.1s ease;
+        }
+
+        .boot-terminal {
+            font-family: 'Rajdhani', sans-serif;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            height: 25px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+
+        .boot-terminal-active {
+            color: var(--lambo-green);
+            text-shadow: var(--text-glow);
+        }
+
+        /* CUSTOM CSS PEMILIHAN METODE YANG NYALA BERWARNA */
+        .btn-outline-green {
+            background: rgba(15, 15, 15, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #777;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-outline-green i {
+            color: #555;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-green span {
+            color: #aaa;
+            transition: all 0.3s ease;
+        }
+        
+        /* Efek Hover */
+        .btn-outline-green:hover {
+            border-color: rgba(204, 255, 0, 0.4);
+            background: rgba(204, 255, 0, 0.02);
+            color: #fff;
+        }
+        .btn-outline-green:hover i {
+            color: var(--lambo-green);
+        }
+        .btn-outline-green:hover span {
+            color: #fff;
+        }
+
+        /* Status Aktif / Terpilih (Checked) */
+        .btn-check:checked + .btn-outline-green {
+            background: rgba(204, 255, 0, 0.06) !important;
+            border: 2px solid var(--lambo-green) !important;
+            box-shadow: 0 0 25px rgba(204, 255, 0, 0.25) !important;
+        }
+        .btn-check:checked + .btn-outline-green i {
+            color: var(--lambo-green) !important;
+            text-shadow: 0 0 10px rgba(204, 255, 0, 0.6);
+        }
+        .btn-check:checked + .btn-outline-green span {
+            color: #fff !important;
+            font-weight: 800 !important;
+        }
+
+        /* Toast Notifikasi Kustom */
+        @keyframes slideDown {
+            from { transform: translate(-50%, -50px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+        .custom-toast {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            z-index: 1100;
+            width: 90%;
+            max-width: 450px;
+            background: rgba(15, 15, 15, 0.95);
+            border: 1px solid var(--lambo-green);
+            box-shadow: 0 10px 30px rgba(204, 255, 0, 0.2);
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .fade-out-toast {
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
     </style>
 </head>
 <body>
 
+    <!-- NOTIFIKASI TOAST CONTAINER -->
+    <div id="toast-container"></div>
+
+    <!-- SCREEN LOADING BOOTING SIBER (PREMIUM RE-DESIGN WITH ASSET LOGO) -->
     <div id="loading-overlay">
-        <div class="spinner-border mb-3" style="width: 3rem; height: 3rem; color: var(--lambo-green);" role="status"></div>
-        <h4 class="text-white" style="font-family: 'Rajdhani', sans-serif; letter-spacing: 2px;">SYNCING LIVE STOCK...</h4>
+        <div class="boot-container">
+            <!-- Logo Asli Mandor Kitchen menggantikan teks statis -->
+            <img src="Mandor kitchen teks@4x.jpg" alt="Mandor Kitchen Logo" class="boot-logo-img img-fluid">
+            
+            <!-- Bilah progres siber berkilau -->
+            <div class="boot-progress-wrap">
+                <div class="boot-progress-bar" id="boot-progress"></div>
+            </div>
+            
+            <!-- Terminal status logger -->
+            <div class="boot-terminal boot-terminal-active" id="boot-logger">
+                Initializing System Core...
+            </div>
+        </div>
     </div>
 
     <audio id="bg-music" loop>
@@ -350,20 +489,28 @@
         <i id="music-icon" class="bi bi-volume-mute-fill"></i>
     </div>
 
+    <!-- FLOATING NAVBAR GEN Z -->
     <div class="fixed-top d-flex justify-content-center mt-3" style="z-index: 1030;">
         <nav class="navbar navbar-expand-lg navbar-floating">
-            <div class="container-fluid p-0">
-                <a class="navbar-brand m-0" href="#">PAK <span style="color:var(--lambo-green)">MANDOR</span></a>
+            <div class="container-fluid p-0 d-flex align-items-center justify-content-between position-relative">
+                <!-- Brand (Kiri) -->
+                <div>
+                    <a class="navbar-brand m-0" href="#">PAK <span style="color:var(--lambo-green)">MANDOR</span></a>
+                </div>
                 
-                <div class="d-none d-lg-flex mx-auto align-items-center gap-2">
+                <!-- Jam Digital (Sempurna di Tengah saat Desktop) -->
+                <div class="d-none d-lg-flex align-items-center gap-2 position-absolute start-50 translate-middle-x">
                     <i class="bi bi-clock-history" style="color: var(--lambo-green);"></i>
                     <div id="clock" class="text-white fw-bold" style="font-family: 'Rajdhani', sans-serif; font-size:1.2rem; letter-spacing: 1px;">00:00:00</div>
                 </div>
 
+                <!-- Toggler (Mobile) -->
                 <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <i class="bi bi-grid-3x3-gap-fill text-white fs-2"></i>
                 </button>
-                <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+
+                <!-- Nav Links (Kanan) -->
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav align-items-center mt-3 mt-lg-0">
                         <li class="nav-item"><a class="nav-link nav-link-custom" href="#hero">HOME</a></li>
                         <li class="nav-item"><a class="nav-link nav-link-custom" href="#menu">LINKS</a></li>
@@ -375,6 +522,7 @@
         </nav>
     </div>
 
+    <!-- HERO SECTION WITH HIGH-CONVERTING MARQUEE -->
     <section id="hero" class="hero-section text-center target-section">
         <div class="y-shape-bg"></div>
         <div class="container" style="z-index: 2; margin-top: -50px;">
@@ -394,12 +542,13 @@
 
         <div class="marquee-container">
             <div class="marquee-content">
-                <span>🔥 MARKET DAY TELKOM UNIVERSITY 🔥 PAK MANDOR EXCLUSIVE 🔥 AMANKAN PESANANMU SEKARANG 🔥 BEST COFFEE & COOKIES IN TOWN 🔥 </span>
-                <span>🔥 MARKET DAY TELKOM UNIVERSITY 🔥 PAK MANDOR EXCLUSIVE 🔥 AMANKAN PESANANMU SEKARANG 🔥 BEST COFFEE & COOKIES IN TOWN 🔥 </span>
+                <span>🔥 [LAST CHANCE] PRE-ORDER BATCH TERAKHIR SUDAH DIBUKA! AMANKAN SLOTMU SEKARANG SEBELUM SOLD OUT TOTAL! 🔥 KOPI REGAL PREMIUM DIISI ES KRIM VANILLA & COOKIES BOOM BELGIAN CHOCOLATE MELIMPAH MELELEH DI SETIAP GIGITAN! 🔥 FREE DELIVERY AREA KOST SUKABIRUS & LOKASI COD SANGAT DEKAT DI GSG GEDUNG H TELKOM UNIVERSITY! 🔥 JOIN THE HYPE — BRAND KULINER KAMPUS PALING DICARI DI BANDUNG! 🔥 </span>
+                <span>🔥 [LAST CHANCE] PRE-ORDER BATCH TERAKHIR SUDAH DIBUKA! AMANKAN SLOTMU SEKARANG SEBELUM SOLD OUT TOTAL! 🔥 KOPI REGAL PREMIUM DIISI ES KRIM VANILLA & COOKIES BOOM BELGIAN CHOCOLATE MELIMPAH MELELEH DI SETIAP GIGITAN! 🔥 FREE DELIVERY AREA KOST SUKABIRUS & LOKASI COD SANGAT DEKAT DI GSG GEDUNG H TELKOM UNIVERSITY! 🔥 JOIN THE HYPE — BRAND KULINER KAMPUS PALING DICARI DI BANDUNG! 🔥 </span>
             </div>
         </div>
     </section>
 
+    <!-- QUICK LINKS -->
     <section id="menu" class="py-5 border-bottom border-dark target-section">
         <div class="container py-5 text-center">
             <h3 class="text-white mb-5 fw-bold" style="letter-spacing: 2px;" data-aos="fade-up">CONNECT WITH <span style="color:var(--lambo-green)">US</span></h3>
@@ -418,6 +567,7 @@
         </div>
     </section>
 
+    <!-- MARKET DAY & FORM -->
     <section id="market" class="py-5 target-section" style="background: radial-gradient(circle at top, #111 0%, #000 100%);">
         <div class="container py-5">
             <div class="row align-items-end mb-5">
@@ -426,7 +576,7 @@
                     <h2 class="fw-bold display-4 text-white m-0" style="letter-spacing: -1px;">LIMITED <span style="color:var(--lambo-green)">STOCK.</span></h2>
                 </div>
                 <div class="col-md-4 text-center text-md-end mt-3 mt-md-0" data-aos="fade-left">
-                    <p class="text-secondary m-0 fw-bold">MAX 50 PORTIONS.</p>
+                    <p class="text-secondary m-0 fw-bold">MAX 84 PORTIONS.</p>
                     <p class="text-secondary m-0 small">Secure your order before it's gone.</p>
                 </div>
             </div>
@@ -434,6 +584,7 @@
             <form id="formPemesanan" name="submit-to-google-sheet">
                 
                 <div class="row g-4 mb-5">
+                    <!-- MENU 1: KOPI -->
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="hype-card d-flex flex-column justify-content-end">
                             <img src="menu1.jpg" class="hype-img">
@@ -469,6 +620,7 @@
                         </div>
                     </div>
 
+                    <!-- MENU 2: COOKIES -->
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                         <div class="hype-card d-flex flex-column justify-content-end">
                             <img src="cookies1.jpg" class="hype-img">
@@ -504,6 +656,7 @@
                         </div>
                     </div>
                     
+                    <!-- MENU 3: COMBO -->
                     <div class="col-lg-4 col-md-12" data-aos="fade-up" data-aos-delay="300">
                         <div class="hype-card d-flex flex-column justify-content-end" style="border: 2px solid var(--lambo-green); box-shadow: var(--text-glow);">
                             <img src="menu1.jpg" class="hype-img" style="filter: brightness(0.4);">
@@ -528,15 +681,15 @@
                                         <span>PACKS LEFT:</span>
                                         <span class="quota-highlight fs-6 fw-bold" id="lblSisaCombo">-</span>
                                     </div>
-                                    <div class="progress-quota"><div class="progress-bar-inner" id="barCombo" style="width: 0%;"></div></div>
+                                    <div class="progress-quota"><div class="progress-bar-inner" id="barCombo" style="width: 0%; background: #ffcc00; box-shadow: 0 0 10px #ffcc00;"></div></div>
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center pt-2">
                                     <h4 class="text-white mb-0 fw-bold">Rp 25k</h4>
                                     <div class="qty-pill qty-pill-combo">
-                                        <button type="button" class="btn-qty btn-qty-combo" style="color: #ffcc00;" onclick="ubahQty('combo', -1)">-</button>
+                                        <button type="button" class="btn-qty" onclick="ubahQty('combo', -1)">-</button>
                                         <input type="text" id="qtyCombo" class="input-qty" style="color: #ffcc00;" value="0" readonly>
-                                        <button type="button" class="btn-qty btn-add-combo" style="color: #ffcc00;" onclick="ubahQty('combo', 1)">+</button>
+                                        <button type="button" class="btn-qty btn-add-combo" onclick="ubahQty('combo', 1)">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -545,6 +698,7 @@
 
                 </div>
 
+                <!-- FORM PENGIRIMAN -->
                 <div class="row justify-content-center mt-5" data-aos="zoom-in" data-aos-duration="1000">
                     <div class="col-lg-8">
                         <div class="card card-dark p-4 p-md-5 rounded-4 position-relative" style="background: rgba(10,10,10,0.8); border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px);">
@@ -562,23 +716,70 @@
                                     <input type="tel" id="inputWA" name="WA" class="form-control modern-input" placeholder="Nomor WhatsApp Aktif (Cth: 081234567890)" pattern="^(08|\+62|62)[0-9]{8,14}$" title="Wajib diawali 08 atau +62 dan minimal 10 digit angka" oninput="this.value = this.value.replace(/[^0-9+]/g, '')" required>
                                 </div>
                                 
+                                <!-- PILIHAN METODE PENGAMBILAN (NYALA & BERWARNA) -->
                                 <div class="col-12 mt-4">
-                                    <textarea id="alamatPemesan" name="Alamat" class="form-control modern-input mb-3" rows="2" placeholder="Detail Alamat Kost (Cth: Kost Sukabirus No 10, gerbang hitam)" required></textarea>
-                                    
-                                    <button type="button" class="btn btn-gps w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2" onclick="ambilLokasi()">
-                                        <i class="bi bi-geo-alt-fill fs-5"></i> KLIK UNTUK KUNCI LOKASI MAPS (WAJIB)
-                                    </button>
-                                    
-                                    <input type="hidden" id="linkMapsOtomatis" name="Maps">
-                                    <div id="statusLokasi" class="text-success mt-3 text-center" style="display:none; font-weight: 800; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; text-shadow: 0 0 10px green;">
-                                        <i class="bi bi-check-circle-fill me-1"></i> LOKASI BERHASIL DIAMANKAN!
+                                    <label class="text-secondary small fw-bold mb-2 d-block" style="letter-spacing: 1px;">METODE PENGAMBILAN</label>
+                                    <div class="row g-3">
+                                        <div class="col-sm-6">
+                                            <input type="radio" class="btn-check" name="metodeAmbil" id="ambilBooth" value="booth" checked onclick="toggleAlamatMetode('booth')">
+                                            <label class="btn btn-outline-green w-100 py-3 d-flex flex-column align-items-center justify-content-center gap-2" style="border-radius: 16px;" for="ambilBooth">
+                                                <i class="bi bi-shop fs-4"></i>
+                                                <span class="small fw-bold">Ambil di Booth (GSG)</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="radio" class="btn-check" name="metodeAmbil" id="kirimKost" value="kost" onclick="toggleAlamatMetode('kost')">
+                                            <label class="btn btn-outline-green w-100 py-3 d-flex flex-column align-items-center justify-content-center gap-2" style="border-radius: 16px;" for="kirimKost">
+                                                <i class="bi bi-house-door fs-4"></i>
+                                                <span class="small fw-bold">Kirim ke Kost</span>
+                                            </label>
+                                        </div>
                                     </div>
+                                </div>
+
+                                <!-- FIELD GSG MAPS YANG AKAN MUNCUL SEBAGAI PETUNJUK -->
+                                <div id="boothContainer" class="col-12 mt-4">
+                                    <div class="p-4 rounded-4" style="background: rgba(204, 255, 0, 0.05); border: 1px solid rgba(204, 255, 0, 0.2); backdrop-filter: blur(5px);">
+                                        <h6 class="text-white fw-bold mb-2 d-flex align-items-center gap-2">
+                                            <i class="bi bi-geo-alt-fill" style="color: var(--lambo-green); font-size: 1.2rem;"></i> LOKASI BOOTH (GSG)
+                                        </h6>
+                                        <p class="text-secondary small mb-3 leading-relaxed">
+                                            Kami berada di area depan Gedung Serba Guna (GSG) Gedung H Telkom University. Silakan klik tombol di bawah untuk melihat rute koordinat presisi.
+                                        </p>
+                                        <a href="https://maps.app.goo.gl/jSd1QjgrLorHKftd9" target="_blank" class="btn btn-sm btn-revuelto py-2 px-4 rounded-pill text-decoration-none d-inline-flex align-items-center gap-2" style="font-size: 0.9rem; letter-spacing: 1px;">
+                                            <i class="bi bi-map"></i> Buka Rute Google Maps
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- FIELD KOST YANG BISA DI-TOGGLE DINAMIS -->
+                                <div id="alamatContainer" class="col-12 mt-4" style="display: none;">
+                                    <textarea id="alamatPemesan" name="Alamat" class="form-control modern-input mb-3" rows="2" placeholder="Detail Alamat Kost Lengkap (Cth: Kost Sukabirus No 10, gerbang hitam)"></textarea>
+                                    
+                                    <input type="url" id="linkMapsManual" name="Maps" class="form-control modern-input" placeholder="Paste Link Google Maps (Wajib)">
+                                    <small class="text-secondary mt-2 d-block"><i class="bi bi-info-circle me-1" style="color:var(--lambo-green)"></i> Buka aplikasi Google Maps > Cari lokasi kost > Klik Share/Bagikan > Copy Link.</small>
                                 </div>
 
                                 <div class="col-12 mt-4">
                                     <input type="text" id="catatanPemesan" name="Catatan" class="form-control modern-input" placeholder="Catatan Khusus (Cth: Es dipisah, dll)">
                                 </div>
 
+                                <!-- BOX TAMBAH ES KRIM (5K) -->
+                                <div class="col-12 mt-4">
+                                    <div class="d-flex justify-content-between align-items-center p-3 rounded-4" style="background: rgba(204, 255, 0, 0.05); border: 1px solid rgba(204, 255, 0, 0.2);">
+                                        <div>
+                                            <h6 class="text-white fw-bold mb-1"><i class="bi bi-cup-straw me-2" style="color:var(--lambo-green)"></i>TAMBAHAN ES KRIM</h6>
+                                            <p class="text-secondary small mb-0">+ Rp 5.000 / porsi (Wajib kelipatan 2 jika ditaruh di Combo)</p>
+                                        </div>
+                                        <div class="qty-pill">
+                                            <button type="button" class="btn-qty" onclick="ubahQty('eskrim', -1)">-</button>
+                                            <input type="text" id="qtyEskrim" name="Eskrim" class="input-qty" value="0" readonly>
+                                            <button type="button" class="btn-qty" onclick="ubahQty('eskrim', 1)">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Box Total Harga -->
                                 <div class="col-12 mt-4">
                                     <div class="d-flex justify-content-between align-items-center p-4 rounded-4" style="background: rgba(0,0,0,0.6); border: 1px dashed rgba(204, 255, 0, 0.4);">
                                         <span class="text-secondary fw-bold" style="letter-spacing: 1px;">TOTAL BELANJA</span>
@@ -599,6 +800,7 @@
         </div>
     </section>
 
+    <!-- MODAL QRIS -->
     <div class="modal fade" id="qrisModal" tabindex="-1" aria-labelledby="qrisModalLabel" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content rounded-4 overflow-hidden" style="background-color: #0f0f0f; border: 1px solid var(--lambo-green); box-shadow: 0 0 30px rgba(204, 255, 0, 0.2);">
@@ -630,6 +832,7 @@
         </div>
     </div>
 
+    <!-- GALLERY DOKUMENTASI -->
     <section id="gallery" class="py-5 border-top border-dark target-section" style="background: #050505;">
         <div class="container py-5">
             <div class="text-center mb-5" data-aos="fade-down">
@@ -680,14 +883,101 @@
         <p class="m-0 text-secondary small fw-bold" style="letter-spacing: 1px;">© 2026 BANDUNG DIVISION. ALL RIGHTS RESERVED.</p>
     </footer>
 
+    <!-- Script Wajib -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <script>
         AOS.init({ once: true, duration: 800, offset: 50 });
 
-        // ==========================================
+        // Handler Pemuatan Progress & Logger Siber
+        const bootProgressBar = document.getElementById('boot-progress');
+        const bootLogger = document.getElementById('boot-logger');
+        let bootPercent = 0;
+
+        const bootLogs = [
+            { limit: 20, text: "🔒 Initializing encrypted handshake..." },
+            { limit: 45, text: "⚡ Connecting to Google Sheets..." },
+            { limit: 70, text: "📊 Syncing real-time stock quota..." },
+            { limit: 90, text: "🔥 Optimizing exclusive interface..." },
+            { limit: 100, text: "🚀 System ready. Welcome, Boss!" }
+        ];
+
+        function runBootLoader(callback) {
+            const bootInterval = setInterval(() => {
+                bootPercent += Math.floor(Math.random() * 8) + 2;
+                if (bootPercent > 100) bootPercent = 100;
+
+                bootProgressBar.style.width = bootPercent + '%';
+
+                // Ganti teks logger berdasarkan rentang persentase
+                const activeLog = bootLogs.find(log => bootPercent <= log.limit);
+                if (activeLog && bootLogger.innerText !== activeLog.text) {
+                    bootLogger.style.opacity = 0;
+                    setTimeout(() => {
+                        bootLogger.innerText = activeLog.text;
+                        bootLogger.style.opacity = 1;
+                    }, 150);
+                }
+
+                if (bootPercent >= 100) {
+                    clearInterval(bootInterval);
+                    setTimeout(callback, 600);
+                }
+            }, 80);
+        }
+
+        // Sistem Toast Notifikasi Kustom (Pengganti alert agar aman di Iframe)
+        function showNotification(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'custom-toast p-3 rounded-4 text-white d-flex align-items-center justify-content-between';
+            
+            toast.innerHTML = `
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-exclamation-triangle-fill fs-5" style="color: var(--lambo-green);"></i>
+                    <span class="fw-bold" style="font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; letter-spacing: 0.5px;">${message}</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white ms-3" style="font-size: 0.8rem;"></button>
+            `;
+            
+            // Tombol X Tutup Manual
+            toast.querySelector('.btn-close').addEventListener('click', () => {
+                toast.remove();
+            });
+            
+            container.appendChild(toast);
+            
+            // Hapus otomatis setelah 5 detik
+            setTimeout(() => {
+                toast.classList.add('fade-out-toast');
+                setTimeout(() => toast.remove(), 400);
+            }, 5000);
+        }
+
+        // Tampilan Mode Pengambilan Kost vs Booth
+        function toggleAlamatMetode(metode) {
+            const alamatContainer = document.getElementById('alamatContainer');
+            const boothContainer = document.getElementById('boothContainer');
+            const alamatInput = document.getElementById('alamatPemesan');
+            const mapsInput = document.getElementById('linkMapsManual');
+
+            if (metode === 'booth') {
+                alamatContainer.style.display = 'none';
+                boothContainer.style.display = 'block';
+                alamatInput.removeAttribute('required');
+                mapsInput.removeAttribute('required');
+                alamatInput.value = '';
+                mapsInput.value = '';
+            } else {
+                alamatContainer.style.display = 'block';
+                boothContainer.style.display = 'none';
+                alamatInput.setAttribute('required', '');
+                mapsInput.setAttribute('required', '');
+            }
+        }
+
         // SCROLLSPY PINTAR (Ijo-Ijo Navbar Gerak)
-        // ==========================================
         const sections = document.querySelectorAll(".target-section");
         const navLinks = document.querySelectorAll(".navbar-nav .nav-link-custom");
 
@@ -708,7 +998,7 @@
             });
         });
 
-        // Jam Digital & Audio 
+        // Jam Digital & Audio (Start Time di Load biar UI sync)
         function startTime() {
             const today = new Date();
             let h = checkTime(today.getHours());
@@ -721,56 +1011,31 @@
 
         const audio = document.getElementById("bg-music");
         const musicIcon = document.getElementById("music-icon");
+        
         window.addEventListener('load', () => { 
             startTime(); 
             audio.play().catch(e => console.log("Menunggu interaksi user...")); 
         });
+
         document.body.addEventListener('click', () => {
             if (audio.paused) { audio.play(); musicIcon.className = "bi bi-volume-up-fill"; }
         }, { once: true });
+
         function toggleMusic() {
             if (audio.paused) { audio.play(); musicIcon.className = "bi bi-volume-up-fill"; } 
             else { audio.pause(); musicIcon.className = "bi bi-volume-mute-fill"; }
         }
 
-        // AMBIL LOKASI GPS
-        function ambilLokasi() {
-            const statusLokasi = document.getElementById('statusLokasi');
-            if (navigator.geolocation) {
-                statusLokasi.style.display = 'block';
-                statusLokasi.innerHTML = '<span class="spinner-border spinner-border-sm text-warning me-2"></span><span class="text-warning">Melacak satelit...</span>';
-                const options = { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 };
-                navigator.geolocation.getCurrentPosition(showPosition, showError, options);
-            } else { alert("Browser tidak support GPS."); }
-        }
-        function showPosition(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            document.getElementById('linkMapsOtomatis').value = `https://www.google.com/maps?q=${lat},${lon}`;
-            const statusLokasi = document.getElementById('statusLokasi');
-            statusLokasi.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> LOKASI AKURAT DIAMANKAN!`;
-            statusLokasi.className = "text-success mt-3 text-center";
-        }
-        function showError(error) {
-            let msg = "Gagal ambil lokasi.";
-            if(error.code == error.PERMISSION_DENIED) msg = "Akses GPS ditolak browser.";
-            if(error.code == error.POSITION_UNAVAILABLE) msg = "Sinyal GPS hilang.";
-            if(error.code == error.TIMEOUT) msg = "Waktu habis, coba lagi.";
-            alert(msg);
-            document.getElementById('statusLokasi').style.display = 'none';
-        }
-
-        // ==========================================
         // LOGIKA KUOTA PINTAR LENGKAP FETCH EXCEL + HEALTH BAR
-        // ==========================================
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyRbYv173r_cO2q2sfSKz5JXMWJEWQPkABwjwcuHB9EY79L1st2LDHHTL-2MpBltHi8/exec'; 
         
-        const KUOTA_MAX_KOPI = 50;
-        const KUOTA_MAX_COOKIES = 50;
+        const KUOTA_MAX_KOPI = 84;
+        const KUOTA_MAX_COOKIES = 84;
 
         let pesananKopi = 0;
         let pesananCookies = 0;
         let pesananCombo = 0;
+        let pesananEskrim = 0; // Tambahan Es Krim
         
         let terjualKopiGlobal = 0;
         let terjualCookiesGlobal = 0;
@@ -782,14 +1047,29 @@
                 terjualKopiGlobal = data.terjualKopi || 0;
                 terjualCookiesGlobal = data.terjualCookies || 0;
                 
-                document.getElementById('loading-overlay').style.opacity = '0';
-                setTimeout(() => { document.getElementById('loading-overlay').style.display = 'none'; }, 500);
+                // Menjalankan cyber loading bar, lalu menyembunyikan boot overlay secara anggun
+                runBootLoader(() => {
+                    const loadingOverlay = document.getElementById('loading-overlay');
+                    loadingOverlay.style.opacity = '0';
+                    setTimeout(() => { 
+                        loadingOverlay.style.display = 'none'; 
+                    }, 800);
+                });
 
                 ubahQty('', 0); 
             })
             .catch(err => {
                 console.log("Gagal nge-sync stok dari excel", err);
-                document.getElementById('loading-overlay').style.display = 'none';
+                
+                // Tetap jalankan boot sequence sebagai cadangan visual saat terjadi kesalahan koneksi
+                runBootLoader(() => {
+                    const loadingOverlay = document.getElementById('loading-overlay');
+                    loadingOverlay.style.opacity = '0';
+                    setTimeout(() => { 
+                        loadingOverlay.style.display = 'none'; 
+                    }, 800);
+                });
+                
                 ubahQty('', 0);
             });
 
@@ -798,6 +1078,46 @@
             if (percent > 60) return "var(--lambo-green)"; // Hijau Aman
             if (percent > 30) return "#ffaa00"; // Oranye Warning
             return "#ff3333"; // Merah Sekarat
+        }
+
+        // FUNGSI PINTAR UNTUK MENCARI STEPS VALID ES KRIM BERIKUTNYA
+        function findNextValidEskrim(currentE, direction, K, C, Co) {
+            let e = currentE + direction;
+            let maxE = K + C + (Co * 2);
+            while (e >= 0 && e <= maxE) {
+                let isValid = false;
+                for (let x = 0; x <= Co; x++) {
+                    let rem = e - (2 * x);
+                    if (rem >= 0 && rem <= (K + C)) {
+                        isValid = true;
+                        break;
+                    }
+                }
+                if (isValid) return e;
+                e += direction;
+            }
+            return currentE;
+        }
+
+        // FUNGSI SANITASI ES KRIM JIKA PORSI UTAMA DIKURANGI
+        function sanitizeEskrim(currentE, K, C, Co) {
+            let maxE = K + C + (Co * 2);
+            if (currentE > maxE) currentE = maxE;
+            
+            let e = currentE;
+            while (e >= 0) {
+                let isValid = false;
+                for (let x = 0; x <= Co; x++) {
+                    let rem = e - (2 * x);
+                    if (rem >= 0 && rem <= (K + C)) {
+                        isValid = true;
+                        break;
+                    }
+                }
+                if (isValid) return e;
+                e--;
+            }
+            return 0;
         }
 
         function ubahQty(jenis, perubahan) {
@@ -817,19 +1137,27 @@
             let totalButuhCookies = pesananCookies + pesananCombo + terjualCookiesGlobal;
 
             if (totalButuhKopi > KUOTA_MAX_KOPI || totalButuhCookies > KUOTA_MAX_COOKIES) {
-                alert("Wah bosku, kuotanya nggak cukup buat pesanan segini! Siapa cepat dia dapat 🔥");
+                showNotification("Wah bosku, kuotanya nggak cukup buat pesanan segini! Siapa cepat dia dapat 🔥");
                 pesananKopi = prevKopi;
                 pesananCookies = prevCookies;
                 pesananCombo = prevCombo;
                 return; 
             }
 
+            // LOGIKA VALIDASI ES KRIM PINTAR (Ganjil Fleksibel, tapi combo minimal kelipatan 2)
+            if (jenis === 'eskrim') {
+                pesananEskrim = findNextValidEskrim(pesananEskrim, perubahan, pesananKopi, pesananCookies, pesananCombo);
+            } else {
+                pesananEskrim = sanitizeEskrim(pesananEskrim, pesananKopi, pesananCookies, pesananCombo);
+            }
+
             document.getElementById('qtyKopi').value = pesananKopi;
             document.getElementById('qtyCookies').value = pesananCookies;
             document.getElementById('qtyCombo').value = pesananCombo;
+            document.getElementById('qtyEskrim').value = pesananEskrim;
 
-            let sisaKopi = KUOTA_MAX_KOPI - (pesananKopi + pesananCombo + terjualKopiGlobal);
-            let sisaCookies = KUOTA_MAX_COOKIES - (pesananCookies + pesananCombo + terjualCookiesGlobal);
+            let sisaKopi = KUOTA_MAX_KOPI - totalButuhKopi;
+            let sisaCookies = KUOTA_MAX_COOKIES - totalButuhCookies;
             let sisaCombo = Math.min(sisaKopi, sisaCookies); 
 
             document.querySelector('.btn-add-kopi').disabled = (sisaKopi <= 0);
@@ -855,7 +1183,7 @@
             document.getElementById('barCookies').style.boxShadow = `0 0 10px ${warnaCookies}`;
 
             // LOGIKA UPDATE LEBAR & WARNA BAR NYAWA (COMBO)
-            let persentaseCombo = (sisaCombo / 50) * 100;
+            let persentaseCombo = (sisaCombo / 84) * 100;
             let warnaCombo = getHealthBarColor(persentaseCombo);
             document.getElementById('lblSisaCombo').innerText = sisaCombo;
             document.getElementById('lblSisaCombo').style.color = warnaCombo;
@@ -863,13 +1191,11 @@
             document.getElementById('barCombo').style.backgroundColor = warnaCombo;
             document.getElementById('barCombo').style.boxShadow = `0 0 10px ${warnaCombo}`;
 
-            let harga = (pesananKopi * 13000) + (pesananCookies * 15000) + (pesananCombo * 25000);
+            let harga = (pesananKopi * 13000) + (pesananCookies * 15000) + (pesananCombo * 25000) + (pesananEskrim * 5000);
             document.getElementById('liveTotal').innerText = "Rp " + harga.toLocaleString('id-ID');
         }
 
-        // ==========================================
-        // PROSES PEMESANAN & KIRIM WA (2 STEP)
-        // ==========================================
+        // PROSES PEMESANAN (2 STEP: FORM -> MODAL)
         const form = document.forms['submit-to-google-sheet'];
         let formatRupiahGlobal = "";
         let linkWATujuanGlobal = "";
@@ -879,33 +1205,36 @@
         form.addEventListener('submit', e => {
             e.preventDefault(); 
 
-            let cekLokasi = document.getElementById('linkMapsOtomatis').value;
+            let selectedMetode = document.querySelector('input[name="metodeAmbil"]:checked').value;
+            let isKirimKost = (selectedMetode === 'kost');
+
+            let cekLokasi = isKirimKost ? document.getElementById('linkMapsManual').value : "Ambil di Booth";
             let noWA = document.getElementById('inputWA').value;
 
             // VALIDASI FORMAT WA (08 ATAU +62)
             let regexWA = /^(08|\+62|62)[0-9]{8,14}$/;
             if(!regexWA.test(noWA)) {
-                alert("Format Nomor WA salah bosku! Wajib pakai awalan 08 atau +62 dan minimal 10 digit (contoh: 081234567890). 📱");
+                showNotification("Format Nomor WA salah bosku! Wajib pakai awalan 08 atau +62 dan minimal 10 digit angka. 📱");
                 document.getElementById('inputWA').focus();
                 return;
             }
 
             if (pesananKopi === 0 && pesananCookies === 0 && pesananCombo === 0) {
-                alert("Pilih menunya dulu bosku, klik tombol [+] nya! 😅");
+                showNotification("Pilih menunya dulu bosku, klik tombol [+] nya! 😅");
                 return; 
             }
-            if (cekLokasi === "") {
-                alert("Jangan lupa kunci lokasi GPS nya dulu biar kurir nggak nyasar! 📍");
+            if (isKirimKost && cekLokasi === "") {
+                showNotification("Link Maps jangan sampai kosong ya bosku biar gampang dikirim! 📍");
                 return;
             }
 
             // Hitung Harga
-            let totalHargaRp = (pesananKopi * 13000) + (pesananCookies * 15000) + (pesananCombo * 25000);
+            let totalHargaRp = (pesananKopi * 13000) + (pesananCookies * 15000) + (pesananCombo * 25000) + (pesananEskrim * 5000);
             formatRupiahGlobal = "Rp " + totalHargaRp.toLocaleString('id-ID');
             document.getElementById('totalBayarModal').innerText = formatRupiahGlobal;
             
-            // Siapkan Format WA
-            let alamatDetail = document.getElementById('alamatPemesan').value;
+            // Siapkan Format WA di awal
+            let alamatDetail = isKirimKost ? document.getElementById('alamatPemesan').value : "Booth Depan Gedung H GSG Telkom";
             let catatanUser = document.getElementById('catatanPemesan').value;
 
             let pesanWA = `Halo Admin! Saya baru saja mengamankan slot pre-order di Web Pak Mandor.\n\n`;
@@ -913,10 +1242,11 @@
             if(pesananKopi > 0) pesanWA += `- Kopi Susu Regal: ${pesananKopi} pcs\n`;
             if(pesananCookies > 0) pesanWA += `- Cookies Boom: ${pesananCookies} pcs\n`;
             if(pesananCombo > 0) pesanWA += `- Paket Combo: ${pesananCombo} pcs\n`; 
+            if(pesananEskrim > 0) pesanWA += `- Tambahan Es Krim: ${pesananEskrim} scoop\n`; 
             if(catatanUser !== "") pesanWA += `\n📝 *Notes:* ${catatanUser}\n`;
 
-            pesanWA += `\n📍 *Shipping Address:* ${alamatDetail}\n`;
-            if(cekLokasi !== "") pesanWA += `🗺️ *GPS Link:* ${cekLokasi}\n`;
+            pesanWA += `\n📍 *Shipping/Pickup:* ${alamatDetail}\n`;
+            if(isKirimKost) pesanWA += `🗺️ *GPS Link:* ${cekLokasi}\n`;
 
             pesanWA += `\nTotal tagihan saya *${formatRupiahGlobal}* dan sudah transfer via QRIS. Melampirkan foto bukti transfer di bawah ini ya min!`;
             linkWATujuanGlobal = "https://api.whatsapp.com/send/?phone=6281343139894&text=" + encodeURIComponent(pesanWA);
@@ -939,34 +1269,44 @@
             btnSelesaiBayar.disabled = true;
             btnSelesaiBayar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> MENYIMPAN DATA...';
             
-            // Susun Data sesuai Header Kolom Excel
+            // Susun Data Sederhana Tanpa Spasi
             let formData = new FormData(form);
             let kopiKeExcel = (pesananKopi + pesananCombo).toString();
             let cookiesKeExcel = (pesananCookies + pesananCombo).toString();
             
+            let selectedMetode = document.querySelector('input[name="metodeAmbil"]:checked').value;
+            let isKirimKost = (selectedMetode === 'kost');
+
+            let finalAlamat = isKirimKost ? document.getElementById('alamatPemesan').value : "AMBIL DI BOOTH (Gedung H GSG Telkom)";
+            let finalMaps = isKirimKost ? document.getElementById('linkMapsManual').value : "https://maps.app.goo.gl/jSd1QjgrLorHKftd9";
+
             let dateNow = new Date().toLocaleString('id-ID');
             
             formData.set('Tanggal', dateNow);
             formData.set('Kopi', kopiKeExcel);
             formData.set('Cookies', cookiesKeExcel);
+            formData.set('Alamat', finalAlamat);
+            formData.set('Maps', finalMaps);
+            
+            // PAKSA KIRIM DATA ESKRIM AGAR TIDAK LEPAS/DIABAIKAN OLEH BROWSER
+            formData.set('Eskrim', pesananEskrim.toString());
             formData.delete('Combo'); 
+            formData.delete('metodeAmbil');
             
             fetch(scriptURL, { method: 'POST', body: formData})
               .then(response => {
-                  alert("🔥 BOOM! Pesanan tercatat. Jangan lupa lampirkan SS Bukti Transfer di WA Admin ya!");
+                  showNotification("🔥 BOOM! Pesanan tercatat. Jangan lupa lampirkan SS Bukti Transfer di WA Admin ya!");
                   
                   // Reset form & ui
                   form.reset(); 
+                  toggleAlamatMetode('booth'); // Kembalikan ke default booth
                   
                   // Update current local sold cache biar gak usah nunggu fetch lagi langsung berkurang stoknya
                   terjualKopiGlobal += pesananKopi + pesananCombo;
                   terjualCookiesGlobal += pesananCookies + pesananCombo;
                   
-                  pesananKopi = 0; pesananCookies = 0; pesananCombo = 0;
+                  pesananKopi = 0; pesananCookies = 0; pesananCombo = 0; pesananEskrim = 0;
                   ubahQty('', 0); 
-                  
-                  document.getElementById('statusLokasi').style.display = 'none';
-                  document.getElementById('linkMapsOtomatis').value = ''; 
                   
                   // Tutup modal, lempar ke WA
                   globalModalInstance.hide();
@@ -978,7 +1318,7 @@
                   window.location.href = linkWATujuanGlobal;
               })
               .catch(error => {
-                  alert("Gagal kirim pesanan, cek koneksi internet bosku!");
+                  showNotification("Gagal kirim pesanan, cek koneksi internet bosku!");
                   isSubmitting = false; 
                   btnSelesaiBayar.disabled = false;
                   btnSelesaiBayar.innerHTML = 'COBA LAGI <i class="bi bi-arrow-repeat ms-2"></i>';
