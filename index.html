@@ -1090,14 +1090,14 @@
 
         #music-player-drawer {
             position: absolute;
-            bottom: 0;
+            bottom: 60px;
             right: 0;
-            width: 300px;
-            background: rgba(10, 10, 10, 0.92);
+            width: 320px;
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            padding: 18px 15px;
+            padding: 12px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.85);
             opacity: 0;
             transform: scale(0.9) translateY(10px);
@@ -1679,45 +1679,21 @@
         </section>
     </main>
 
-    <!-- INTERACTIVE FLOATING MUSIC PLAYER (YOUTUBE BACKEND PLAYLIST) -->
+    <!-- INTERACTIVE FLOATING MUSIC PLAYER (SPOTIFY PLAYLIST INTEGRATION) -->
     <div id="music-widget-container">
         <!-- Collapsed circular button -->
-        <div id="music-toggle" title="Play Music">
-            <i class="bi bi-music-note-beamed" id="music-toggle-icon"></i>
-            <div class="music-wave-bars" id="music-wave-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+        <div id="music-toggle" title="Open Spotify Playlist">
+            <i class="bi bi-spotify" id="music-toggle-icon" style="color: #000; font-size: 1.4rem;"></i>
         </div>
         
         <!-- Expanded player drawer -->
         <div id="music-player-drawer">
             <button id="music-close" title="Close Player"><i class="bi bi-x-lg"></i></button>
-            <div class="music-player-content">
-                <div class="music-track-info">
-                    <span class="music-track-title" id="player-track-title">Loading Track...</span>
-                    <span class="music-track-artist" id="player-track-artist">Mandor Chill Radio</span>
-                </div>
-                <div class="music-controls">
-                    <button class="music-btn" id="music-prev" title="Previous"><i class="bi bi-skip-start-fill"></i></button>
-                    <button class="music-btn play-btn" id="music-play" title="Play/Pause"><i class="bi bi-play-fill" id="music-play-icon"></i></button>
-                    <button class="music-btn" id="music-next" title="Next"><i class="bi bi-skip-end-fill"></i></button>
-                </div>
-                <!-- Mini Visualizer Wave -->
-                <div class="music-wave-visualizer" id="music-visualizer">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+            <div style="width: 100%; height: 352px; border-radius: 12px; overflow: hidden; margin-top: 5px;">
+                <iframe src="https://open.spotify.com/embed/playlist/5PKkUaD76p7zxU2UI0Cq8a?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border: 0;"></iframe>
             </div>
         </div>
     </div>
-
-    <!-- Hidden YouTube Player Container (used by API) -->
-    <div id="youtube-player-element" style="position: absolute; width: 10px; height: 10px; opacity: 0.001; pointer-events: none; z-index: -100; left: 0; top: 0;"></div>
 
     <!-- PRESET MINIMAL FOOTER -->
     <footer>
@@ -1852,260 +1828,29 @@
             });
         });
 
-        // 6. YOUTUBE BACKEND MUSIC PLAYLIST LOGIC
-        const playlist = [
-            { title: "Disarankan di Bandung", artist: "Dongker & Jason Ranti", id: "rZAte5S3M7s" },
-            { title: "Kota Ini Tak Sama Tanpamu", artist: "Nadhif Basalamah", id: "grp6FCnioMM" },
-            { title: "Hitamku", artist: "Andra and The BackBone", id: "kY3sXk2p3q4" },
-            { title: "My Love", artist: "Westlife", id: "ulPvDoC2rWk" },
-            { title: "As Long as You Love Me", artist: "Backstreet Boys", id: "06FXcUb-Aa0" },
-            { title: "Shape of My Heart", artist: "Backstreet Boys", id: "i90IVwW2S1k" },
-            { title: "Untukku", artist: "Chrisye", id: "lHC_pKJKKg8" },
-            { title: "Aku Milikmu", artist: "Dewa 19", id: "20g6lO4wFwM" },
-            { title: "Anything You Want", artist: "Reality Club", id: "dZ32N1X7fBw" },
-            { title: "Dan...", artist: "Sheila On 7", id: "R9n71D9k34U" }
-        ];
-
-        let currentTrackIndex = 0;
-        let isPlaying = false;
-        let audioStarted = false;
-        let player;
-        let isPlayerReady = false;
-
-        // Load the YouTube Iframe Player API code asynchronously
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
+        // 6. FLOATING SPOTIFY WIDGET EXPAND/COLLAPSE LOGIC
         const musicContainer = document.getElementById('music-widget-container');
         const musicToggle = document.getElementById('music-toggle');
         const musicClose = document.getElementById('music-close');
-        const musicPlayBtn = document.getElementById('music-play');
-        const musicPlayIcon = document.getElementById('music-play-icon');
-        const musicPrevBtn = document.getElementById('music-prev');
-        const musicNextBtn = document.getElementById('music-next');
-        const trackTitle = document.getElementById('player-track-title');
-        const trackArtist = document.getElementById('player-track-artist');
 
-        window.onYouTubeIframeAPIReady = function() {
-            player = new YT.Player('youtube-player-element', {
-                height: '10',
-                width: '10',
-                videoId: playlist[0].id,
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'disablekb': 1,
-                    'fs': 0,
-                    'modestbranding': 1,
-                    'rel': 0,
-                    'showinfo': 0,
-                    'iv_load_policy': 3,
-                    'playsinline': 1
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange,
-                    'onError': onPlayerError
-                }
-            });
-        };
-
-        function onPlayerReady(event) {
-            isPlayerReady = true;
-            loadTrackInfo(0);
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.PLAYING) {
-                isPlaying = true;
-                musicContainer.classList.add('playing');
-                musicPlayIcon.className = 'bi bi-pause-fill';
-            } else {
-                isPlaying = false;
-                musicContainer.classList.remove('playing');
-                musicPlayIcon.className = 'bi bi-play-fill';
-            }
-            
-            if (event.data === YT.PlayerState.ENDED) {
-                nextTrack();
-            }
-        }
-
-        function onPlayerError(event) {
-            console.warn("YouTube Player error: " + event.data + ". Automatically skipping to next track.");
-            nextTrack();
-        }
-
-        // Smart Search Bot (Invidious/Piped API integration)
-        async function searchTrackOnYoutube(title, artist) {
-            const query = encodeURIComponent(`${artist} ${title}`);
-            const endpoints = [
-                `https://pipedapi.kavin.rocks/search?q=${query}`,
-                `https://api.piped.yt/search?q=${query}`,
-                `https://pipedapi.col1a.de/search?q=${query}`,
-                `https://yewtu.be/api/v1/search?q=${query}`
-            ];
-
-            for (const url of endpoints) {
-                try {
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 3500);
-                    
-                    const response = await fetch(url, { signal: controller.signal });
-                    clearTimeout(timeoutId);
-                    
-                    if (!response.ok) continue;
-                    const data = await response.json();
-                    
-                    // Handle Piped API structure
-                    if (data && data.items && data.items.length > 0) {
-                        const streamItem = data.items.find(item => item.type === 'stream' || (item.url && item.url.includes('/watch?v=')));
-                        if (streamItem && streamItem.url) {
-                            const match = streamItem.url.match(/[?&]v=([^&]+)/) || streamItem.url.match(/v=([^&]+)/);
-                            if (match && match[1]) return match[1];
-                        }
-                    }
-                    
-                    // Handle Invidious API structure
-                    if (data && Array.isArray(data) && data.length > 0) {
-                        const videoItem = data.find(item => item.type === 'video' || item.videoId);
-                        if (videoItem && videoItem.videoId) return videoItem.videoId;
-                    }
-                } catch (e) {
-                    console.warn(`Search endpoint failed: ${url}`, e);
-                }
-            }
-            return null;
-        }
-
-        function loadTrackInfo(index) {
-            currentTrackIndex = index;
-            trackTitle.textContent = playlist[index].title;
-            trackArtist.textContent = playlist[index].artist;
-        }
-
-        async function loadAndPlayTrack(index) {
-            if (!isPlayerReady) return;
-            loadTrackInfo(index);
-            
-            const track = playlist[index];
-            audioStarted = true;
-            
-            // Check if track has already been searched and cached
-            if (track.dynamicId) {
-                player.loadVideoById(track.dynamicId);
-                playTrack();
-                return;
-            }
-
-            console.log(`Music Bot: Searching for original audio of "${track.title}" by "${track.artist}"...`);
-            trackTitle.textContent = "Searching... 🔍";
-            
-            try {
-                const videoId = await searchTrackOnYoutube(track.title, track.artist);
-                if (videoId) {
-                    console.log(`Music Bot: Found video ID "${videoId}"`);
-                    track.dynamicId = videoId;
-                    trackTitle.textContent = track.title;
-                    player.loadVideoById(videoId);
-                    playTrack();
-                    return;
-                }
-            } catch (err) {
-                console.error("Music Bot search error:", err);
-            }
-
-            // Fallback to default ID
-            console.warn(`Music Bot: Search failed, using fallback static ID: ${track.id}`);
-            trackTitle.textContent = track.title;
-            player.loadVideoById(track.id);
-            playTrack();
-        }
-
-        function playTrack() {
-            if (!isPlayerReady) return;
-            player.playVideo();
-            audioStarted = true;
-        }
-
-        function pauseTrack() {
-            if (!isPlayerReady) return;
-            player.pauseVideo();
-        }
-
-        function togglePlay() {
-            if (!isPlayerReady) return;
-            const state = player.getPlayerState();
-            if (state === YT.PlayerState.PLAYING) {
-                pauseTrack();
-            } else {
-                if (!audioStarted) {
-                    loadAndPlayTrack(currentTrackIndex);
-                } else {
-                    playTrack();
-                }
-            }
-        }
-
-        function nextTrack() {
-            if (!isPlayerReady) return;
-            let nextIndex = (currentTrackIndex + 1) % playlist.length;
-            loadAndPlayTrack(nextIndex);
-        }
-
-        function prevTrack() {
-            if (!isPlayerReady) return;
-            let prevIndex = currentTrackIndex - 1;
-            if (prevIndex < 0) {
-                prevIndex = playlist.length - 1;
-            }
-            loadAndPlayTrack(prevIndex);
-        }
-
-        // Event Listeners for Player Controls
-        musicPlayBtn.addEventListener('click', e => {
-            e.stopPropagation();
-            togglePlay();
-        });
-
-        musicPrevBtn.addEventListener('click', e => {
-            e.stopPropagation();
-            prevTrack();
-        });
-
-        musicNextBtn.addEventListener('click', e => {
-            e.stopPropagation();
-            nextTrack();
-        });
-
-        // Widget Toggle Expand/Collapse
+        // Toggle Drawer Expand
         musicToggle.addEventListener('click', e => {
             e.stopPropagation();
-            musicContainer.classList.add('expanded');
-            if (!audioStarted && isPlayerReady) {
-                loadAndPlayTrack(0);
-            }
+            musicContainer.classList.toggle('expanded');
         });
 
+        // Close Drawer
         musicClose.addEventListener('click', e => {
             e.stopPropagation();
             musicContainer.classList.remove('expanded');
         });
 
+        // Click outside closes drawer
         document.addEventListener('click', e => {
             if (musicContainer && !musicContainer.contains(e.target)) {
                 musicContainer.classList.remove('expanded');
             }
         });
-
-        // First click on body starts audio
-        document.body.addEventListener('click', () => {
-            if (!audioStarted && isPlayerReady) {
-                loadAndPlayTrack(0);
-            }
-        }, { once: true });
     </script>
 </body>
 </html>
