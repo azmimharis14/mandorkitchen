@@ -1017,8 +1017,8 @@
         }
 
         #music-toggle {
-            background: #1DB954; /* Familiar layout branding green */
-            color: #000;
+            background: #e62117; /* YouTube Red */
+            color: #fff;
             width: 48px;
             height: 48px;
             border-radius: 50%;
@@ -1026,7 +1026,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(29, 185, 84, 0.35);
+            box-shadow: 0 8px 25px rgba(230, 33, 23, 0.35);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             user-select: none;
             position: relative;
@@ -1037,7 +1037,7 @@
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             border-radius: 50%;
-            background: rgba(29, 185, 84, 0.4);
+            background: rgba(230, 33, 23, 0.4);
             animation: musicPulse 2.5s infinite;
             z-index: -1;
         }
@@ -1049,8 +1049,8 @@
 
         #music-toggle:hover {
             transform: scale(1.08) translateY(-2px);
-            box-shadow: 0 10px 30px rgba(29, 185, 84, 0.55);
-            background: #1ed760;
+            box-shadow: 0 10px 30px rgba(230, 33, 23, 0.55);
+            background: #ff2e22;
         }
 
         #music-toggle i {
@@ -1679,18 +1679,18 @@
         </section>
     </main>
 
-    <!-- INTERACTIVE FLOATING MUSIC PLAYER (SPOTIFY PLAYLIST INTEGRATION) -->
+    <!-- INTERACTIVE FLOATING MUSIC PLAYER (YOUTUBE PLAYLIST INTEGRATION) -->
     <div id="music-widget-container">
         <!-- Collapsed circular button -->
-        <div id="music-toggle" title="Open Spotify Playlist">
-            <i class="bi bi-spotify" id="music-toggle-icon" style="color: #000; font-size: 1.4rem;"></i>
+        <div id="music-toggle" title="Open YouTube Playlist">
+            <i class="bi bi-youtube" id="music-toggle-icon" style="color: #fff; font-size: 1.4rem;"></i>
         </div>
         
         <!-- Expanded player drawer -->
         <div id="music-player-drawer">
             <button id="music-close" title="Close Player"><i class="bi bi-x-lg"></i></button>
-            <div style="width: 100%; height: 352px; border-radius: 12px; overflow: hidden; margin-top: 5px;">
-                <iframe src="https://open.spotify.com/embed/playlist/5PKkUaD76p7zxU2UI0Cq8a?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border: 0;"></iframe>
+            <div style="width: 100%; height: 300px; border-radius: 12px; overflow: hidden; margin-top: 5px;">
+                <iframe src="https://www.youtube.com/embed/rZAte5S3M7s?playlist=grp6FCnioMM,kY3sXk2p3q4,ulPvDoC2rWk,06FXcUb-Aa0,i90IVwW2S1k,lHC_pKJKKg8,20g6lO4wFwM,dZ32N1X7fBw,R9n71D9k34U&theme=dark" width="100%" height="300" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" style="border: 0;"></iframe>
             </div>
         </div>
     </div>
