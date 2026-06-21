@@ -1255,6 +1255,61 @@
             pointer-events: auto;
         }
 
+        /* Cover Art Container */
+        .music-cover-container {
+            width: 100%;
+            height: 160px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            background: #000;
+        }
+        #player-cover-art {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        /* Progress Bar */
+        .music-progress-container {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            margin-top: 5px;
+            user-select: none;
+        }
+        .music-progress-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            position: relative;
+        }
+        .music-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #1DB954; /* Spotify Green */
+            border-radius: 2px;
+            position: relative;
+        }
+        .music-progress-container:hover .music-progress-track {
+            height: 6px;
+        }
+        .music-progress-container:hover .music-progress-bar {
+            background: #1ed760;
+        }
+        .music-time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #8e8e93;
+            font-family: var(--font-heading);
+            font-weight: 700;
+        }
+
         /* Responsive styling for Music widget */
         @media (max-width: 576px) {
             #music-widget-container {
@@ -1679,21 +1734,61 @@
         </section>
     </main>
 
-    <!-- INTERACTIVE FLOATING MUSIC PLAYER (SPOTIFY TRACK INTEGRATION) -->
+    <!-- INTERACTIVE FLOATING MUSIC PLAYER (SPOTIFY-THEMED CUSTOM PLAYER) -->
     <div id="music-widget-container">
         <!-- Collapsed circular button -->
         <div id="music-toggle" title="Open Spotify Player">
             <i class="bi bi-spotify" id="music-toggle-icon" style="color: #000; font-size: 1.4rem;"></i>
+            <div class="music-wave-bars" id="music-wave-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
         
         <!-- Expanded player drawer -->
         <div id="music-player-drawer">
             <button id="music-close" title="Close Player"><i class="bi bi-x-lg"></i></button>
-            <div style="width: 100%; height: 352px; border-radius: 12px; overflow: hidden; margin-top: 5px;">
-                <iframe src="https://open.spotify.com/embed/track/39M8SHyEuWiJSXODMY3YJ3?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border: 0;"></iframe>
+            <div class="music-player-content">
+                <!-- Cover Art -->
+                <div class="music-cover-container">
+                    <img id="player-cover-art" src="https://img.youtube.com/vi/5k4llr0of_k/hqdefault.jpg" alt="Cover Art">
+                </div>
+                <!-- Track Details -->
+                <div class="music-track-info">
+                    <span class="music-track-title" id="player-track-title">Loading Track...</span>
+                    <span class="music-track-artist" id="player-track-artist">Ndarboy Genk</span>
+                </div>
+                <!-- Interactive Progress Bar -->
+                <div class="music-progress-container" id="progress-container">
+                    <div class="music-progress-track">
+                        <div class="music-progress-bar" id="progress-bar"></div>
+                    </div>
+                    <div class="music-time-info">
+                        <span id="current-time">0:00</span>
+                        <span id="total-duration">0:00</span>
+                    </div>
+                </div>
+                <!-- Controls -->
+                <div class="music-controls">
+                    <button class="music-btn" id="music-prev" title="Previous"><i class="bi bi-skip-start-fill"></i></button>
+                    <button class="music-btn play-btn" id="music-play" title="Play/Pause"><i class="bi bi-play-fill" id="music-play-icon"></i></button>
+                    <button class="music-btn" id="music-next" title="Next"><i class="bi bi-skip-end-fill"></i></button>
+                </div>
+                <!-- Mini Visualizer Wave -->
+                <div class="music-wave-visualizer" id="music-visualizer">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Hidden YouTube Player Container (used by API) -->
+    <div id="youtube-player-element" style="position: absolute; width: 10px; height: 10px; opacity: 0.001; pointer-events: none; z-index: -100; left: 0; top: 0;"></div>
 
     <!-- PRESET MINIMAL FOOTER -->
     <footer>
@@ -1828,18 +1923,207 @@
             });
         });
 
-        // 6. FLOATING SPOTIFY WIDGET EXPAND/COLLAPSE LOGIC
+        // 6. YOUTUBE BACKEND MUSIC PLAYLIST LOGIC (SPOTIFY STYLE)
+        const playlist = [
+            { title: "Kicau Mania", artist: "Ndarboy Genk", id: "5k4llr0of_k", cover: "https://img.youtube.com/vi/5k4llr0of_k/hqdefault.jpg" },
+            { title: "Disarankan di Bandung", artist: "Dongker & Jason Ranti", id: "rZAte5S3M7s", cover: "https://img.youtube.com/vi/rZAte5S3M7s/hqdefault.jpg" },
+            { title: "Kota Ini Tak Sama Tanpamu", artist: "Nadhif Basalamah", id: "grp6FCnioMM", cover: "https://img.youtube.com/vi/grp6FCnioMM/hqdefault.jpg" },
+            { title: "Hitamku", artist: "Andra and The BackBone", id: "QJm_4_s1D8M", cover: "https://img.youtube.com/vi/QJm_4_s1D8M/hqdefault.jpg" },
+            { title: "Aku Milikmu", artist: "Dewa 19", id: "-hSuiNopzqQ", cover: "https://img.youtube.com/vi/-hSuiNopzqQ/hqdefault.jpg" },
+            { title: "Anything You Want", artist: "Reality Club", id: "U-tM7JmP_k4", cover: "https://img.youtube.com/vi/U-tM7JmP_k4/hqdefault.jpg" }
+        ];
+
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        let audioStarted = false;
+        let player;
+        let isPlayerReady = false;
+        let progressInterval;
+
+        // Load the YouTube Iframe Player API code asynchronously
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
         const musicContainer = document.getElementById('music-widget-container');
         const musicToggle = document.getElementById('music-toggle');
         const musicClose = document.getElementById('music-close');
+        const musicPlayBtn = document.getElementById('music-play');
+        const musicPlayIcon = document.getElementById('music-play-icon');
+        const musicPrevBtn = document.getElementById('music-prev');
+        const musicNextBtn = document.getElementById('music-next');
+        const trackTitle = document.getElementById('player-track-title');
+        const trackArtist = document.getElementById('player-track-artist');
+        const coverArt = document.getElementById('player-cover-art');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const currentTimeEl = document.getElementById('current-time');
+        const totalDurationEl = document.getElementById('total-duration');
 
-        // Toggle Drawer Expand
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('youtube-player-element', {
+                height: '10',
+                width: '10',
+                videoId: playlist[0].id,
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'iv_load_policy': 3,
+                    'playsinline': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        };
+
+        function onPlayerReady(event) {
+            isPlayerReady = true;
+            loadTrackInfo(0);
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds) || seconds === undefined) return "0:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateProgressBar() {
+            if (!isPlayerReady || !player || typeof player.getCurrentTime !== 'function') return;
+            const currentTime = player.getCurrentTime();
+            const duration = player.getDuration();
+            if (duration > 0) {
+                const percentage = (currentTime / duration) * 100;
+                progressBar.style.width = `${percentage}%`;
+                currentTimeEl.textContent = formatTime(currentTime);
+                totalDurationEl.textContent = formatTime(duration);
+            }
+        }
+
+        function startProgressTracker() {
+            clearInterval(progressInterval);
+            progressInterval = setInterval(updateProgressBar, 500);
+        }
+
+        function stopProgressTracker() {
+            clearInterval(progressInterval);
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                musicContainer.classList.add('playing');
+                musicPlayIcon.className = 'bi bi-pause-fill';
+                startProgressTracker();
+            } else {
+                isPlaying = false;
+                musicContainer.classList.remove('playing');
+                musicPlayIcon.className = 'bi bi-play-fill';
+                stopProgressTracker();
+            }
+            
+            if (event.data === YT.PlayerState.ENDED) {
+                nextTrack();
+            }
+        }
+
+        function loadTrackInfo(index) {
+            currentTrackIndex = index;
+            trackTitle.textContent = playlist[index].title;
+            trackArtist.textContent = playlist[index].artist;
+            coverArt.src = playlist[index].cover;
+            progressBar.style.width = '0%';
+            currentTimeEl.textContent = "0:00";
+            totalDurationEl.textContent = "0:00";
+        }
+
+        function playTrack() {
+            if (!isPlayerReady) return;
+            player.playVideo();
+            audioStarted = true;
+        }
+
+        function pauseTrack() {
+            if (!isPlayerReady) return;
+            player.pauseVideo();
+        }
+
+        function togglePlay() {
+            if (!isPlayerReady) return;
+            const state = player.getPlayerState();
+            if (state === YT.PlayerState.PLAYING) {
+                pauseTrack();
+            } else {
+                playTrack();
+            }
+        }
+
+        function nextTrack() {
+            if (!isPlayerReady) return;
+            let nextIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrackInfo(nextIndex);
+            player.loadVideoById(playlist[nextIndex].id);
+            playTrack();
+        }
+
+        function prevTrack() {
+            if (!isPlayerReady) return;
+            let prevIndex = currentTrackIndex - 1;
+            if (prevIndex < 0) {
+                prevIndex = playlist.length - 1;
+            }
+            loadTrackInfo(prevIndex);
+            player.loadVideoById(playlist[prevIndex].id);
+            playTrack();
+        }
+
+        // Seek behavior on Progress Container click
+        progressContainer.addEventListener('click', e => {
+            if (!isPlayerReady || !player || typeof player.getDuration !== 'function') return;
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const duration = player.getDuration();
+            if (duration > 0) {
+                const seekTo = (clickX / width) * duration;
+                player.seekTo(seekTo, true);
+                updateProgressBar();
+            }
+        });
+
+        // Event Listeners for Player Controls
+        musicPlayBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            togglePlay();
+        });
+
+        musicPrevBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            prevTrack();
+        });
+
+        musicNextBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            nextTrack();
+        });
+
+        // Widget Toggle Expand/Collapse
         musicToggle.addEventListener('click', e => {
             e.stopPropagation();
             musicContainer.classList.toggle('expanded');
+            if (!audioStarted && isPlayerReady) {
+                playTrack();
+            }
         });
 
-        // Close Drawer
         musicClose.addEventListener('click', e => {
             e.stopPropagation();
             musicContainer.classList.remove('expanded');
@@ -1851,6 +2135,13 @@
                 musicContainer.classList.remove('expanded');
             }
         });
+
+        // First click on body starts audio if not started yet
+        document.body.addEventListener('click', () => {
+            if (!audioStarted && isPlayerReady) {
+                playTrack();
+            }
+        }, { once: true });
     </script>
 </body>
 </html>
