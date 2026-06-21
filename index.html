@@ -3,1332 +3,1706 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PAK MANDOR | Final Call Edition</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>PAK MANDOR | Komunitas Mahasiswa & Galeri Kegiatan</title>
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&family=Rajdhani:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
     
-    <!-- AOS & Bootstrap Icons -->
+    <!-- AOS (Animate On Scroll) & Bootstrap Icons -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <style>
         :root {
-            --lambo-green: #ccff00; 
-            --carbon-black: #050505;
-            --glass-bg: rgba(15, 15, 15, 0.6);
-            --text-glow: 0 0 15px rgba(204, 255, 0, 0.6);
-            --neon-glow-heavy: 0 0 25px rgba(204, 255, 0, 0.85);
+            --primary: #ccff00; /* Neon Lambo Lime */
+            --primary-rgb: 204, 255, 0;
+            --primary-glow: 0 0 25px rgba(204, 255, 0, 0.45);
+            --bg-dark: #050505;
+            --bg-surface: rgba(12, 12, 12, 0.35);
+            --bg-glass: rgba(10, 10, 10, 0.5);
+            --border-color: rgba(255, 255, 255, 0.05);
+            --border-glow: rgba(204, 255, 0, 0.15);
+            --border-active: rgba(204, 255, 0, 0.3);
+            --text-main: #ffffff;
+            --text-muted: #8e8e93;
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
         }
 
-        html, body {
-            background-color: var(--carbon-black);
-            color: white;
-            font-family: 'Exo 2', sans-serif;
-            overflow-x: hidden;
-            width: 100%;
+        /* --- BASE STYLES --- */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            width: 100%;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(204, 255, 0, 0.05), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(204, 255, 0, 0.05), transparent 25%);
-        }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: var(--lambo-green); border-radius: 10px;}
-
-        /* Modern Floating Navbar */
-        .navbar-floating {
-            background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(204, 255, 0, 0.2);
-            border-radius: 50px;
-            margin: 20px auto;
-            width: 95%;
-            max-width: 1000px;
-            padding: 10px 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-        }
-
-        .navbar-brand {
-            font-weight: 900;
-            font-style: italic;
-            letter-spacing: 2px;
-            font-size: 1.5rem;
-            color: white !important;
-            text-shadow: var(--text-glow);
-        }
-
-        .nav-link-custom {
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            letter-spacing: 1px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            color: white !important;
-            padding: 8px 20px !important;
-            border-radius: 30px;
-            margin: 0 5px;
-        }
-        
-        .nav-link-custom:hover { 
-            color: var(--lambo-green) !important; 
-            transform: translateY(-2px); 
-        }
-
-        .nav-link-custom.active {
-            background: var(--lambo-green) !important;
-            color: #000 !important;
-            box-shadow: var(--text-glow);
-            transform: scale(1.05);
-        }
-
-        .hero-section {
-            height: 100vh;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), var(--carbon-black)), 
-                        url('https://images.unsplash.com/photo-1635783309228-569d62058682?q=80&w=1920&auto=format&fit=crop'); 
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+                radial-gradient(circle at 10% 20%, rgba(204, 255, 0, 0.02) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(204, 255, 0, 0.02) 0%, transparent 40%);
             position: relative;
         }
 
-        .display-1 {
+        /* Interactive spotlight pointer glow effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle 300px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(204, 255, 0, 0.025) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 999;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        ::selection {
+            background: var(--primary);
+            color: #000;
+        }
+
+        /* Reusable Components */
+        .container {
+            width: 100%;
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header span {
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
             font-weight: 900;
             text-transform: uppercase;
-            font-style: italic;
-            font-size: 4.5rem;
+            letter-spacing: -1px;
+        }
+
+        .section-header h2 span {
+            font-size: inherit;
+            color: inherit;
+            letter-spacing: inherit;
+            text-transform: inherit;
+            margin-bottom: 0;
+            background: linear-gradient(120deg, #fff 40%, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-premium {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            border: 1px solid var(--primary);
+            background: var(--primary);
+            color: #000;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 20px rgba(204, 255, 0, 0.2);
+        }
+
+        .btn-premium:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(204, 255, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            border-color: #fff;
+        }
+
+        .glass-badge {
+            background: rgba(204, 255, 0, 0.03);
+            border: 1px solid var(--border-glow);
+            color: var(--primary);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        /* --- FUTURISTIC BOOT LOADER --- */
+        #loading-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #020202;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+        }
+
+        #loading-overlay.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-card {
+            background: rgba(8, 8, 8, 0.9);
+            border: 1px solid var(--border-color);
+            padding: 40px 30px;
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        .loader-logo {
+            max-width: 200px;
+            width: 75%;
+            height: auto;
+            margin-bottom: 30px;
+            animation: logoPulse 2.5s infinite ease-in-out;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(204, 255, 0, 0.15)); transform: scale(0.98); }
+            50% { filter: drop-shadow(0 0 15px rgba(204, 255, 0, 0.4)); transform: scale(1.02); }
+        }
+
+        .loader-progress-track {
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .loader-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            box-shadow: 0 0 8px var(--primary);
+            transition: width 0.1s ease;
+        }
+
+        .loader-console {
+            font-family: var(--font-heading);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            height: 15px;
+        }
+
+        .loader-console span.accent {
+            color: var(--primary);
+        }
+
+        /* --- FLOATING NAVBAR --- */
+        .navbar-wrapper {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 1000px;
+            z-index: 1000;
+        }
+
+        .navbar-custom {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: border-color 0.3s;
+        }
+
+        .navbar-custom:hover {
+            border-color: rgba(204, 255, 0, 0.1);
+        }
+
+        .nav-brand {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: 1.15rem;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-brand span {
+            color: var(--primary);
+        }
+
+        /* Digital Clock Widget */
+        .nav-clock {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-family: var(--font-heading);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-clock i {
+            color: var(--primary);
+        }
+
+        .nav-clock .status-indicator {
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border-left: 1px solid rgba(255,255,255,0.08);
+            padding-left: 8px;
+            margin-left: 2px;
+        }
+
+        .nav-clock .pulse-dot {
+            width: 5px;
+            height: 5px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: var(--primary-glow);
+            animation: dotGlow 1.5s infinite alternate;
+        }
+
+        @keyframes dotGlow {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            100% { transform: scale(1.3); opacity: 1; }
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .nav-link {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            color: #fff;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 30px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: #000;
+            box-shadow: var(--primary-glow);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-toggle:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive Nav Menu */
+        @media (max-width: 991px) {
+            .nav-clock {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                top: calc(100% + 10px);
+                left: 0; right: 0;
+                flex-direction: column;
+                background: rgba(5, 5, 5, 0.96);
+                backdrop-filter: blur(20px);
+                border: 1px solid var(--border-color);
+                border-radius: 20px;
+                padding: 15px;
+                gap: 5px;
+                opacity: 0;
+                transform: translateY(-10px);
+                pointer-events: none;
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.8);
+            }
+
+            .nav-links.show {
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-link {
+                width: 100%;
+                text-align: center;
+                padding: 10px;
+            }
+        }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), var(--bg-dark)),
+                        url('https://images.unsplash.com/photo-1635783309228-569d62058682?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            text-align: center;
+            padding: 0;
+        }
+
+        .hero-container {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 5.5rem;
+            font-weight: 950;
+            text-transform: uppercase;
             letter-spacing: -2px;
             line-height: 0.9;
+            margin-bottom: 20px;
         }
-        @media (min-width: 768px) { .display-1 { font-size: 8rem; } }
 
-        /* Scrolling Marquee */
+        .hero-title span {
+            color: var(--primary);
+            text-shadow: var(--primary-glow);
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 35px;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 50px;
+        }
+
+        /* Minimalist Stats Row */
+        .stats-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: 900;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .stat-sep {
+            color: rgba(255, 255, 255, 0.08);
+            font-size: 1.8rem;
+            font-weight: 300;
+            user-select: none;
+        }
+
+        /* Scroll Down Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        .scroll-indicator:hover {
+            color: var(--primary);
+        }
+
+        .scroll-indicator i {
+            font-size: 1.1rem;
+            animation: bounce 1.8s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-6px); }
+            60% { transform: translateY(-3px); }
+        }
+
+        /* Moving Marquee Banner */
         .marquee-container {
             position: absolute;
             bottom: 0;
             width: 100%;
-            background: var(--lambo-green); 
-            color: black;
-            padding: 12px 0;
+            background: var(--primary);
+            color: #000;
+            padding: 10px 0;
             overflow: hidden;
             white-space: nowrap;
             display: flex;
             align-items: center;
-            font-family: 'Rajdhani', sans-serif;
+            font-family: var(--font-heading);
             font-weight: 900;
-            font-size: 1.3rem;
-            letter-spacing: 3px;
-            box-shadow: 0 0 20px rgba(204, 255, 0, 0.5);
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            box-shadow: 0 -5px 20px rgba(204, 255, 0, 0.1);
         }
+
         .marquee-content {
             display: inline-block;
-            animation: marquee 40s linear infinite; /* Diperlambat dari 15s ke 40s agar sangat mudah dibaca */
+            animation: marquee 35s linear infinite;
         }
+
         @keyframes marquee {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
 
-        .hype-card {
-            border-radius: 24px;
-            overflow: hidden;
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3.2rem; letter-spacing: -1px; }
+            .hero-subtitle { font-size: 0.85rem; letter-spacing: 2px; }
+            .stats-row { flex-direction: column; gap: 18px; }
+            .stat-sep { display: none; }
+            .hero-buttons { flex-direction: column; width: 100%; max-width: 250px; }
+            .btn-premium { width: 100%; justify-content: center; }
+            section { padding: 60px 0; }
+        }
+
+        /* --- ABOUT & VISION SECTION --- */
+        .about-wrapper {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .about-text h3 i {
+            color: var(--primary);
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .vision-mission-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
             position: relative;
-            height: 420px;
-            border: 1px solid #222;
-            transition: 0.4s ease;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
         }
-        .hype-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--lambo-green);
-            box-shadow: 0 20px 40px rgba(204, 255, 0, 0.15);
-            z-index: 10;
+
+        .vm-item {
+            margin-bottom: 24px;
         }
-        .hype-img {
+
+        .vm-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .vm-item h4 {
+            font-family: var(--font-heading);
+            color: var(--primary);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .vm-item p {
+            font-size: 0.9rem;
+            color: #ddd;
+            line-height: 1.5;
+        }
+
+        .vm-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .vm-list li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: #ddd;
+            line-height: 1.4;
+        }
+
+        .vm-list li::before {
+            content: '➔';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            left: 0;
+            color: var(--primary);
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 991px) {
+            .about-wrapper { grid-template-columns: 1fr; gap: 30px; }
+        }
+
+        /* --- GALLERY SECTION --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 15px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: #0a0a0a;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            z-index: 0;
-            transition: 0.7s;
-            filter: brightness(0.65);
+            filter: grayscale(100%);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .hype-card:hover .hype-img {
-            transform: scale(1.1);
-            filter: brightness(0.4);
+
+        .gallery-item:hover {
+            border-color: var(--border-active);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
-        .hype-content {
+
+        .gallery-item:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.03);
+        }
+
+        .gallery-overlay {
             position: absolute;
-            bottom: 0; left: 0; width: 100%;
-            padding: 30px 20px 20px;
-            background: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0.7) 60%, transparent);
-            z-index: 1;
+            top: 0; left: 0; right: 0; bottom: 0;
+            padding: 24px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.2) 60%, transparent);
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            height: 100%;
-        }
-
-        /* Qty Pill */
-        .qty-pill {
-            background: rgba(0,0,0,0.8);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            padding: 4px;
-            backdrop-filter: blur(5px);
-        }
-        .btn-qty {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #222;
-            color: white;
-            border: none;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-        }
-        .btn-qty:hover { background: var(--lambo-green); color: black; }
-        .btn-qty:disabled { background: #444; color: #777; cursor: not-allowed; }
-        
-        .input-qty {
-            width: 35px;
-            background: transparent;
-            border: none;
-            color: white;
-            text-align: center;
-            font-weight: 800;
-            font-size: 1.2rem;
             pointer-events: none;
         }
 
-        .quota-text { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.85rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-        .quota-highlight { color: white; font-weight: 900; }
-        .progress-quota { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 5px; overflow: hidden; backdrop-filter: blur(5px); }
-        
-        .progress-bar-inner { 
-            height: 100%; 
-            background: var(--lambo-green); 
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease, box-shadow 0.4s ease; 
-            box-shadow: 0 0 10px var(--lambo-green); 
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .modern-input {
-            background: rgba(20,20,20,0.7);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 16px;
-            padding: 16px 20px;
-            font-size: 1rem;
-            transition: 0.3s;
-            backdrop-filter: blur(10px);
-        }
-        .modern-input:focus {
-            background: rgba(0,0,0,0.9);
-            border-color: var(--lambo-green);
-            color: var(--lambo-green);
-            box-shadow: 0 0 20px rgba(204, 255, 0, 0.15);
-            outline: none;
-        }
-        .modern-input::placeholder { color: rgba(255,255,255,0.3); font-weight: 500; }
-
-        .btn-revuelto {
-            background: var(--lambo-green);
-            color: black;
-            font-weight: 900;
+        .gallery-overlay span {
+            font-family: var(--font-heading);
+            font-size: 0.7rem;
+            color: var(--primary);
             text-transform: uppercase;
-            padding: 18px 40px;
-            border-radius: 16px;
-            border: none;
-            transition: 0.3s;
-            letter-spacing: 2px;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.3rem;
-            box-shadow: 0 10px 20px rgba(204, 255, 0, 0.2);
-        }
-        .btn-revuelto:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(204, 255, 0, 0.4);
-            background: white;
-        }
-        .btn-revuelto:disabled {
-            background: #555;
-            color: #888;
-            box-shadow: none;
-            transform: none;
-            cursor: not-allowed;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 4px;
         }
 
-        .quick-pill {
-            background: rgba(20,20,20,0.8);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50px;
-            padding: 15px 30px;
+        .gallery-overlay h4 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .gi-8 { grid-column: span 8; height: 380px; }
+        .gi-4 { grid-column: span 4; height: 380px; }
+        .gi-4-300 { grid-column: span 4; height: 280px; }
+        .gi-3 { grid-column: span 3; height: 220px; }
+        .gi-12 { grid-column: span 12; height: 380px; }
+
+        @media (max-width: 991px) {
+            .gi-8 { grid-column: span 12; height: 300px; }
+            .gi-4 { grid-column: span 12; height: 300px; }
+            .gi-4-300 { grid-column: span 6; height: 240px; }
+            .gi-3 { grid-column: span 6; height: 180px; }
+            .gi-12 { grid-column: span 12; height: 300px; }
+        }
+
+        @media (max-width: 768px) {
+            /* Compact Gallery Grid for mobile - 2 columns */
+            .gallery-grid {
+                gap: 8px;
+            }
+            .gi-8, .gi-4, .gi-4-300, .gi-3 {
+                grid-column: span 6;
+                height: 140px;
+                border-radius: 12px;
+            }
+            .gi-12 {
+                grid-column: span 12;
+                height: 180px;
+                border-radius: 12px;
+            }
+            .gallery-item img {
+                filter: grayscale(0%) !important;
+            }
+            .gallery-overlay {
+                opacity: 1 !important;
+                transform: none !important;
+                padding: 10px !important;
+                background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%) !important;
+            }
+            .gallery-overlay span {
+                font-size: 0.55rem !important;
+                margin-bottom: 2px !important;
+                letter-spacing: 0.5px !important;
+            }
+            .gallery-overlay h4 {
+                font-size: 0.75rem !important;
+                margin-bottom: 0 !important;
+                line-height: 1.2 !important;
+            }
+            .gallery-overlay p {
+                display: none !important; /* Hide long description to avoid clutter */
+            }
+
+            /* Compact Cards for mobile */
+            .division-card, .connect-card {
+                padding: 20px 16px !important;
+                border-radius: 14px !important;
+            }
+            .div-icon, .connect-icon {
+                width: 38px !important;
+                height: 38px !important;
+                font-size: 1rem !important;
+                margin-bottom: 12px !important;
+            }
+            .division-card h3, .connect-card h3 {
+                font-size: 1rem !important;
+                margin-bottom: 6px !important;
+            }
+            .division-card p, .connect-card p {
+                font-size: 0.8rem !important;
+                line-height: 1.4 !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Even smaller height on very narrow screens */
+            .gi-8, .gi-4, .gi-4-300, .gi-3 {
+                height: 120px;
+            }
+            .gi-12 {
+                height: 150px;
+            }
+        }
+
+        /* --- TEAM / THE CREW SECTION --- */
+        .crew-intro {
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 40px;
+        }
+
+        .crew-intro p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .divisions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .division-card {
+            background: rgba(10, 10, 10, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px 24px;
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .division-card:hover {
+            border-color: rgba(204, 255, 0, 0.12);
+            background: rgba(15, 15, 15, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .div-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(204, 255, 0, 0.03);
+            border: 1px solid var(--border-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+
+        .division-card:hover .div-icon {
+            background: var(--primary);
+            color: #000;
+            box-shadow: var(--primary-glow);
+        }
+
+        .division-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .division-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* --- CONNECT SECTION --- */
+        .connect-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .connect-card {
+            background: rgba(10, 10, 10, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: left;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .connect-card:hover {
+            border-color: rgba(204, 255, 0, 0.12);
+            background: rgba(15, 15, 15, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .connect-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(204, 255, 0, 0.03);
+            border: 1px solid var(--border-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .connect-card:hover .connect-icon {
+            background: var(--primary);
+            color: #000;
+            box-shadow: var(--primary-glow);
+        }
+
+        .connect-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .connect-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .connect-btn {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--primary);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             display: inline-flex;
             align-items: center;
-            gap: 15px;
-            color: white;
-            text-decoration: none;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            transition: 0.3s;
+            gap: 6px;
+            border: 1px solid var(--border-glow);
+            background: rgba(204, 255, 0, 0.01);
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: all 0.3s;
         }
-        .quick-pill i { color: var(--lambo-green); font-size: 1.5rem; transition: 0.3s; }
-        .quick-pill:hover {
-            border-color: var(--lambo-green);
-            background: var(--carbon-black);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(204, 255, 0, 0.1);
-            color: white;
-        }
-        .quick-pill:hover i { text-shadow: var(--text-glow); }
 
-        #music-control {
+        .connect-btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: var(--primary-glow);
+        }
+
+        @media (max-width: 991px) {
+            .connect-grid { grid-template-columns: 1fr; gap: 15px; }
+        }
+
+        /* --- FLOATING NATIVE MUSIC WIDGET --- */
+        /* --- FLOATING SPOTIFY WIDGET --- */
+        #spotify-widget-container {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 9999;
-            background: rgba(10,10,10,0.9);
-            border: 1px solid var(--lambo-green);
-            color: var(--lambo-green);
-            width: 55px;
-            height: 55px;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #spotify-toggle {
+            background: #1DB954; /* Spotify Green */
+            color: #000;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
             cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 0 20px rgba(204, 255, 0, 0.2);
-        }
-        #music-control:hover { transform: scale(1.1) rotate(10deg); background: var(--lambo-green); color: black; }
-        
-        #loading-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000000;
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
-            box-sizing: border-box;
-            padding: 20px;
-        }
-
-        .boot-container {
-            text-align: center;
-            width: 100%;
-            max-width: 550px;
-        }
-
-        /* Kelas animasi khusus untuk logo Mandor Kitchen */
-        .boot-logo-img {
-            max-width: 380px;
-            width: 85%;
-            height: auto;
-            margin-bottom: 35px;
-            animation: logoPulse 2.5s infinite ease-in-out;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        @keyframes logoPulse {
-            0%, 100% { filter: drop-shadow(0 0 10px rgba(204, 255, 0, 0.3)); transform: scale(0.97); }
-            50% { filter: drop-shadow(0 0 30px rgba(204, 255, 0, 0.75)); transform: scale(1.03); }
-        }
-
-        .boot-progress-wrap {
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 2px;
-            overflow: hidden;
-            margin: 20px auto;
+            box-shadow: 0 8px 25px rgba(29, 185, 84, 0.35);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
             position: relative;
         }
 
-        .boot-progress-bar {
-            height: 100%;
-            width: 0%;
-            background: var(--lambo-green);
-            box-shadow: 0 0 15px var(--lambo-green);
-            transition: width 0.1s ease;
+        #spotify-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 50%;
+            background: rgba(29, 185, 84, 0.4);
+            animation: spotifyPulse 2.5s infinite;
+            z-index: -1;
         }
 
-        .boot-terminal {
-            font-family: 'Rajdhani', sans-serif;
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 0.95rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            height: 25px;
-            margin-top: 15px;
-            text-transform: uppercase;
+        @keyframes spotifyPulse {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.45); opacity: 0; }
+        }
+
+        #spotify-toggle:hover {
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 10px 30px rgba(29, 185, 84, 0.55);
+            background: #1ed760;
+        }
+
+        #spotify-toggle i {
+            font-size: 1.4rem;
+        }
+
+        #spotify-player-drawer {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 320px;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.85);
+            opacity: 0;
+            transform: scale(0.9) translateY(10px);
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1001;
+            height: 376px;
+        }
+
+        #spotify-close {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 10;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: #fff;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
             transition: all 0.2s ease;
         }
 
-        .boot-terminal-active {
-            color: var(--lambo-green);
-            text-shadow: var(--text-glow);
+        #spotify-close:hover {
+            background: #ff4a4a;
+            transform: scale(1.1);
         }
 
-        /* CUSTOM CSS PEMILIHAN METODE YANG NYALA BERWARNA */
-        .btn-outline-green {
-            background: rgba(15, 15, 15, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #777;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .btn-outline-green i {
-            color: #555;
-            transition: all 0.3s ease;
-        }
-        .btn-outline-green span {
-            color: #aaa;
-            transition: all 0.3s ease;
-        }
-        
-        /* Efek Hover */
-        .btn-outline-green:hover {
-            border-color: rgba(204, 255, 0, 0.4);
-            background: rgba(204, 255, 0, 0.02);
-            color: #fff;
-        }
-        .btn-outline-green:hover i {
-            color: var(--lambo-green);
-        }
-        .btn-outline-green:hover span {
-            color: #fff;
-        }
-
-        /* Status Aktif / Terpilih (Checked) */
-        .btn-check:checked + .btn-outline-green {
-            background: rgba(204, 255, 0, 0.06) !important;
-            border: 2px solid var(--lambo-green) !important;
-            box-shadow: 0 0 25px rgba(204, 255, 0, 0.25) !important;
-        }
-        .btn-check:checked + .btn-outline-green i {
-            color: var(--lambo-green) !important;
-            text-shadow: 0 0 10px rgba(204, 255, 0, 0.6);
-        }
-        .btn-check:checked + .btn-outline-green span {
-            color: #fff !important;
-            font-weight: 800 !important;
-        }
-
-        /* Toast Notifikasi Kustom */
-        @keyframes slideDown {
-            from { transform: translate(-50%, -50px); opacity: 0; }
-            to { transform: translate(-50%, 0); opacity: 1; }
-        }
-        .custom-toast {
-            position: fixed;
-            top: 25px;
-            left: 50%;
-            transform: translate(-50%, 0);
-            z-index: 1100;
-            width: 90%;
-            max-width: 450px;
-            background: rgba(15, 15, 15, 0.95);
-            border: 1px solid var(--lambo-green);
-            box-shadow: 0 10px 30px rgba(204, 255, 0, 0.2);
-            backdrop-filter: blur(10px);
-            animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .fade-out-toast {
+        /* Toggle display states when active */
+        #spotify-widget-container.expanded #spotify-toggle {
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
+        #spotify-widget-container.expanded #spotify-player-drawer {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Responsive styling for Spotify widget */
+        @media (max-width: 576px) {
+            #spotify-widget-container {
+                bottom: 20px;
+                right: 20px;
+            }
+            #spotify-widget-container.expanded {
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+            }
+            #spotify-player-drawer {
+                width: 100%;
+                height: 376px;
+            }
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #020202;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        .footer-logo span {
+            color: var(--primary);
+        }
+
+        .footer-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            max-width: 450px;
+            margin: 0 auto 25px;
+            line-height: 1.6;
+        }
+
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: #000;
+            border-color: var(--primary);
+            box-shadow: var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        .footer-copy {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 25px;
+            display: inline-block;
+            width: 100%;
+            max-width: 500px;
         }
     </style>
 </head>
 <body>
 
-    <!-- NOTIFIKASI TOAST CONTAINER -->
-    <div id="toast-container"></div>
-
-    <!-- SCREEN LOADING BOOTING SIBER (PREMIUM RE-DESIGN WITH ASSET LOGO) -->
+    <!-- SCREEN LOADING BOOT SYSTEM -->
     <div id="loading-overlay">
-        <div class="boot-container">
-            <!-- Logo Asli Mandor Kitchen menggantikan teks statis -->
-            <img src="Mandor kitchen teks@4x.jpg" alt="Mandor Kitchen Logo" class="boot-logo-img img-fluid">
+        <div class="loader-card">
+            <!-- Project Logo Asset -->
+            <img src="Mandor kitchen teks@4x.jpg" alt="Mandor Kitchen Logo" class="loader-logo">
             
-            <!-- Bilah progres siber berkilau -->
-            <div class="boot-progress-wrap">
-                <div class="boot-progress-bar" id="boot-progress"></div>
+            <!-- Sleek Cyber Progress Line -->
+            <div class="loader-progress-track">
+                <div class="loader-progress-bar" id="boot-progress"></div>
             </div>
             
-            <!-- Terminal status logger -->
-            <div class="boot-terminal boot-terminal-active" id="boot-logger">
-                Initializing System Core...
+            <!-- Typewriter Terminal Output -->
+            <div class="loader-console" id="console-log">
+                <span class="accent">> </span>Initializing System Core...
             </div>
         </div>
     </div>
 
-    <audio id="bg-music" loop>
-        <source src="BRODYAGA.mp3" type="audio/mpeg">
-    </audio>
+    <!-- INTERACTIVE FLOATING NAVBAR -->
+    <div class="navbar-wrapper">
+        <nav class="navbar-custom">
+            <!-- Brand Logotype -->
+            <a class="nav-brand" href="#hero">PAK <span>MANDOR</span></a>
+            
+            <!-- Clock Widget (Desktop only) -->
+            <div class="nav-clock d-desktop">
+                <i class="bi bi-clock-history"></i>
+                <span id="clock-display">00:00:00</span>
+                <span class="status-indicator">
+                    <span class="pulse-dot"></span> KOMUNITAS
+                </span>
+            </div>
 
-    <div id="music-control" onclick="toggleMusic()">
-        <i id="music-icon" class="bi bi-volume-mute-fill"></i>
-    </div>
+            <!-- Hamburger Button for Mobile -->
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle Navigation">
+                <i class="bi bi-grid-3x3-gap-fill"></i>
+            </button>
 
-    <!-- FLOATING NAVBAR GEN Z -->
-    <div class="fixed-top d-flex justify-content-center mt-3" style="z-index: 1030;">
-        <nav class="navbar navbar-expand-lg navbar-floating">
-            <div class="container-fluid p-0 d-flex align-items-center justify-content-between position-relative">
-                <!-- Brand (Kiri) -->
-                <div>
-                    <a class="navbar-brand m-0" href="#">PAK <span style="color:var(--lambo-green)">MANDOR</span></a>
-                </div>
-                
-                <!-- Jam Digital (Sempurna di Tengah saat Desktop) -->
-                <div class="d-none d-lg-flex align-items-center gap-2 position-absolute start-50 translate-middle-x">
-                    <i class="bi bi-clock-history" style="color: var(--lambo-green);"></i>
-                    <div id="clock" class="text-white fw-bold" style="font-family: 'Rajdhani', sans-serif; font-size:1.2rem; letter-spacing: 1px;">00:00:00</div>
-                </div>
-
-                <!-- Toggler (Mobile) -->
-                <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <i class="bi bi-grid-3x3-gap-fill text-white fs-2"></i>
-                </button>
-
-                <!-- Nav Links (Kanan) -->
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav align-items-center mt-3 mt-lg-0">
-                        <li class="nav-item"><a class="nav-link nav-link-custom" href="#hero">HOME</a></li>
-                        <li class="nav-item"><a class="nav-link nav-link-custom" href="#menu">LINKS</a></li>
-                        <li class="nav-item"><a class="nav-link nav-link-custom" href="#market"><i class="bi bi-cart2 me-1"></i> ORDER</a></li> 
-                        <li class="nav-item"><a class="nav-link nav-link-custom" href="#gallery">GALERI</a></li>
-                    </ul>
-                </div>
+            <!-- Navigation Links -->
+            <div class="nav-links" id="navLinks">
+                <a class="nav-link" href="#hero">HOME</a>
+                <a class="nav-link" href="#about">ABOUT</a>
+                <a class="nav-link" href="#gallery">GALLERY</a>
+                <a class="nav-link" href="#team">TEAM</a>
+                <a class="nav-link" href="#connect">CONNECT</a>
             </div>
         </nav>
     </div>
 
-    <!-- HERO SECTION WITH HIGH-CONVERTING MARQUEE -->
-    <section id="hero" class="hero-section text-center target-section">
-        <div class="y-shape-bg"></div>
-        <div class="container" style="z-index: 2; margin-top: -50px;">
-            <div class="badge rounded-pill border text-dark px-4 py-2 mb-4 fw-bold" data-aos="fade-down" style="background: var(--lambo-green); box-shadow: var(--text-glow);">FINAL CALL / LAST BATCH</div>
-            <h1 class="display-1 mb-3" data-aos="zoom-in" data-aos-duration="1000">
-                PAK <span style="color:var(--lambo-green); text-shadow: var(--text-glow);">MANDOR</span>
-            </h1>
-            <p class="lead text-light opacity-75 mb-5 fw-bold" data-aos="fade-up" data-aos-delay="200" style="letter-spacing: 3px; font-family: 'Rajdhani', sans-serif;">
-                EXCLUSIVE CAMPUS DROPS
-            </p>
-            <div data-aos="flip-up" data-aos-delay="400">
-                <a href="#market" class="btn-revuelto text-decoration-none rounded-pill px-5">
-                    PESAN SEKARANG <i class="bi bi-cart-fill ms-2"></i>
-                </a>
-            </div>
-        </div>
-
-        <div class="marquee-container">
-            <div class="marquee-content">
-                <span>🔥 [LAST CHANCE] PRE-ORDER BATCH TERAKHIR SUDAH DIBUKA! AMANKAN SLOTMU SEKARANG SEBELUM SOLD OUT TOTAL! 🔥 KOPI REGAL PREMIUM DIISI ES KRIM VANILLA & COOKIES BOOM BELGIAN CHOCOLATE MELIMPAH MELELEH DI SETIAP GIGITAN! 🔥 FREE DELIVERY AREA KOST SUKABIRUS & LOKASI COD SANGAT DEKAT DI GSG GEDUNG H TELKOM UNIVERSITY! 🔥 JOIN THE HYPE — BRAND KULINER KAMPUS PALING DICARI DI BANDUNG! 🔥 </span>
-                <span>🔥 [LAST CHANCE] PRE-ORDER BATCH TERAKHIR SUDAH DIBUKA! AMANKAN SLOTMU SEKARANG SEBELUM SOLD OUT TOTAL! 🔥 KOPI REGAL PREMIUM DIISI ES KRIM VANILLA & COOKIES BOOM BELGIAN CHOCOLATE MELIMPAH MELELEH DI SETIAP GIGITAN! 🔥 FREE DELIVERY AREA KOST SUKABIRUS & LOKASI COD SANGAT DEKAT DI GSG GEDUNG H TELKOM UNIVERSITY! 🔥 JOIN THE HYPE — BRAND KULINER KAMPUS PALING DICARI DI BANDUNG! 🔥 </span>
-            </div>
-        </div>
-    </section>
-
-    <!-- QUICK LINKS -->
-    <section id="menu" class="py-5 border-bottom border-dark target-section">
-        <div class="container py-5 text-center">
-            <h3 class="text-white mb-5 fw-bold" style="letter-spacing: 2px;" data-aos="fade-up">CONNECT WITH <span style="color:var(--lambo-green)">US</span></h3>
-            
-            <div class="d-flex flex-wrap justify-content-center gap-4">
-                <a href="https://www.google.com/maps/place/Universitas+Telkom/@-6.973416,107.627831,17z/data=!4m6!3m5!1s0x2e68e9adf177bf8d:0x437398556f9fa03!8m2!3d-6.9734163!4d107.630406!16s%2Fm%2F0y6lbq_?entry=ttu&g_ep=EgoyMDI2MDIyNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="quick-pill" data-aos="fade-up" data-aos-delay="100">
-                    <i class="bi bi-geo-alt-fill"></i> BASECAMP
-                </a>
-                <a href="https://www.instagram.com/_pakmandor/" target="_blank" class="quick-pill" data-aos="fade-up" data-aos-delay="200">
-                    <i class="bi bi-instagram"></i> INSTAGRAM
-                </a>
-                <a href="https://api.whatsapp.com/send/?phone=6281343139894" target="_blank" class="quick-pill" data-aos="fade-up" data-aos-delay="300">
-                    <i class="bi bi-whatsapp"></i> WHATSAPP
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- MARKET DAY & FORM -->
-    <section id="market" class="py-5 target-section" style="background: radial-gradient(circle at top, #111 0%, #000 100%);">
-        <div class="container py-5">
-            <div class="row align-items-end mb-5">
-                <div class="col-md-8 text-center text-md-start" data-aos="fade-right">
-                    <span class="badge rounded-pill px-3 py-2 mb-3 fw-bold text-dark" style="background: var(--lambo-green); letter-spacing: 1px;"><i class="bi bi-fire me-1"></i> FINAL CLOSING</span>
-                    <h2 class="fw-bold display-4 text-white m-0" style="letter-spacing: -1px;">LIMITED <span style="color:var(--lambo-green)">STOCK.</span></h2>
+    <!-- MAIN INTERACTIVE PORTFOLIO -->
+    <main>
+        
+        <!-- HERO SEGMENT WITH ACHIEVEMENTS & CYBER RUNNING MARQUEE -->
+        <section id="hero">
+            <div class="container hero-container">
+                <!-- Glowing Campaign Badge -->
+                <div class="glass-badge" data-aos="fade-down">
+                    <span class="pulse-dot"></span> COMMUNITY PORTFOLIO
                 </div>
-                <div class="col-md-4 text-center text-md-end mt-3 mt-md-0" data-aos="fade-left">
-                    <p class="text-secondary m-0 fw-bold">MAX 84 PORTIONS.</p>
-                    <p class="text-secondary m-0 small">Secure your order before it's gone.</p>
-                </div>
-            </div>
-
-            <form id="formPemesanan" name="submit-to-google-sheet">
                 
-                <div class="row g-4 mb-5">
-                    <!-- MENU 1: KOPI -->
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                        <div class="hype-card d-flex flex-column justify-content-end">
-                            <img src="menu1.jpg" class="hype-img">
-                            
-                            <div class="position-absolute top-0 end-0 m-3 z-index-1">
-                                <span class="badge bg-dark border border-secondary p-2 rounded-pill shadow-lg">
-                                    <span class="text-secondary text-decoration-line-through me-1">17k</span> 
-                                    <span style="color:var(--lambo-green); font-size:1.1rem; font-weight:bold;">13k</span>
-                                </span>
-                            </div>
-
-                            <div class="hype-content d-flex flex-column w-100">
-                                <h3 class="fw-bold text-white mb-1" style="font-family: 'Rajdhani', sans-serif; font-size: 2rem;">KOPI <span style="color:var(--lambo-green)">REGAL</span></h3>
-                                <p class="text-light opacity-75 small mb-4" style="line-height: 1.3;">Creamy coffee milk infused with vanilla ice cream & crunchy regal.</p>
-                                
-                                <div class="mt-auto mb-3">
-                                    <div class="d-flex justify-content-between quota-text mb-1">
-                                        <span>SLOT LEFT:</span>
-                                        <span class="quota-highlight fs-6" id="lblSisaKopi">-</span>
-                                    </div>
-                                    <div class="progress-quota"><div class="progress-bar-inner" id="barKopi" style="width: 0%;"></div></div>
-                                </div>
-
-                                <div class="d-flex justify-content-between align-items-center pt-2">
-                                    <h4 class="text-white mb-0 fw-bold">Rp 13k</h4>
-                                    <div class="qty-pill">
-                                        <button type="button" class="btn-qty" onclick="ubahQty('kopi', -1)">-</button>
-                                        <input type="text" id="qtyKopi" class="input-qty" value="0" readonly>
-                                        <button type="button" class="btn-qty btn-add-kopi" onclick="ubahQty('kopi', 1)">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- MENU 2: COOKIES -->
-                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                        <div class="hype-card d-flex flex-column justify-content-end">
-                            <img src="cookies1.jpg" class="hype-img">
-                            
-                            <div class="position-absolute top-0 end-0 m-3 z-index-1">
-                                <span class="badge bg-dark border border-secondary p-2 rounded-pill shadow-lg">
-                                    <span class="text-secondary text-decoration-line-through me-1">20k</span> 
-                                    <span style="color:var(--lambo-green); font-size:1.1rem; font-weight:bold;">15k</span>
-                                </span>
-                            </div>
-
-                            <div class="hype-content d-flex flex-column w-100">
-                                <h3 class="fw-bold text-white mb-1" style="font-family: 'Rajdhani', sans-serif; font-size: 2rem;">COOKIES <span style="color:var(--lambo-green)">BOOM</span></h3>
-                                <p class="text-light opacity-75 small mb-4" style="line-height: 1.3;">Homemade soft cookies overloaded with melting belgian chocolate.</p>
-                                
-                                <div class="mt-auto mb-3">
-                                    <div class="d-flex justify-content-between quota-text mb-1">
-                                        <span>SLOT LEFT:</span>
-                                        <span class="quota-highlight fs-6" id="lblSisaCookies">-</span>
-                                    </div>
-                                    <div class="progress-quota"><div class="progress-bar-inner" id="barCookies" style="width: 0%;"></div></div>
-                                </div>
-
-                                <div class="d-flex justify-content-between align-items-center pt-2">
-                                    <h4 class="text-white mb-0 fw-bold">Rp 15k</h4>
-                                    <div class="qty-pill">
-                                        <button type="button" class="btn-qty" onclick="ubahQty('cookies', -1)">-</button>
-                                        <input type="text" id="qtyCookies" class="input-qty" value="0" readonly>
-                                        <button type="button" class="btn-qty btn-add-cookies" onclick="ubahQty('cookies', 1)">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- MENU 3: COMBO -->
-                    <div class="col-lg-4 col-md-12" data-aos="fade-up" data-aos-delay="300">
-                        <div class="hype-card d-flex flex-column justify-content-end" style="border: 2px solid var(--lambo-green); box-shadow: var(--text-glow);">
-                            <img src="menu1.jpg" class="hype-img" style="filter: brightness(0.4);">
-                            
-                            <div class="position-absolute top-0 start-0 m-3 z-index-1">
-                                <span class="badge bg-warning text-dark p-2 rounded-pill fw-bold shadow-lg" style="letter-spacing: 1px;"><i class="bi bi-star-fill me-1"></i> BEST DEAL</span>
-                            </div>
-                            
-                            <div class="position-absolute top-0 end-0 m-3 z-index-1">
-                                <span class="badge bg-dark border border-warning p-2 rounded-pill shadow-lg">
-                                    <span class="text-secondary text-decoration-line-through me-1">35k</span> 
-                                    <span style="color:#ffcc00; font-size:1.1rem; font-weight:bold;">25k</span>
-                                </span>
-                            </div>
-
-                            <div class="hype-content d-flex flex-column w-100">
-                                <h3 class="fw-bold text-white mb-1" style="font-family: 'Rajdhani', sans-serif; font-size: 2rem;">COMBO <span style="color:#ffcc00;">PACK</span></h3>
-                                <p class="text-light opacity-75 small mb-4" style="line-height: 1.3;">Why choose? Get both 1 Kopi Regal & 1 Cookies Boom at a better price.</p>
-                                
-                                <div class="mt-auto mb-3">
-                                    <div class="d-flex justify-content-between quota-text mb-1">
-                                        <span>PACKS LEFT:</span>
-                                        <span class="quota-highlight fs-6 fw-bold" id="lblSisaCombo">-</span>
-                                    </div>
-                                    <div class="progress-quota"><div class="progress-bar-inner" id="barCombo" style="width: 0%; background: #ffcc00; box-shadow: 0 0 10px #ffcc00;"></div></div>
-                                </div>
-
-                                <div class="d-flex justify-content-between align-items-center pt-2">
-                                    <h4 class="text-white mb-0 fw-bold">Rp 25k</h4>
-                                    <div class="qty-pill qty-pill-combo">
-                                        <button type="button" class="btn-qty" onclick="ubahQty('combo', -1)">-</button>
-                                        <input type="text" id="qtyCombo" class="input-qty" style="color: #ffcc00;" value="0" readonly>
-                                        <button type="button" class="btn-qty btn-add-combo" onclick="ubahQty('combo', 1)">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                <h1 class="hero-title" data-aos="zoom-out" data-aos-duration="1100">
+                    PAK <span>MANDOR</span>
+                </h1>
+                
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+                    Galeri & Portfolio Kegiatan Komunitas Pecinta Kuliner Mahasiswa Telkom University. Merayakan kebersamaan, kreativitas, dan kolaborasi.
+                </p>
+                
+                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#gallery" class="btn-premium">
+                        Jelajahi Galeri <i class="bi bi-images"></i>
+                    </a>
+                    <a href="#about" class="btn-premium btn-secondary">
+                        Tentang Kami
+                    </a>
                 </div>
 
-                <!-- FORM PENGIRIMAN -->
-                <div class="row justify-content-center mt-5" data-aos="zoom-in" data-aos-duration="1000">
-                    <div class="col-lg-8">
-                        <div class="card card-dark p-4 p-md-5 rounded-4 position-relative" style="background: rgba(10,10,10,0.8); border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px);">
-                            
-                            <h3 class="text-center fw-bold mb-4" style="letter-spacing: 2px; font-family: 'Rajdhani', sans-serif;">DATA <span style="color:var(--lambo-green)">PENGIRIMAN</span></h3>
-                            
-                            <div class="row g-4">
-                                <div class="col-md-6">
-                                    <input type="text" name="Nama" class="form-control modern-input" placeholder="Nama Lengkap / Panggilan" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" name="Kelas" class="form-control modern-input" placeholder="Kelas / Jurusan (Cth: IF-46)" required>
-                                </div>
-                                <div class="col-md-12">
-                                    <input type="tel" id="inputWA" name="WA" class="form-control modern-input" placeholder="Nomor WhatsApp Aktif (Cth: 081234567890)" pattern="^(08|\+62|62)[0-9]{8,14}$" title="Wajib diawali 08 atau +62 dan minimal 10 digit angka" oninput="this.value = this.value.replace(/[^0-9+]/g, '')" required>
-                                </div>
-                                
-                                <!-- PILIHAN METODE PENGAMBILAN (NYALA & BERWARNA) -->
-                                <div class="col-12 mt-4">
-                                    <label class="text-secondary small fw-bold mb-2 d-block" style="letter-spacing: 1px;">METODE PENGAMBILAN</label>
-                                    <div class="row g-3">
-                                        <div class="col-sm-6">
-                                            <input type="radio" class="btn-check" name="metodeAmbil" id="ambilBooth" value="booth" checked onclick="toggleAlamatMetode('booth')">
-                                            <label class="btn btn-outline-green w-100 py-3 d-flex flex-column align-items-center justify-content-center gap-2" style="border-radius: 16px;" for="ambilBooth">
-                                                <i class="bi bi-shop fs-4"></i>
-                                                <span class="small fw-bold">Ambil di Booth (GSG)</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <input type="radio" class="btn-check" name="metodeAmbil" id="kirimKost" value="kost" onclick="toggleAlamatMetode('kost')">
-                                            <label class="btn btn-outline-green w-100 py-3 d-flex flex-column align-items-center justify-content-center gap-2" style="border-radius: 16px;" for="kirimKost">
-                                                <i class="bi bi-house-door fs-4"></i>
-                                                <span class="small fw-bold">Kirim ke Kost</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- FIELD GSG MAPS YANG AKAN MUNCUL SEBAGAI PETUNJUK -->
-                                <div id="boothContainer" class="col-12 mt-4">
-                                    <div class="p-4 rounded-4" style="background: rgba(204, 255, 0, 0.05); border: 1px solid rgba(204, 255, 0, 0.2); backdrop-filter: blur(5px);">
-                                        <h6 class="text-white fw-bold mb-2 d-flex align-items-center gap-2">
-                                            <i class="bi bi-geo-alt-fill" style="color: var(--lambo-green); font-size: 1.2rem;"></i> LOKASI BOOTH (GSG)
-                                        </h6>
-                                        <p class="text-secondary small mb-3 leading-relaxed">
-                                            Kami berada di area depan Gedung Serba Guna (GSG) Gedung H Telkom University. Silakan klik tombol di bawah untuk melihat rute koordinat presisi.
-                                        </p>
-                                        <a href="https://maps.app.goo.gl/jSd1QjgrLorHKftd9" target="_blank" class="btn btn-sm btn-revuelto py-2 px-4 rounded-pill text-decoration-none d-inline-flex align-items-center gap-2" style="font-size: 0.9rem; letter-spacing: 1px;">
-                                            <i class="bi bi-map"></i> Buka Rute Google Maps
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <!-- FIELD KOST YANG BISA DI-TOGGLE DINAMIS -->
-                                <div id="alamatContainer" class="col-12 mt-4" style="display: none;">
-                                    <textarea id="alamatPemesan" name="Alamat" class="form-control modern-input mb-3" rows="2" placeholder="Detail Alamat Kost Lengkap (Cth: Kost Sukabirus No 10, gerbang hitam)"></textarea>
-                                    
-                                    <input type="url" id="linkMapsManual" name="Maps" class="form-control modern-input" placeholder="Paste Link Google Maps (Wajib)">
-                                    <small class="text-secondary mt-2 d-block"><i class="bi bi-info-circle me-1" style="color:var(--lambo-green)"></i> Buka aplikasi Google Maps > Cari lokasi kost > Klik Share/Bagikan > Copy Link.</small>
-                                </div>
-
-                                <div class="col-12 mt-4">
-                                    <input type="text" id="catatanPemesan" name="Catatan" class="form-control modern-input" placeholder="Catatan Khusus (Cth: Es dipisah, dll)">
-                                </div>
-
-                                <!-- BOX TAMBAH ES KRIM (5K) -->
-                                <div class="col-12 mt-4">
-                                    <div class="d-flex justify-content-between align-items-center p-3 rounded-4" style="background: rgba(204, 255, 0, 0.05); border: 1px solid rgba(204, 255, 0, 0.2);">
-                                        <div>
-                                            <h6 class="text-white fw-bold mb-1"><i class="bi bi-cup-straw me-2" style="color:var(--lambo-green)"></i>TAMBAHAN ES KRIM</h6>
-                                            <p class="text-secondary small mb-0">+ Rp 5.000 / porsi (Wajib kelipatan 2 jika ditaruh di Combo)</p>
-                                        </div>
-                                        <div class="qty-pill">
-                                            <button type="button" class="btn-qty" onclick="ubahQty('eskrim', -1)">-</button>
-                                            <input type="text" id="qtyEskrim" name="Eskrim" class="input-qty" value="0" readonly>
-                                            <button type="button" class="btn-qty" onclick="ubahQty('eskrim', 1)">+</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Box Total Harga -->
-                                <div class="col-12 mt-4">
-                                    <div class="d-flex justify-content-between align-items-center p-4 rounded-4" style="background: rgba(0,0,0,0.6); border: 1px dashed rgba(204, 255, 0, 0.4);">
-                                        <span class="text-secondary fw-bold" style="letter-spacing: 1px;">TOTAL BELANJA</span>
-                                        <h2 class="fw-bold mb-0" id="liveTotal" style="color:var(--lambo-green); text-shadow: var(--text-glow); font-family: 'Rajdhani', sans-serif; font-size: 2.5rem;">Rp 0</h2>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-12 mt-4 text-center">
-                                    <button type="submit" id="btnLanjut" class="btn-revuelto w-100">
-                                        LANJUT PEMBAYARAN <i class="bi bi-arrow-right fw-bold ms-2"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Stats Deck -->
+                <div class="stats-row" data-aos="fade-up" data-aos-delay="400">
+                    <div class="stat-item">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Momen Kegiatan</span>
                     </div>
-                </div>
-            </form>
-        </div>
-    </section>
-
-    <!-- MODAL QRIS -->
-    <div class="modal fade" id="qrisModal" tabindex="-1" aria-labelledby="qrisModalLabel" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 overflow-hidden" style="background-color: #0f0f0f; border: 1px solid var(--lambo-green); box-shadow: 0 0 30px rgba(204, 255, 0, 0.2);">
-                <div class="modal-header border-bottom-0 pb-0 mt-2">
-                    <h5 class="modal-title fw-bold mx-auto" id="qrisModalLabel" style="color: var(--lambo-green); font-family: 'Rajdhani', sans-serif; letter-spacing: 2px;">SELESAIKAN PEMBAYARAN</h5>
-                    <button type="button" class="btn-close btn-close-white" id="btnCloseModal"></button>
-                </div>
-                <div class="modal-body text-center pt-2 px-4">
-                    <p class="text-secondary mb-1 small text-uppercase fw-bold">Total Tagihan</p>
-                    <h1 id="totalBayarModal" class="fw-bold mb-4" style="color: white; font-family: 'Rajdhani', sans-serif;">Rp 0</h1>
-                    
-                    <div class="bg-white p-2 rounded-4 mx-auto mb-4 mt-3" style="max-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                        <img src="qris.jpg" alt="QRIS Pak Mandor" class="img-fluid rounded-3">
+                    <div class="stat-sep">/</div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Anggota Aktif</span>
                     </div>
-
-                    <div class="alert text-start d-flex align-items-center gap-3 p-3 rounded-3" style="background: rgba(204, 255, 0, 0.05); border: 1px solid rgba(204, 255, 0, 0.3);">
-                        <i class="bi bi-whatsapp fs-2" style="color: var(--lambo-green);"></i> 
-                        <div style="font-size: 0.85rem; color: #ddd; line-height: 1.4;">
-                            <strong class="text-white d-block mb-1">WAJIB LAMPIRKAN BUKTI (SS)!</strong>
-                            Setelah klik tombol di bawah, pesananmu akan tercatat otomatis ke sistem. Kamu akan dialihkan ke WA Admin untuk mengirim foto bukti transfer.
-                        </div>
+                    <div class="stat-sep">/</div>
+                    <div class="stat-item">
+                        <span class="stat-number">TELYU</span>
+                        <span class="stat-label">Pusat Komunitas</span>
                     </div>
-                    
-                    <button type="button" class="btn-revuelto w-100 rounded-pill mb-2 mt-2" id="btnSelesaiBayar" style="font-size: 1.1rem; padding: 15px;">
-                        SAYA SUDAH TRANSFER <i class="bi bi-check-circle-fill ms-2"></i>
-                    </button>
                 </div>
             </div>
+
+            <!-- Interactive Scroll Indicator -->
+            <a href="#about" class="scroll-indicator" data-aos="fade-up" data-aos-delay="500">
+                SCROLL DOWN
+                <i class="bi bi-chevron-double-down"></i>
+            </a>
+
+            <!-- Running Banner Marquee -->
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <span>🔥 PORTFOLIO GALERI KEGIATAN KOMUNITAS PAK MANDOR TELKOM UNIVERSITY • MERAYAKAN KEBERSAMAAN, KREATIVITAS, DAN DISKUSI KULINER BERSAMA • THE HYPEST CAMPUS COMMUNITY IN BANDUNG • 2026 EDITION 🔥 </span>
+                    <span>🔥 PORTFOLIO GALERI KEGIATAN KOMUNITAS PAK MANDOR TELKOM UNIVERSITY • MERAYAKAN KEBERSAMAAN, KREATIVITAS, DAN DISKUSI KULINER BERSAMA • THE HYPEST CAMPUS COMMUNITY IN BANDUNG • 2026 EDITION 🔥 </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT & VISION SEGMENT -->
+        <section id="about">
+            <div class="container">
+                <div class="about-wrapper">
+                    <div class="about-text" data-aos="fade-right">
+                        <div class="glass-badge" style="margin-bottom: 15px;">ABOUT US</div>
+                        <h3><i class="bi bi-info-circle-fill"></i> Mengenal Komunitas Kami</h3>
+                        <p>Komunitas Pak Mandor (Mandor Kitchen) didirikan sebagai wadah kumpul bagi mahasiswa pecinta kuliner kreatif di Telkom University. Kami berfokus pada eksplorasi cita rasa kopi regal yang creamy dan soft cookies buatan rumah, serta menjadikannya sebagai media perantara untuk mempererat tali persahabatan dan berbagi cerita hangat di lingkungan kampus.</p>
+                        <p>Website ini didesain sebagai galeri portofolio perjalanan komunitas kami—menyimpan setiap kenangan berharga mulai dari sesi berbagi resep kuliner khas secara kolektif, keseruan gotong royong mempersiapkan acara kumpul bersama, hingga kehangatan saat membagikan kreasi kopi kami kepada teman-teman mahasiswa Telkom lainnya. Kami percaya kebersamaan adalah cara terbaik untuk menyatukan kepala dan menghadirkan tawa.</p>
+                        <a href="#gallery" class="btn-premium" style="padding: 12px 28px; font-size: 0.85rem;">Lihat Dokumentasi Kegiatan</a>
+                    </div>
+                    
+                    <div class="vision-mission-box" data-aos="fade-left">
+                        <div class="vm-item">
+                            <h4>Visi Komunitas</h4>
+                            <p>Menjadi wadah perkumpulan mahasiswa yang hangat, kreatif, dan suportif di lingkungan kampus, serta menciptakan ruang berkumpul untuk mempererat persaudaraan dan menyebarkan energi positif.</p>
+                        </div>
+                        <div class="vm-item">
+                            <h4>Misi Komunitas</h4>
+                            <ul class="vm-list">
+                                <li>Mengadakan sesi berkumpul (gathering) secara berkala untuk mempererat keakraban antar-anggota.</li>
+                                <li>Membangun relasi dan keakraban di lingkungan kampus melalui kegiatan sosial dan berbagi hal-hal positif.</li>
+                                <li>Mendokumentasikan dan membagikan energi positif kebersamaan komunitas secara visual kepada publik.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- JOURNAL GALLERY SEGMENT (DOKUMENTASI DOK1-DOK10) -->
+        <section id="gallery">
+            <div class="container">
+                <div class="section-header" data-aos="fade-down">
+                    <span>Visual Archive</span>
+                    <h2>Galeri Kegiatan <span>& Dokumentasi</span></h2>
+                </div>
+
+                <div class="gallery-grid">
+                    <!-- dok1.jpg -->
+                    <div class="gallery-item gi-8" data-aos="fade-up">
+                        <img src="dok1.jpg" alt="Gathering Awal">
+                        <div class="gallery-overlay">
+                            <span>01 / Kebersamaan</span>
+                            <h4>Gathering & Pertemuan Perdana</h4>
+                            <p>Sesi kumpul perdana seluruh anggota untuk menyelaraskan visi kegiatan dan ide keseruan komunitas ke depan.</p>
+                        </div>
+                    </div>
+
+                    <!-- dok2.jpg -->
+                    <div class="gallery-item gi-4" data-aos="fade-up">
+                        <img src="dok2.jpg" alt="Eksplorasi Rasa">
+                        <div class="gallery-overlay">
+                            <span>02 / Kreativitas & Diskusi</span>
+                            <h4>Sesi Berbagi Cerita</h4>
+                            <p>Mendiskusikan berbagai ide seru dan kegiatan menarik yang bisa dilakukan bersama oleh komunitas.</p>
+                        </div>
+                    </div>
+
+                    <!-- dok3.jpg -->
+                    <div class="gallery-item gi-4-300" data-aos="fade-up">
+                        <img src="dok3.jpg" alt="Sesi Seduh Kopi">
+                        <div class="gallery-overlay">
+                            <span>03 / Dapur Komunitas</span>
+                            <h4>Seduhan Kopi Hangat</h4>
+                            <p>Menikmati seduhan kopi manis sebagai teman ngobrol dan berdiskusi santai di basecamp.</p>
+                        </div>
+                    </div>
+
+                    <!-- dok4.jpg -->
+                    <div class="gallery-item gi-4-300" data-aos="fade-up">
+                        <img src="dok4.jpg" alt="Baking Session">
+                        <div class="gallery-overlay">
+                            <span>04 / Dapur Komunitas</span>
+                            <h4>Cemilan Diskusi Akhir Pekan</h4>
+                            <p>Menyiapkan cemilan manis bersama secara santai sebagai pelengkap keseruan kumpul akhir pekan.</p>
+                        </div>
+                    </div>
+
+                    <!-- dok5.jpg -->
+                    <div class="gallery-item gi-4-300" data-aos="fade-up">
+                        <img src="dok5.jpg" alt="Sesi Sharing">
+                        <div class="gallery-overlay">
+                            <span>05 / Apresiasi Karya</span>
+                            <h4>Saling Bertukar Ide</h4>
+                            <p>Sesi diskusi santai untuk saling mengapresiasi karya kreatif dan gagasan dari setiap anggota.</p>
+                        </div>
+                    </div>
+
+                    <!-- dok6.jpg -->
+                    <div class="gallery-item gi-3" data-aos="fade-up">
+                        <img src="dok6.jpg" alt="Persiapan Acara">
+                        <div class="gallery-overlay">
+                            <span>06 / Gotong Royong</span>
+                            <h4>Kerja Bakti Dekorasi Stand</h4>
+                            <p>Gotong royong merakit dan menghias dekorasi stand pameran komunitas untuk meramaikan acara kampus.</p>
+                        </div>
+                    </div>
+
+                    <!-- dok7.jpg -->
+                    <div class="gallery-item gi-3" data-aos="fade-up">
+                        <img src="dok7.jpg" alt="Pelaksanaan Event">
+                        <div class="gallery-overlay">
+                            <span>07 / Kegiatan Sosial</span>
+                            <h4>Menyambut Teman Baru</h4>
+                            <p>Membuka stand komunitas dan menyambut hangat teman-teman mahasiswa yang tertarik bergabung.</p>
+                        </div>
+                    </div>
+
+                    <!-- dok8.jpg -->
+                    <div class="gallery-item gi-3" data-aos="fade-up">
+                        <img src="dok8.jpg" alt="Sosialisasi Kampus">
+                        <div class="gallery-overlay">
+                            <span>08 / Berbagi Ceria</span>
+                            <h4>Menyebarkan Senyuman</h4>
+                            <p>Berbagi kebahagiaan kecil dan menjalin interaksi akrab dengan teman-teman di sekitar kampus.</p>
+                        </div>
+                    </div>
+
+                    <!-- dok9.jpg -->
+                    <div class="gallery-item gi-3" data-aos="fade-up">
+                        <img src="dok9.jpg" alt="Keberhasilan Kegiatan">
+                        <div class="gallery-overlay">
+                            <span>09 / Evaluasi Positif</span>
+                            <h4>Program Kerja Terlaksana</h4>
+                            <p>Ekspresi lega dan bahagia seluruh kru setelah menyelesaikan rangkaian program kerja luar ruangan.</p>
+                        </div>
+                    </div>
+
+                    <!-- dok10.jpg -->
+                    <div class="gallery-item gi-12" data-aos="fade-up">
+                        <img src="dok10.jpg" alt="Keluarga Pak Mandor">
+                        <div class="gallery-overlay">
+                            <span>10 / Anggota Komunitas</span>
+                            <h4>Keluarga Besar Pak Mandor</h4>
+                            <p>Potret kebersamaan seluruh kru aktif komunitas. Tali silaturahmi yang erat akan terus terjaga.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THE CREW TIM KELOMPOK (COLLABORATIVE DIVISION ONLY) -->
+        <section id="team">
+            <div class="container">
+                <div class="section-header" data-aos="fade-down">
+                    <span>The Crew Behind</span>
+                    <h2>Struktur Divisi <span>Komunitas</span></h2>
+                </div>
+
+                <div class="crew-intro" data-aos="fade-up">
+                    <p>Komunitas Mandor Kitchen dikelola secara terstruktur dan santai oleh berbagai divisi internal untuk memastikan seluruh kegiatan kumpul, dokumentasi, dan jalinan relasi kampus berjalan lancar.</p>
+                </div>
+
+                <!-- Division Grid -->
+                <div class="divisions-grid" data-aos="fade-up" data-aos-delay="100">
+                    <div class="division-card">
+                        <div class="div-icon"><i class="bi bi-fire"></i></div>
+                        <h3>Kegiatan & Acara</h3>
+                        <p>Mengatur jadwal sesi kumpul rutin (gathering), merancang konsep menu kuliner yang akan dieksplorasi bersama, dan mengelola basecamp.</p>
+                    </div>
+                    <div class="division-card">
+                        <div class="div-icon"><i class="bi bi-palette-fill"></i></div>
+                        <h3>Kreatif & Dokumentasi</h3>
+                        <p>Mengabadikan setiap momen kebersamaan lewat foto/video, mengelola visual galeri website, serta merancang konsep fisik stand event.</p>
+                    </div>
+                    <div class="division-card">
+                        <div class="div-icon"><i class="bi bi-megaphone-fill"></i></div>
+                        <h3>Hubungan Masyarakat</h3>
+                        <p>Mengelola publikasi digital akun Instagram resmi, mengurus admin pesan WhatsApp, serta mengoordinasi kolaborasi antar-komunitas.</p>
+                    </div>
+                    <div class="division-card">
+                        <div class="div-icon"><i class="bi bi-truck"></i></div>
+                        <h3>Logistik & Perlengkapan</h3>
+                        <p>Menyiapkan ketersediaan bahan pembuatan menu kumpul, merawat inventaris peralatan seduh kopi, dan mempersiapkan kebutuhan acara.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL CONNECT HUB -->
+        <section id="connect">
+            <div class="container">
+                <div class="section-header" data-aos="fade-down">
+                    <span>Stay Connected</span>
+                    <h2>Tautan Resmi <span>Hub Mandor</span></h2>
+                </div>
+
+                <div class="connect-grid">
+                    <!-- Basecamp Google Maps -->
+                    <div class="connect-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="connect-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                        <h3>Kampus Telkom University</h3>
+                        <p>Bandung, Jawa Barat. Pusat tempat berkumpul, belajar, dan berkreasi tim Mandor Kitchen.</p>
+                        <a href="https://maps.app.goo.gl/yB9Szj77yx2RWXoR6" target="_blank" class="connect-btn">
+                            Google Maps <i class="bi bi-arrow-up-right"></i>
+                        </a>
+                    </div>
+
+                    <!-- Instagram Link -->
+                    <div class="connect-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="connect-icon"><i class="bi bi-instagram"></i></div>
+                        <h3>Instagram Resmi</h3>
+                        <p>Lihat feed visual kami, sorotan cerita, serta testimonial dari mahasiswa penikmat produk Pak Mandor.</p>
+                        <a href="https://www.instagram.com/_pakmandor/" target="_blank" class="connect-btn">
+                            @_pakmandor <i class="bi bi-arrow-up-right"></i>
+                        </a>
+                    </div>
+
+                    <!-- Whatsapp Link -->
+                    <div class="connect-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="connect-icon"><i class="bi bi-whatsapp"></i></div>
+                        <h3>Hubungi Tim Kami</h3>
+                        <p>Apakah Anda ingin berdiskusi mengenai proyek ini, berkolaborasi dengan UKM kami, atau sekadar bertanya-tanya?</p>
+                        <a href="https://api.whatsapp.com/send/?phone=6281343139894" target="_blank" class="connect-btn">
+                            WhatsApp Admin <i class="bi bi-arrow-up-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- INTERACTIVE FLOATING SPOTIFY WIDGET -->
+    <div id="spotify-widget-container">
+        <!-- Collapsed circular button -->
+        <div id="spotify-toggle" title="Play Spotify Chill">
+            <i class="bi bi-spotify"></i>
+        </div>
+        
+        <!-- Expanded player drawer -->
+        <div id="spotify-player-drawer">
+            <button id="spotify-close" title="Close Player"><i class="bi bi-x-lg"></i></button>
+            <!-- User Curated Spotify Playlist Embed (Compact Version) -->
+            <iframe style="border-radius:12px; border:none;" src="https://open.spotify.com/embed/playlist/5PKkUaD76p7zxU2UI0Cq8a?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
     </div>
 
-    <!-- GALLERY DOKUMENTASI -->
-    <section id="gallery" class="py-5 border-top border-dark target-section" style="background: #050505;">
-        <div class="container py-5">
-            <div class="text-center mb-5" data-aos="fade-down">
-                <h3 class="text-white fw-bold mb-0 display-5" style="letter-spacing: -1px; font-family: 'Rajdhani', sans-serif;">OUR <span style="color:var(--lambo-green)">JOURNEY</span></h3>
-                <div style="height: 4px; width: 60px; background: var(--lambo-green); margin: 15px auto; border-radius: 2px;"></div>
+    <!-- PRESET MINIMAL FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">PAK <span>MANDOR</span></div>
+            <p class="footer-desc">Portofolio digital kelompok mahasiswa pecinta kuliner kreatif Telkom University. Dirancang dengan visual modern untuk menyimpan arsip karya kebersamaan kami.</p>
+            <div class="footer-socials">
+                <a href="https://maps.app.goo.gl/yB9Szj77yx2RWXoR6" target="_blank" class="social-link" title="Lokasi Kampus"><i class="bi bi-geo-alt-fill"></i></a>
+                <a href="https://www.instagram.com/_pakmandor/" target="_blank" class="social-link" title="Instagram"><i class="bi bi-instagram"></i></a>
+                <a href="https://api.whatsapp.com/send/?phone=6281343139894" target="_blank" class="social-link" title="WhatsApp Admin"><i class="bi bi-whatsapp"></i></a>
             </div>
-            
-            <div class="row g-3">
-                <div class="col-md-8 col-12" data-aos="fade-right">
-                    <img src="dok1.jpg" class="w-100 rounded-4 border border-dark" style="height: 400px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%) drop-shadow(0 0 15px rgba(204,255,0,0.3))'" onmouseout="this.style.filter='grayscale(100%)'">
-                </div>
-                <div class="col-md-4 col-12" data-aos="fade-left">
-                    <img src="dok2.jpg" class="w-100 rounded-4 border border-dark" style="height: 400px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%) drop-shadow(0 0 15px rgba(204,255,0,0.3))'" onmouseout="this.style.filter='grayscale(100%)'">
-                </div>
-
-                <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="100">
-                    <img src="dok3.jpg" class="w-100 rounded-4 border border-dark" style="height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
-                </div>
-                <div class="col-md-4 col-6" data-aos="zoom-in" data-aos-delay="200">
-                    <img src="dok4.jpg" class="w-100 rounded-4 border border-dark" style="height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
-                </div>
-                <div class="col-md-4 col-12" data-aos="zoom-in" data-aos-delay="300">
-                    <img src="dok5.jpg" class="w-100 rounded-4 border border-dark" style="height: 300px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
-                </div>
-
-                <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="100">
-                    <img src="dok6.jpg" class="w-100 rounded-4 border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
-                </div>
-                <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="200">
-                    <img src="dok7.jpg" class="w-100 rounded-4 border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
-                </div>
-                <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="300">
-                    <img src="dok8.jpg" class="w-100 rounded-4 border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
-                </div>
-                <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="400">
-                    <img src="dok9.jpg" class="w-100 rounded-4 border border-dark" style="height: 250px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(100%)'">
-                </div>
-
-                <div class="col-12" data-aos="zoom-in" data-aos-delay="500">
-                    <img src="dok10.jpg" class="w-100 rounded-4 border border-dark" style="height: 400px; object-fit: cover; filter: grayscale(100%); transition: 0.5s; cursor: pointer;" onmouseover="this.style.filter='grayscale(0%) drop-shadow(0 0 15px rgba(204,255,0,0.3))'" onmouseout="this.style.filter='grayscale(100%)'">
-                </div>
-            </div>
+            <span class="footer-copy">© 2026 PAK MANDOR - BANDUNG DIVISION. OFFICIAL COMMUNITY ARCHIVE.</span>
         </div>
-    </section>
-
-    <footer class="text-center py-5" style="background: #000; border-top: 1px solid #111;">
-        <h4 class="text-white fw-bold mb-3" style="font-family: 'Rajdhani', sans-serif; letter-spacing: 2px;">PAK <span style="color:var(--lambo-green)">MANDOR</span></h4>
-        <p class="m-0 text-secondary small fw-bold" style="letter-spacing: 1px;">© 2026 BANDUNG DIVISION. ALL RIGHTS RESERVED.</p>
     </footer>
 
-    <!-- Script Wajib -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core Scripting Integrations -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
     <script>
-        AOS.init({ once: true, duration: 800, offset: 50 });
+        // Init Scrollspy & Animations
+        AOS.init({ 
+            once: true, 
+            duration: 800, 
+            offset: 80 
+        });
 
-        // Handler Pemuatan Progress & Logger Siber
+        // 1. CYBERPUNK LOADING HANDLER
         const bootProgressBar = document.getElementById('boot-progress');
-        const bootLogger = document.getElementById('boot-logger');
-        let bootPercent = 0;
-
-        const bootLogs = [
-            { limit: 20, text: "🔒 Initializing encrypted handshake..." },
-            { limit: 45, text: "⚡ Connecting to Google Sheets..." },
-            { limit: 70, text: "📊 Syncing real-time stock quota..." },
-            { limit: 90, text: "🔥 Optimizing exclusive interface..." },
-            { limit: 100, text: "🚀 System ready. Welcome, Boss!" }
+        const consoleLog = document.getElementById('console-log');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        
+        const logs = [
+            "Initializing secure handshake...",
+            "Loading portfolio media assets...",
+            "Syncing members database...",
+            "Styling grid matrices...",
+            "Rendering visual components...",
+            "System Online. Welcome, Boss."
         ];
 
-        function runBootLoader(callback) {
+        let currentPercent = 0;
+        let consoleIndex = 0;
+
+        function runLoader() {
             const bootInterval = setInterval(() => {
-                bootPercent += Math.floor(Math.random() * 8) + 2;
-                if (bootPercent > 100) bootPercent = 100;
-
-                bootProgressBar.style.width = bootPercent + '%';
-
-                // Ganti teks logger berdasarkan rentang persentase
-                const activeLog = bootLogs.find(log => bootPercent <= log.limit);
-                if (activeLog && bootLogger.innerText !== activeLog.text) {
-                    bootLogger.style.opacity = 0;
-                    setTimeout(() => {
-                        bootLogger.innerText = activeLog.text;
-                        bootLogger.style.opacity = 1;
-                    }, 150);
-                }
-
-                if (bootPercent >= 100) {
+                currentPercent += Math.floor(Math.random() * 6) + 2;
+                if (currentPercent >= 100) {
+                    currentPercent = 100;
                     clearInterval(bootInterval);
-                    setTimeout(callback, 600);
+                    bootProgressBar.style.width = '100%';
+                    consoleLog.innerHTML = `<span class="accent">> </span>${logs[logs.length - 1]}`;
+                    
+                    setTimeout(() => {
+                        loadingOverlay.classList.add('hide');
+                        // Auto-expand Spotify drawer only on desktop screens on load
+                        if (window.innerWidth > 768) {
+                            document.getElementById('spotify-widget-container').classList.add('expanded');
+                        }
+                    }, 500);
+
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                    }, 1300);
+                } else {
+                    bootProgressBar.style.width = currentPercent + '%';
+                    const triggerStep = Math.floor(100 / logs.length);
+                    const currentLogIndex = Math.min(Math.floor(currentPercent / triggerStep), logs.length - 1);
+                    if (currentLogIndex !== consoleIndex) {
+                        consoleIndex = currentLogIndex;
+                        consoleLog.innerHTML = `<span class="accent">> </span>${logs[consoleIndex]}`;
+                    }
                 }
-            }, 80);
+            }, 45);
         }
+        window.addEventListener('load', runLoader);
 
-        // Sistem Toast Notifikasi Kustom (Pengganti alert agar aman di Iframe)
-        function showNotification(message) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = 'custom-toast p-3 rounded-4 text-white d-flex align-items-center justify-content-between';
-            
-            toast.innerHTML = `
-                <div class="d-flex align-items-center gap-2">
-                    <i class="bi bi-exclamation-triangle-fill fs-5" style="color: var(--lambo-green);"></i>
-                    <span class="fw-bold" style="font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; letter-spacing: 0.5px;">${message}</span>
-                </div>
-                <button type="button" class="btn-close btn-close-white ms-3" style="font-size: 0.8rem;"></button>
-            `;
-            
-            // Tombol X Tutup Manual
-            toast.querySelector('.btn-close').addEventListener('click', () => {
-                toast.remove();
-            });
-            
-            container.appendChild(toast);
-            
-            // Hapus otomatis setelah 5 detik
-            setTimeout(() => {
-                toast.classList.add('fade-out-toast');
-                setTimeout(() => toast.remove(), 400);
-            }, 5000);
+        // 2. MOUSE TRACKING Spotlight Spotlight Effect
+        document.addEventListener('mousemove', e => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.body.style.setProperty('--mouse-x', `${x}%`);
+            document.body.style.setProperty('--mouse-y', `${y}%`);
+        });
+
+        // 3. NAVBAR INTERACTIVE DIGITAL CLOCK
+        function runClock() {
+            const now = new Date();
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock-display').innerHTML = `${hours}:${minutes}<span style="opacity: 0.45; font-size: 0.75rem;">:${seconds}</span>`;
+            setTimeout(runClock, 1000);
         }
+        runClock();
 
-        // Tampilan Mode Pengambilan Kost vs Booth
-        function toggleAlamatMetode(metode) {
-            const alamatContainer = document.getElementById('alamatContainer');
-            const boothContainer = document.getElementById('boothContainer');
-            const alamatInput = document.getElementById('alamatPemesan');
-            const mapsInput = document.getElementById('linkMapsManual');
+        // 4. MOBILE NAV DRAWER INTERACTIVE TOGGLE
+        const navToggle = document.getElementById('navToggle');
+        const navLinksElement = document.getElementById('navLinks');
+        
+        navToggle.addEventListener('click', e => {
+            e.stopPropagation();
+            navLinksElement.classList.toggle('show');
+        });
 
-            if (metode === 'booth') {
-                alamatContainer.style.display = 'none';
-                boothContainer.style.display = 'block';
-                alamatInput.removeAttribute('required');
-                mapsInput.removeAttribute('required');
-                alamatInput.value = '';
-                mapsInput.value = '';
-            } else {
-                alamatContainer.style.display = 'block';
-                boothContainer.style.display = 'none';
-                alamatInput.setAttribute('required', '');
-                mapsInput.setAttribute('required', '');
+        document.addEventListener('click', e => {
+            if (!navLinksElement.contains(e.target) && e.target !== navToggle) {
+                navLinksElement.classList.remove('show');
             }
-        }
+        });
 
-        // SCROLLSPY PINTAR (Ijo-Ijo Navbar Gerak)
-        const sections = document.querySelectorAll(".target-section");
-        const navLinks = document.querySelectorAll(".navbar-nav .nav-link-custom");
+        // 5. SCROLLSPY LINK AUTO ACCENT UPDATER
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".nav-link");
 
         window.addEventListener("scroll", () => {
             let current = "";
+            const offsetPos = window.scrollY + 160;
+
             sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 200) {
+                const top = section.offsetTop;
+                if (offsetPos >= top) {
                     current = section.getAttribute("id");
                 }
             });
 
             navLinks.forEach(link => {
                 link.classList.remove("active");
-                if (link.getAttribute("href").includes(current)) {
+                if (link.getAttribute("href") === `#${current}`) {
                     link.classList.add("active");
                 }
             });
         });
 
-        // Jam Digital & Audio (Start Time di Load biar UI sync)
-        function startTime() {
-            const today = new Date();
-            let h = checkTime(today.getHours());
-            let m = checkTime(today.getMinutes());
-            let s = checkTime(today.getSeconds());
-            document.getElementById('clock').innerHTML = h + ":" + m + "<span style='font-size:1rem; opacity:0.5;'>:" + s + "</span>";
-            setTimeout(startTime, 1000);
-        }
-        function checkTime(i) { return (i < 10) ? "0" + i : i; }
+        // 6. SPOTIFY DRAWER TOGGLE
+        const spotifyContainer = document.getElementById('spotify-widget-container');
+        const spotifyToggle = document.getElementById('spotify-toggle');
+        const spotifyClose = document.getElementById('spotify-close');
 
-        const audio = document.getElementById("bg-music");
-        const musicIcon = document.getElementById("music-icon");
-        
-        window.addEventListener('load', () => { 
-            startTime(); 
-            audio.play().catch(e => console.log("Menunggu interaksi user...")); 
+        spotifyToggle.addEventListener('click', e => {
+            e.stopPropagation();
+            spotifyContainer.classList.add('expanded');
         });
 
-        document.body.addEventListener('click', () => {
-            if (audio.paused) { audio.play(); musicIcon.className = "bi bi-volume-up-fill"; }
-        }, { once: true });
-
-        function toggleMusic() {
-            if (audio.paused) { audio.play(); musicIcon.className = "bi bi-volume-up-fill"; } 
-            else { audio.pause(); musicIcon.className = "bi bi-volume-mute-fill"; }
-        }
-
-        // LOGIKA KUOTA PINTAR LENGKAP FETCH EXCEL + HEALTH BAR
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyRbYv173r_cO2q2sfSKz5JXMWJEWQPkABwjwcuHB9EY79L1st2LDHHTL-2MpBltHi8/exec'; 
-        
-        const KUOTA_MAX_KOPI = 84;
-        const KUOTA_MAX_COOKIES = 84;
-
-        let pesananKopi = 0;
-        let pesananCookies = 0;
-        let pesananCombo = 0;
-        let pesananEskrim = 0; // Tambahan Es Krim
-        
-        let terjualKopiGlobal = 0;
-        let terjualCookiesGlobal = 0;
-
-        // FETCH DATA SISA STOK DARI GOOGLE APPS SCRIPT
-        fetch(scriptURL)
-            .then(res => res.json())
-            .then(data => {
-                terjualKopiGlobal = data.terjualKopi || 0;
-                terjualCookiesGlobal = data.terjualCookies || 0;
-                
-                // Menjalankan cyber loading bar, lalu menyembunyikan boot overlay secara anggun
-                runBootLoader(() => {
-                    const loadingOverlay = document.getElementById('loading-overlay');
-                    loadingOverlay.style.opacity = '0';
-                    setTimeout(() => { 
-                        loadingOverlay.style.display = 'none'; 
-                    }, 800);
-                });
-
-                ubahQty('', 0); 
-            })
-            .catch(err => {
-                console.log("Gagal nge-sync stok dari excel", err);
-                
-                // Tetap jalankan boot sequence sebagai cadangan visual saat terjadi kesalahan koneksi
-                runBootLoader(() => {
-                    const loadingOverlay = document.getElementById('loading-overlay');
-                    loadingOverlay.style.opacity = '0';
-                    setTimeout(() => { 
-                        loadingOverlay.style.display = 'none'; 
-                    }, 800);
-                });
-                
-                ubahQty('', 0);
-            });
-
-        // FUNGSI BUAT NENTUIN WARNA BAR NYAWA
-        function getHealthBarColor(percent) {
-            if (percent > 60) return "var(--lambo-green)"; // Hijau Aman
-            if (percent > 30) return "#ffaa00"; // Oranye Warning
-            return "#ff3333"; // Merah Sekarat
-        }
-
-        // FUNGSI PINTAR UNTUK MENCARI STEPS VALID ES KRIM BERIKUTNYA
-        function findNextValidEskrim(currentE, direction, K, C, Co) {
-            let e = currentE + direction;
-            let maxE = K + C + (Co * 2);
-            while (e >= 0 && e <= maxE) {
-                let isValid = false;
-                for (let x = 0; x <= Co; x++) {
-                    let rem = e - (2 * x);
-                    if (rem >= 0 && rem <= (K + C)) {
-                        isValid = true;
-                        break;
-                    }
-                }
-                if (isValid) return e;
-                e += direction;
-            }
-            return currentE;
-        }
-
-        // FUNGSI SANITASI ES KRIM JIKA PORSI UTAMA DIKURANGI
-        function sanitizeEskrim(currentE, K, C, Co) {
-            let maxE = K + C + (Co * 2);
-            if (currentE > maxE) currentE = maxE;
-            
-            let e = currentE;
-            while (e >= 0) {
-                let isValid = false;
-                for (let x = 0; x <= Co; x++) {
-                    let rem = e - (2 * x);
-                    if (rem >= 0 && rem <= (K + C)) {
-                        isValid = true;
-                        break;
-                    }
-                }
-                if (isValid) return e;
-                e--;
-            }
-            return 0;
-        }
-
-        function ubahQty(jenis, perubahan) {
-            let prevKopi = pesananKopi;
-            let prevCookies = pesananCookies;
-            let prevCombo = pesananCombo;
-
-            if (jenis === 'kopi') pesananKopi += perubahan;
-            if (jenis === 'cookies') pesananCookies += perubahan;
-            if (jenis === 'combo') pesananCombo += perubahan;
-
-            if (pesananKopi < 0) pesananKopi = 0;
-            if (pesananCookies < 0) pesananCookies = 0;
-            if (pesananCombo < 0) pesananCombo = 0;
-
-            let totalButuhKopi = pesananKopi + pesananCombo + terjualKopiGlobal;
-            let totalButuhCookies = pesananCookies + pesananCombo + terjualCookiesGlobal;
-
-            if (totalButuhKopi > KUOTA_MAX_KOPI || totalButuhCookies > KUOTA_MAX_COOKIES) {
-                showNotification("Wah bosku, kuotanya nggak cukup buat pesanan segini! Siapa cepat dia dapat 🔥");
-                pesananKopi = prevKopi;
-                pesananCookies = prevCookies;
-                pesananCombo = prevCombo;
-                return; 
-            }
-
-            // LOGIKA VALIDASI ES KRIM PINTAR (Ganjil Fleksibel, tapi combo minimal kelipatan 2)
-            if (jenis === 'eskrim') {
-                pesananEskrim = findNextValidEskrim(pesananEskrim, perubahan, pesananKopi, pesananCookies, pesananCombo);
-            } else {
-                pesananEskrim = sanitizeEskrim(pesananEskrim, pesananKopi, pesananCookies, pesananCombo);
-            }
-
-            document.getElementById('qtyKopi').value = pesananKopi;
-            document.getElementById('qtyCookies').value = pesananCookies;
-            document.getElementById('qtyCombo').value = pesananCombo;
-            document.getElementById('qtyEskrim').value = pesananEskrim;
-
-            let sisaKopi = KUOTA_MAX_KOPI - totalButuhKopi;
-            let sisaCookies = KUOTA_MAX_COOKIES - totalButuhCookies;
-            let sisaCombo = Math.min(sisaKopi, sisaCookies); 
-
-            document.querySelector('.btn-add-kopi').disabled = (sisaKopi <= 0);
-            document.querySelector('.btn-add-cookies').disabled = (sisaCookies <= 0);
-            document.querySelector('.btn-add-combo').disabled = (sisaCombo <= 0);
-
-            // LOGIKA UPDATE LEBAR & WARNA BAR NYAWA (KOPI)
-            let persentaseKopi = (sisaKopi / KUOTA_MAX_KOPI) * 100;
-            let warnaKopi = getHealthBarColor(persentaseKopi);
-            document.getElementById('lblSisaKopi').innerText = sisaKopi;
-            document.getElementById('lblSisaKopi').style.color = warnaKopi;
-            document.getElementById('barKopi').style.width = persentaseKopi + "%";
-            document.getElementById('barKopi').style.backgroundColor = warnaKopi;
-            document.getElementById('barKopi').style.boxShadow = `0 0 10px ${warnaKopi}`;
-
-            // LOGIKA UPDATE LEBAR & WARNA BAR NYAWA (COOKIES)
-            let persentaseCookies = (sisaCookies / KUOTA_MAX_COOKIES) * 100;
-            let warnaCookies = getHealthBarColor(persentaseCookies);
-            document.getElementById('lblSisaCookies').innerText = sisaCookies;
-            document.getElementById('lblSisaCookies').style.color = warnaCookies;
-            document.getElementById('barCookies').style.width = persentaseCookies + "%";
-            document.getElementById('barCookies').style.backgroundColor = warnaCookies;
-            document.getElementById('barCookies').style.boxShadow = `0 0 10px ${warnaCookies}`;
-
-            // LOGIKA UPDATE LEBAR & WARNA BAR NYAWA (COMBO)
-            let persentaseCombo = (sisaCombo / 84) * 100;
-            let warnaCombo = getHealthBarColor(persentaseCombo);
-            document.getElementById('lblSisaCombo').innerText = sisaCombo;
-            document.getElementById('lblSisaCombo').style.color = warnaCombo;
-            document.getElementById('barCombo').style.width = persentaseCombo + "%";
-            document.getElementById('barCombo').style.backgroundColor = warnaCombo;
-            document.getElementById('barCombo').style.boxShadow = `0 0 10px ${warnaCombo}`;
-
-            let harga = (pesananKopi * 13000) + (pesananCookies * 15000) + (pesananCombo * 25000) + (pesananEskrim * 5000);
-            document.getElementById('liveTotal').innerText = "Rp " + harga.toLocaleString('id-ID');
-        }
-
-        // PROSES PEMESANAN (2 STEP: FORM -> MODAL)
-        const form = document.forms['submit-to-google-sheet'];
-        let formatRupiahGlobal = "";
-        let linkWATujuanGlobal = "";
-        let globalModalInstance = null;
-        
-        // STEP 1: VALIDASI FORM & MUNCULIN QRIS
-        form.addEventListener('submit', e => {
-            e.preventDefault(); 
-
-            let selectedMetode = document.querySelector('input[name="metodeAmbil"]:checked').value;
-            let isKirimKost = (selectedMetode === 'kost');
-
-            let cekLokasi = isKirimKost ? document.getElementById('linkMapsManual').value : "Ambil di Booth";
-            let noWA = document.getElementById('inputWA').value;
-
-            // VALIDASI FORMAT WA (08 ATAU +62)
-            let regexWA = /^(08|\+62|62)[0-9]{8,14}$/;
-            if(!regexWA.test(noWA)) {
-                showNotification("Format Nomor WA salah bosku! Wajib pakai awalan 08 atau +62 dan minimal 10 digit angka. 📱");
-                document.getElementById('inputWA').focus();
-                return;
-            }
-
-            if (pesananKopi === 0 && pesananCookies === 0 && pesananCombo === 0) {
-                showNotification("Pilih menunya dulu bosku, klik tombol [+] nya! 😅");
-                return; 
-            }
-            if (isKirimKost && cekLokasi === "") {
-                showNotification("Link Maps jangan sampai kosong ya bosku biar gampang dikirim! 📍");
-                return;
-            }
-
-            // Hitung Harga
-            let totalHargaRp = (pesananKopi * 13000) + (pesananCookies * 15000) + (pesananCombo * 25000) + (pesananEskrim * 5000);
-            formatRupiahGlobal = "Rp " + totalHargaRp.toLocaleString('id-ID');
-            document.getElementById('totalBayarModal').innerText = formatRupiahGlobal;
-            
-            // Siapkan Format WA di awal
-            let alamatDetail = isKirimKost ? document.getElementById('alamatPemesan').value : "Booth Depan Gedung H GSG Telkom";
-            let catatanUser = document.getElementById('catatanPemesan').value;
-
-            let pesanWA = `Halo Admin! Saya baru saja mengamankan slot pre-order di Web Pak Mandor.\n\n`;
-            pesanWA += `📋 *Order Details:*\n`;
-            if(pesananKopi > 0) pesanWA += `- Kopi Susu Regal: ${pesananKopi} pcs\n`;
-            if(pesananCookies > 0) pesanWA += `- Cookies Boom: ${pesananCookies} pcs\n`;
-            if(pesananCombo > 0) pesanWA += `- Paket Combo: ${pesananCombo} pcs\n`; 
-            if(pesananEskrim > 0) pesanWA += `- Tambahan Es Krim: ${pesananEskrim} scoop\n`; 
-            if(catatanUser !== "") pesanWA += `\n📝 *Notes:* ${catatanUser}\n`;
-
-            pesanWA += `\n📍 *Shipping/Pickup:* ${alamatDetail}\n`;
-            if(isKirimKost) pesanWA += `🗺️ *GPS Link:* ${cekLokasi}\n`;
-
-            pesanWA += `\nTotal tagihan saya *${formatRupiahGlobal}* dan sudah transfer via QRIS. Melampirkan foto bukti transfer di bawah ini ya min!`;
-            linkWATujuanGlobal = "https://api.whatsapp.com/send/?phone=6281343139894&text=" + encodeURIComponent(pesanWA);
-
-            // Buka Modal Pembayaran
-            if(!globalModalInstance) {
-                globalModalInstance = new bootstrap.Modal(document.getElementById('qrisModal'));
-            }
-            globalModalInstance.show();
+        spotifyClose.addEventListener('click', e => {
+            e.stopPropagation();
+            spotifyContainer.classList.remove('expanded');
         });
 
-        // STEP 2: KIRIM KE EXCEL LALU KE WA
-        const btnSelesaiBayar = document.getElementById('btnSelesaiBayar');
-        let isSubmitting = false;
-
-        btnSelesaiBayar.addEventListener('click', function() {
-            if(isSubmitting) return;
-            
-            isSubmitting = true;
-            btnSelesaiBayar.disabled = true;
-            btnSelesaiBayar.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> MENYIMPAN DATA...';
-            
-            // Susun Data Sederhana Tanpa Spasi
-            let formData = new FormData(form);
-            let kopiKeExcel = (pesananKopi + pesananCombo).toString();
-            let cookiesKeExcel = (pesananCookies + pesananCombo).toString();
-            
-            let selectedMetode = document.querySelector('input[name="metodeAmbil"]:checked').value;
-            let isKirimKost = (selectedMetode === 'kost');
-
-            let finalAlamat = isKirimKost ? document.getElementById('alamatPemesan').value : "AMBIL DI BOOTH (Gedung H GSG Telkom)";
-            let finalMaps = isKirimKost ? document.getElementById('linkMapsManual').value : "https://maps.app.goo.gl/jSd1QjgrLorHKftd9";
-
-            let dateNow = new Date().toLocaleString('id-ID');
-            
-            formData.set('Tanggal', dateNow);
-            formData.set('Kopi', kopiKeExcel);
-            formData.set('Cookies', cookiesKeExcel);
-            formData.set('Alamat', finalAlamat);
-            formData.set('Maps', finalMaps);
-            
-            // PAKSA KIRIM DATA ESKRIM AGAR TIDAK LEPAS/DIABAIKAN OLEH BROWSER
-            formData.set('Eskrim', pesananEskrim.toString());
-            formData.delete('Combo'); 
-            formData.delete('metodeAmbil');
-            
-            fetch(scriptURL, { method: 'POST', body: formData})
-              .then(response => {
-                  showNotification("🔥 BOOM! Pesanan tercatat. Jangan lupa lampirkan SS Bukti Transfer di WA Admin ya!");
-                  
-                  // Reset form & ui
-                  form.reset(); 
-                  toggleAlamatMetode('booth'); // Kembalikan ke default booth
-                  
-                  // Update current local sold cache biar gak usah nunggu fetch lagi langsung berkurang stoknya
-                  terjualKopiGlobal += pesananKopi + pesananCombo;
-                  terjualCookiesGlobal += pesananCookies + pesananCombo;
-                  
-                  pesananKopi = 0; pesananCookies = 0; pesananCombo = 0; pesananEskrim = 0;
-                  ubahQty('', 0); 
-                  
-                  // Tutup modal, lempar ke WA
-                  globalModalInstance.hide();
-                  
-                  isSubmitting = false;
-                  btnSelesaiBayar.disabled = false;
-                  btnSelesaiBayar.innerHTML = 'SAYA SUDAH TRANSFER <i class="bi bi-check-circle-fill ms-2"></i>';
-                  
-                  window.location.href = linkWATujuanGlobal;
-              })
-              .catch(error => {
-                  showNotification("Gagal kirim pesanan, cek koneksi internet bosku!");
-                  isSubmitting = false; 
-                  btnSelesaiBayar.disabled = false;
-                  btnSelesaiBayar.innerHTML = 'COBA LAGI <i class="bi bi-arrow-repeat ms-2"></i>';
-              })
-        });
-        
-        // Handle Tombol X di Modal
-        document.getElementById('btnCloseModal').addEventListener('click', function() {
-            if(!isSubmitting) {
-                globalModalInstance.hide();
+        document.addEventListener('click', e => {
+            if (spotifyContainer && !spotifyContainer.contains(e.target)) {
+                spotifyContainer.classList.remove('expanded');
             }
         });
     </script>
