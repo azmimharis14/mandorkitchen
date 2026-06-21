@@ -1854,7 +1854,7 @@
 
         // 6. YOUTUBE BACKEND MUSIC PLAYLIST LOGIC
         const playlist = [
-            { title: "Disarankan di Bandung", artist: "Dongker & Jason Ranti", id: "v2_a8z_H250" },
+            { title: "Disarankan di Bandung", artist: "Dongker & Jason Ranti", id: "rZAte5S3M7s" },
             { title: "Kota Ini Tak Sama Tanpamu", artist: "Nadhif Basalamah", id: "grp6FCnioMM" },
             { title: "Hitamku", artist: "Andra and The BackBone", id: "kY3sXk2p3q4" },
             { title: "My Love", artist: "Westlife", id: "ulPvDoC2rWk" },
@@ -1938,10 +1938,90 @@
             nextTrack();
         }
 
+        // Smart Search Bot (Invidious/Piped API integration)
+        async function searchTrackOnYoutube(title, artist) {
+            const query = encodeURIComponent(`${artist} ${title}`);
+            const endpoints = [
+                `https://pipedapi.kavin.rocks/search?q=${query}`,
+                `https://api.piped.yt/search?q=${query}`,
+                `https://pipedapi.col1a.de/search?q=${query}`,
+                `https://yewtu.be/api/v1/search?q=${query}`
+            ];
+
+            for (const url of endpoints) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 3500);
+                    
+                    const response = await fetch(url, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    
+                    if (!response.ok) continue;
+                    const data = await response.json();
+                    
+                    // Handle Piped API structure
+                    if (data && data.items && data.items.length > 0) {
+                        const streamItem = data.items.find(item => item.type === 'stream' || (item.url && item.url.includes('/watch?v=')));
+                        if (streamItem && streamItem.url) {
+                            const match = streamItem.url.match(/[?&]v=([^&]+)/) || streamItem.url.match(/v=([^&]+)/);
+                            if (match && match[1]) return match[1];
+                        }
+                    }
+                    
+                    // Handle Invidious API structure
+                    if (data && Array.isArray(data) && data.length > 0) {
+                        const videoItem = data.find(item => item.type === 'video' || item.videoId);
+                        if (videoItem && videoItem.videoId) return videoItem.videoId;
+                    }
+                } catch (e) {
+                    console.warn(`Search endpoint failed: ${url}`, e);
+                }
+            }
+            return null;
+        }
+
         function loadTrackInfo(index) {
             currentTrackIndex = index;
             trackTitle.textContent = playlist[index].title;
             trackArtist.textContent = playlist[index].artist;
+        }
+
+        async function loadAndPlayTrack(index) {
+            if (!isPlayerReady) return;
+            loadTrackInfo(index);
+            
+            const track = playlist[index];
+            audioStarted = true;
+            
+            // Check if track has already been searched and cached
+            if (track.dynamicId) {
+                player.loadVideoById(track.dynamicId);
+                playTrack();
+                return;
+            }
+
+            console.log(`Music Bot: Searching for original audio of "${track.title}" by "${track.artist}"...`);
+            trackTitle.textContent = "Searching... 🔍";
+            
+            try {
+                const videoId = await searchTrackOnYoutube(track.title, track.artist);
+                if (videoId) {
+                    console.log(`Music Bot: Found video ID "${videoId}"`);
+                    track.dynamicId = videoId;
+                    trackTitle.textContent = track.title;
+                    player.loadVideoById(videoId);
+                    playTrack();
+                    return;
+                }
+            } catch (err) {
+                console.error("Music Bot search error:", err);
+            }
+
+            // Fallback to default ID
+            console.warn(`Music Bot: Search failed, using fallback static ID: ${track.id}`);
+            trackTitle.textContent = track.title;
+            player.loadVideoById(track.id);
+            playTrack();
         }
 
         function playTrack() {
@@ -1961,16 +2041,18 @@
             if (state === YT.PlayerState.PLAYING) {
                 pauseTrack();
             } else {
-                playTrack();
+                if (!audioStarted) {
+                    loadAndPlayTrack(currentTrackIndex);
+                } else {
+                    playTrack();
+                }
             }
         }
 
         function nextTrack() {
             if (!isPlayerReady) return;
             let nextIndex = (currentTrackIndex + 1) % playlist.length;
-            loadTrackInfo(nextIndex);
-            player.loadVideoById(playlist[nextIndex].id);
-            playTrack();
+            loadAndPlayTrack(nextIndex);
         }
 
         function prevTrack() {
@@ -1979,9 +2061,7 @@
             if (prevIndex < 0) {
                 prevIndex = playlist.length - 1;
             }
-            loadTrackInfo(prevIndex);
-            player.loadVideoById(playlist[prevIndex].id);
-            playTrack();
+            loadAndPlayTrack(prevIndex);
         }
 
         // Event Listeners for Player Controls
@@ -2005,7 +2085,7 @@
             e.stopPropagation();
             musicContainer.classList.add('expanded');
             if (!audioStarted && isPlayerReady) {
-                playTrack();
+                loadAndPlayTrack(0);
             }
         });
 
@@ -2023,7 +2103,7 @@
         // First click on body starts audio
         document.body.addEventListener('click', () => {
             if (!audioStarted && isPlayerReady) {
-                playTrack();
+                loadAndPlayTrack(0);
             }
         }, { once: true });
     </script>
