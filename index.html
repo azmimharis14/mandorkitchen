@@ -1762,7 +1762,8 @@
 
         function runLoader() {
             const bootInterval = setInterval(() => {
-                currentPercent += Math.floor(Math.random() * 6) + 2;
+                // Boost speed significantly to avoid user impatience
+                currentPercent += Math.floor(Math.random() * 12) + 8;
                 if (currentPercent >= 100) {
                     currentPercent = 100;
                     clearInterval(bootInterval);
@@ -1776,11 +1777,11 @@
                             const musicWidget = document.getElementById('music-widget-container');
                             if (musicWidget) musicWidget.classList.add('expanded');
                         }
-                    }, 500);
+                    }, 150);
 
                     setTimeout(() => {
                         loadingOverlay.style.display = 'none';
-                    }, 1300);
+                    }, 750);
                 } else {
                     bootProgressBar.style.width = currentPercent + '%';
                     const triggerStep = Math.floor(100 / logs.length);
@@ -1790,7 +1791,7 @@
                         consoleLog.innerHTML = `<span class="accent">> </span>${logs[consoleIndex]}`;
                     }
                 }
-            }, 45);
+            }, 20);
         }
         window.addEventListener('load', runLoader);
 
