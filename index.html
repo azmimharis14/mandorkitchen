@@ -1017,8 +1017,8 @@
         }
 
         #music-toggle {
-            background: #ff5500; /* SoundCloud Orange */
-            color: #fff;
+            background: #1DB954; /* Spotify Green */
+            color: #000;
             width: 48px;
             height: 48px;
             border-radius: 50%;
@@ -1026,7 +1026,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(255, 85, 0, 0.35);
+            box-shadow: 0 8px 25px rgba(29, 185, 84, 0.35);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             user-select: none;
             position: relative;
@@ -1037,7 +1037,7 @@
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             border-radius: 50%;
-            background: rgba(255, 85, 0, 0.4);
+            background: rgba(29, 185, 84, 0.4);
             animation: musicPulse 2.5s infinite;
             z-index: -1;
         }
@@ -1049,8 +1049,8 @@
 
         #music-toggle:hover {
             transform: scale(1.08) translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 85, 0, 0.55);
-            background: #ff7722;
+            box-shadow: 0 10px 30px rgba(29, 185, 84, 0.55);
+            background: #1ed760;
         }
 
         #music-toggle i {
@@ -1679,18 +1679,18 @@
         </section>
     </main>
 
-    <!-- INTERACTIVE FLOATING MUSIC PLAYER (SOUNDCLOUD INTEGRATION) -->
+    <!-- INTERACTIVE FLOATING MUSIC PLAYER (SPOTIFY TRACK INTEGRATION) -->
     <div id="music-widget-container">
         <!-- Collapsed circular button -->
-        <div id="music-toggle" title="Open SoundCloud Playlist">
-            <i class="bi bi-cloud-fill" id="music-toggle-icon" style="color: #fff; font-size: 1.4rem;"></i>
+        <div id="music-toggle" title="Open Spotify Player">
+            <i class="bi bi-spotify" id="music-toggle-icon" style="color: #000; font-size: 1.4rem;"></i>
         </div>
         
         <!-- Expanded player drawer -->
         <div id="music-player-drawer">
             <button id="music-close" title="Close Player"><i class="bi bi-x-lg"></i></button>
-            <div style="width: 100%; height: 300px; border-radius: 12px; overflow: hidden; margin-top: 5px;">
-                <iframe src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/antony-barus/sets/terbaru-lagu-pop-indonesia&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" width="100%" height="300" frameBorder="no" scrolling="no" allow="autoplay" loading="lazy" style="border: 0;"></iframe>
+            <div style="width: 100%; height: 352px; border-radius: 12px; overflow: hidden; margin-top: 5px;">
+                <iframe src="https://open.spotify.com/embed/track/39M8SHyEuWiJSXODMY3YJ3?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="border: 0;"></iframe>
             </div>
         </div>
     </div>
