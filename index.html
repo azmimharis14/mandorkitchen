@@ -1007,8 +1007,8 @@
         }
 
         /* --- FLOATING NATIVE MUSIC WIDGET --- */
-        /* --- FLOATING SPOTIFY WIDGET --- */
-        #spotify-widget-container {
+        /* --- FLOATING NATIVE MUSIC WIDGET --- */
+        #music-widget-container {
             position: fixed;
             bottom: 25px;
             right: 25px;
@@ -1016,8 +1016,8 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        #spotify-toggle {
-            background: #1DB954; /* Spotify Green */
+        #music-toggle {
+            background: #1DB954; /* Familiar layout branding green */
             color: #000;
             width: 48px;
             height: 48px;
@@ -1032,101 +1032,241 @@
             position: relative;
         }
 
-        #spotify-toggle::before {
+        #music-toggle::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             border-radius: 50%;
             background: rgba(29, 185, 84, 0.4);
-            animation: spotifyPulse 2.5s infinite;
+            animation: musicPulse 2.5s infinite;
             z-index: -1;
         }
 
-        @keyframes spotifyPulse {
+        @keyframes musicPulse {
             0% { transform: scale(1); opacity: 0.6; }
             100% { transform: scale(1.45); opacity: 0; }
         }
 
-        #spotify-toggle:hover {
+        #music-toggle:hover {
             transform: scale(1.08) translateY(-2px);
             box-shadow: 0 10px 30px rgba(29, 185, 84, 0.55);
             background: #1ed760;
         }
 
-        #spotify-toggle i {
-            font-size: 1.4rem;
+        #music-toggle i {
+            font-size: 1.25rem;
+            transition: opacity 0.3s;
         }
 
-        #spotify-player-drawer {
+        /* Toggle between note icon and wave bars */
+        .music-wave-bars {
+            display: none;
+            align-items: flex-end;
+            gap: 2.5px;
+            width: 14px;
+            height: 12px;
+        }
+        .music-wave-bars span {
+            width: 2.5px;
+            height: 100%;
+            background-color: #000;
+            border-radius: 1px;
+            animation: waveBounce 0.8s ease-in-out infinite alternate;
+        }
+        .music-wave-bars span:nth-child(2) { animation-delay: 0.2s; }
+        .music-wave-bars span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes waveBounce {
+            0% { height: 20%; }
+            100% { height: 100%; }
+        }
+
+        #music-widget-container.playing #music-toggle i {
+            display: none;
+        }
+        #music-widget-container.playing #music-toggle .music-wave-bars {
+            display: flex;
+        }
+
+        #music-player-drawer {
             position: absolute;
             bottom: 0;
             right: 0;
-            width: 320px;
+            width: 300px;
             background: rgba(10, 10, 10, 0.92);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            padding: 12px;
+            padding: 18px 15px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.85);
             opacity: 0;
             transform: scale(0.9) translateY(10px);
             pointer-events: none;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 1001;
-            height: 376px;
         }
 
-        #spotify-close {
+        /* Close Button overlaying the top-right of the player */
+        #music-close {
             position: absolute;
-            top: 6px;
-            right: 6px;
-            z-index: 10;
-            background: rgba(0,0,0,0.6);
-            border: none;
-            color: #fff;
-            width: 26px;
-            height: 26px;
+            top: -8px;
+            right: -8px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
+            background: #111;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
             cursor: pointer;
+            font-size: 0.65rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             transition: all 0.2s ease;
+            z-index: 10;
         }
 
-        #spotify-close:hover {
+        #music-close:hover {
             background: #ff4a4a;
+            border-color: #ff4a4a;
             transform: scale(1.1);
         }
 
+        .music-player-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .music-track-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-right: 20px;
+        }
+
+        .music-track-title {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-track-artist {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-family: var(--font-heading);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .music-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .music-btn {
+            background: none;
+            border: none;
+            color: #ccc;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-btn:hover {
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .music-btn.play-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            color: #000;
+            font-size: 1.15rem;
+            box-shadow: 0 4px 10px rgba(255,255,255,0.1);
+        }
+
+        .music-btn.play-btn:hover {
+            background: var(--primary);
+            color: #000;
+            transform: scale(1.08);
+            box-shadow: var(--primary-glow);
+        }
+
+        /* Wave visualizer inside the player */
+        .music-wave-visualizer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 3px;
+            height: 15px;
+            opacity: 0.25;
+            transition: opacity 0.3s;
+        }
+
+        #music-widget-container.playing .music-wave-visualizer {
+            opacity: 0.85;
+        }
+
+        .music-wave-visualizer span {
+            width: 3px;
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 1px;
+        }
+
+        #music-widget-container.playing .music-wave-visualizer span {
+            animation: visualizerBounce 0.6s ease-in-out infinite alternate;
+        }
+        #music-widget-container.playing .music-wave-visualizer span:nth-child(1) { animation-duration: 0.4s; }
+        #music-widget-container.playing .music-wave-visualizer span:nth-child(2) { animation-duration: 0.75s; }
+        #music-widget-container.playing .music-wave-visualizer span:nth-child(3) { animation-duration: 0.5s; }
+        #music-widget-container.playing .music-wave-visualizer span:nth-child(4) { animation-duration: 0.7s; }
+        #music-widget-container.playing .music-wave-visualizer span:nth-child(5) { animation-duration: 0.45s; }
+
+        @keyframes visualizerBounce {
+            0% { height: 10%; }
+            100% { height: 100%; }
+        }
+
         /* Toggle display states when active */
-        #spotify-widget-container.expanded #spotify-toggle {
+        #music-widget-container.expanded #music-toggle {
             opacity: 0;
             transform: scale(0.8);
             pointer-events: none;
         }
 
-        #spotify-widget-container.expanded #spotify-player-drawer {
+        #music-widget-container.expanded #music-player-drawer {
             opacity: 1;
             transform: scale(1) translateY(0);
             pointer-events: auto;
         }
 
-        /* Responsive styling for Spotify widget */
+        /* Responsive styling for Music widget */
         @media (max-width: 576px) {
-            #spotify-widget-container {
+            #music-widget-container {
                 bottom: 20px;
                 right: 20px;
             }
-            #spotify-widget-container.expanded {
+            #music-widget-container.expanded {
                 left: 20px;
                 right: 20px;
-                bottom: 20px;
             }
-            #spotify-player-drawer {
+            #music-player-drawer {
                 width: 100%;
-                height: 376px;
             }
         }
 
@@ -1539,20 +1679,45 @@
         </section>
     </main>
 
-    <!-- INTERACTIVE FLOATING SPOTIFY WIDGET -->
-    <div id="spotify-widget-container">
+    <!-- INTERACTIVE FLOATING MUSIC PLAYER (YOUTUBE BACKEND PLAYLIST) -->
+    <div id="music-widget-container">
         <!-- Collapsed circular button -->
-        <div id="spotify-toggle" title="Play Spotify Chill">
-            <i class="bi bi-spotify"></i>
+        <div id="music-toggle" title="Play Music">
+            <i class="bi bi-music-note-beamed" id="music-toggle-icon"></i>
+            <div class="music-wave-bars" id="music-wave-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
         
         <!-- Expanded player drawer -->
-        <div id="spotify-player-drawer">
-            <button id="spotify-close" title="Close Player"><i class="bi bi-x-lg"></i></button>
-            <!-- User Curated Spotify Playlist Embed (Compact Version) -->
-            <iframe style="border-radius:12px; border:none;" src="https://open.spotify.com/embed/playlist/5PKkUaD76p7zxU2UI0Cq8a?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <div id="music-player-drawer">
+            <button id="music-close" title="Close Player"><i class="bi bi-x-lg"></i></button>
+            <div class="music-player-content">
+                <div class="music-track-info">
+                    <span class="music-track-title" id="player-track-title">Loading Track...</span>
+                    <span class="music-track-artist" id="player-track-artist">Mandor Chill Radio</span>
+                </div>
+                <div class="music-controls">
+                    <button class="music-btn" id="music-prev" title="Previous"><i class="bi bi-skip-start-fill"></i></button>
+                    <button class="music-btn play-btn" id="music-play" title="Play/Pause"><i class="bi bi-play-fill" id="music-play-icon"></i></button>
+                    <button class="music-btn" id="music-next" title="Next"><i class="bi bi-skip-end-fill"></i></button>
+                </div>
+                <!-- Mini Visualizer Wave -->
+                <div class="music-wave-visualizer" id="music-visualizer">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Hidden YouTube Player Container (used by API) -->
+    <div id="youtube-player-element" style="position: absolute; width: 10px; height: 10px; opacity: 0.001; pointer-events: none; z-index: -100; left: 0; top: 0;"></div>
 
     <!-- PRESET MINIMAL FOOTER -->
     <footer>
@@ -1606,9 +1771,10 @@
                     
                     setTimeout(() => {
                         loadingOverlay.classList.add('hide');
-                        // Auto-expand Spotify drawer only on desktop screens on load
+                        // Auto-expand Music widget only on desktop screens on load
                         if (window.innerWidth > 768) {
-                            document.getElementById('spotify-widget-container').classList.add('expanded');
+                            const musicWidget = document.getElementById('music-widget-container');
+                            if (musicWidget) musicWidget.classList.add('expanded');
                         }
                     }, 500);
 
@@ -1685,26 +1851,174 @@
             });
         });
 
-        // 6. SPOTIFY DRAWER TOGGLE
-        const spotifyContainer = document.getElementById('spotify-widget-container');
-        const spotifyToggle = document.getElementById('spotify-toggle');
-        const spotifyClose = document.getElementById('spotify-close');
+        // 6. YOUTUBE BACKEND MUSIC PLAYLIST LOGIC
+        const playlist = [
+            { title: "Recommended in Bandung", artist: "Dongker & Jason Ranti", id: "rZAte5S3M7s" },
+            { title: "Kota Ini Tak Sama Tanpamu", artist: "Nadhif Basalamah", id: "grp6FCnioMM" },
+            { title: "Hitamku", artist: "Andra and The BackBone", id: "QJm_4_s1D8M" },
+            { title: "My Love", artist: "Westlife", id: "ulK0Y4y-1Q0" },
+            { title: "As Long as You Love Me", artist: "Backstreet Boys", id: "4fndeDfaWCg" },
+            { title: "Shape of My Heart", artist: "Backstreet Boys", id: "OT5msu-dap8" },
+            { title: "Untukku", artist: "Chrisye", id: "nL5Xv_9S2vM" },
+            { title: "Aku Milikmu", artist: "Dewa 19", id: "-hSuiNopzqQ" },
+            { title: "Anything You Want", artist: "Reality Club", id: "U-tM7JmP_k4" },
+            { title: "Dan...", artist: "Sheila On 7", id: "m-hS6V9S7-c" }
+        ];
 
-        spotifyToggle.addEventListener('click', e => {
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        let audioStarted = false;
+        let player;
+        let isPlayerReady = false;
+
+        // Load the YouTube Iframe Player API code asynchronously
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        const musicContainer = document.getElementById('music-widget-container');
+        const musicToggle = document.getElementById('music-toggle');
+        const musicClose = document.getElementById('music-close');
+        const musicPlayBtn = document.getElementById('music-play');
+        const musicPlayIcon = document.getElementById('music-play-icon');
+        const musicPrevBtn = document.getElementById('music-prev');
+        const musicNextBtn = document.getElementById('music-next');
+        const trackTitle = document.getElementById('player-track-title');
+        const trackArtist = document.getElementById('player-track-artist');
+
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('youtube-player-element', {
+                height: '10',
+                width: '10',
+                videoId: playlist[0].id,
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'fs': 0,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'iv_load_policy': 3,
+                    'playsinline': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        };
+
+        function onPlayerReady(event) {
+            isPlayerReady = true;
+            loadTrackInfo(0);
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                musicContainer.classList.add('playing');
+                musicPlayIcon.className = 'bi bi-pause-fill';
+            } else {
+                isPlaying = false;
+                musicContainer.classList.remove('playing');
+                musicPlayIcon.className = 'bi bi-play-fill';
+            }
+            
+            if (event.data === YT.PlayerState.ENDED) {
+                nextTrack();
+            }
+        }
+
+        function loadTrackInfo(index) {
+            currentTrackIndex = index;
+            trackTitle.textContent = playlist[index].title;
+            trackArtist.textContent = playlist[index].artist;
+        }
+
+        function playTrack() {
+            if (!isPlayerReady) return;
+            player.playVideo();
+            audioStarted = true;
+        }
+
+        function pauseTrack() {
+            if (!isPlayerReady) return;
+            player.pauseVideo();
+        }
+
+        function togglePlay() {
+            if (!isPlayerReady) return;
+            const state = player.getPlayerState();
+            if (state === YT.PlayerState.PLAYING) {
+                pauseTrack();
+            } else {
+                playTrack();
+            }
+        }
+
+        function nextTrack() {
+            if (!isPlayerReady) return;
+            let nextIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrackInfo(nextIndex);
+            player.loadVideoById(playlist[nextIndex].id);
+            playTrack();
+        }
+
+        function prevTrack() {
+            if (!isPlayerReady) return;
+            let prevIndex = currentTrackIndex - 1;
+            if (prevIndex < 0) {
+                prevIndex = playlist.length - 1;
+            }
+            loadTrackInfo(prevIndex);
+            player.loadVideoById(playlist[prevIndex].id);
+            playTrack();
+        }
+
+        // Event Listeners for Player Controls
+        musicPlayBtn.addEventListener('click', e => {
             e.stopPropagation();
-            spotifyContainer.classList.add('expanded');
+            togglePlay();
         });
 
-        spotifyClose.addEventListener('click', e => {
+        musicPrevBtn.addEventListener('click', e => {
             e.stopPropagation();
-            spotifyContainer.classList.remove('expanded');
+            prevTrack();
+        });
+
+        musicNextBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            nextTrack();
+        });
+
+        // Widget Toggle Expand/Collapse
+        musicToggle.addEventListener('click', e => {
+            e.stopPropagation();
+            musicContainer.classList.add('expanded');
+            if (!audioStarted && isPlayerReady) {
+                playTrack();
+            }
+        });
+
+        musicClose.addEventListener('click', e => {
+            e.stopPropagation();
+            musicContainer.classList.remove('expanded');
         });
 
         document.addEventListener('click', e => {
-            if (spotifyContainer && !spotifyContainer.contains(e.target)) {
-                spotifyContainer.classList.remove('expanded');
+            if (musicContainer && !musicContainer.contains(e.target)) {
+                musicContainer.classList.remove('expanded');
             }
         });
+
+        // First click on body starts audio
+        document.body.addEventListener('click', () => {
+            if (!audioStarted && isPlayerReady) {
+                playTrack();
+            }
+        }, { once: true });
     </script>
 </body>
 </html>
