@@ -1854,16 +1854,16 @@
 
         // 6. YOUTUBE BACKEND MUSIC PLAYLIST LOGIC
         const playlist = [
-            { title: "Recommended in Bandung", artist: "Dongker & Jason Ranti", id: "rZAte5S3M7s" },
+            { title: "Disarankan di Bandung", artist: "Dongker & Jason Ranti", id: "v2_a8z_H250" },
             { title: "Kota Ini Tak Sama Tanpamu", artist: "Nadhif Basalamah", id: "grp6FCnioMM" },
-            { title: "Hitamku", artist: "Andra and The BackBone", id: "QJm_4_s1D8M" },
-            { title: "My Love", artist: "Westlife", id: "ulK0Y4y-1Q0" },
-            { title: "As Long as You Love Me", artist: "Backstreet Boys", id: "4fndeDfaWCg" },
-            { title: "Shape of My Heart", artist: "Backstreet Boys", id: "OT5msu-dap8" },
-            { title: "Untukku", artist: "Chrisye", id: "nL5Xv_9S2vM" },
-            { title: "Aku Milikmu", artist: "Dewa 19", id: "-hSuiNopzqQ" },
-            { title: "Anything You Want", artist: "Reality Club", id: "U-tM7JmP_k4" },
-            { title: "Dan...", artist: "Sheila On 7", id: "m-hS6V9S7-c" }
+            { title: "Hitamku", artist: "Andra and The BackBone", id: "kY3sXk2p3q4" },
+            { title: "My Love", artist: "Westlife", id: "ulPvDoC2rWk" },
+            { title: "As Long as You Love Me", artist: "Backstreet Boys", id: "06FXcUb-Aa0" },
+            { title: "Shape of My Heart", artist: "Backstreet Boys", id: "i90IVwW2S1k" },
+            { title: "Untukku", artist: "Chrisye", id: "lHC_pKJKKg8" },
+            { title: "Aku Milikmu", artist: "Dewa 19", id: "20g6lO4wFwM" },
+            { title: "Anything You Want", artist: "Reality Club", id: "dZ32N1X7fBw" },
+            { title: "Dan...", artist: "Sheila On 7", id: "R9n71D9k34U" }
         ];
 
         let currentTrackIndex = 0;
@@ -1906,7 +1906,8 @@
                 },
                 events: {
                     'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
+                    'onStateChange': onPlayerStateChange,
+                    'onError': onPlayerError
                 }
             });
         };
@@ -1930,6 +1931,11 @@
             if (event.data === YT.PlayerState.ENDED) {
                 nextTrack();
             }
+        }
+
+        function onPlayerError(event) {
+            console.warn("YouTube Player error: " + event.data + ". Automatically skipping to next track.");
+            nextTrack();
         }
 
         function loadTrackInfo(index) {
